@@ -45,7 +45,7 @@ The answer is encoded as a graph, not hidden in a prompt.
 - FastAPI service with health, run creation, run lookup, approval, rejection, and audit endpoints.
 - LangGraph workflow with in-memory checkpointing and a single approval interrupt.
 - Strict Pydantic v2 schemas for invoices, purchase orders, delivery notes, parsed documents, and audit records.
-- Parser routing service designed for LiteParse-first and MinerU fallback decisions.
+- Parser routing service designed for LiteParse-first and Docling fallback decisions.
 - Deterministic business validation, duplicate detection, invoice/PO/delivery matching, and risk scoring.
 - ERP mock service for controlled post/reject outcomes.
 - Demo scripts for command-line invoice-to-pay scenarios.
@@ -67,7 +67,7 @@ Implemented:
 
 Known limitations:
 
-- Parser graph nodes are still deterministic/stub oriented. Parser adapters and routing services exist, but real LiteParse/MinerU extraction is not yet wired end-to-end through graph execution.
+- Parser graph nodes are still deterministic/stub oriented. Parser adapters and routing services exist, but real LiteParse/Docling extraction is not yet wired end-to-end through graph execution.
 - Active API runs use in-memory storage and are lost when the server restarts.
 - ERP integration is intentionally mocked.
 - No review UI is included yet.
@@ -82,7 +82,7 @@ Upload invoice / PO / delivery note
   -> normalize_ap_documents
   -> validate_schema
   -> validate_business_rules
-  -> route_to_mineru_if_needed
+  -> route_to_docling_if_needed
   -> reconcile_parser_outputs
   -> duplicate_check
   -> match_invoice_po_delivery
@@ -154,8 +154,19 @@ Choose a parser and write a Markdown report:
 uv run python scripts/run_demo.py --invoice samples/invoice_001_canada_post_sample.pdf --po samples/purchase_order_001_polychemtex.pdf --delivery-note samples/delivery_note_001_bunker_receipt.pdf --parser liteparse --output-md data/processed/reports/demo-liteparse.md
 ```
 
-`--parser` accepts `liteparse` or `mineru`; `MinerU_` is normalized to `mineru`.
+`--parser` accepts `liteparse` or `docling`.
 When `--output-md` is omitted, the demo writes `data/processed/reports/<run_id>.md`.
+
+Use Docling as the heavy parser for complex layout, OCR, and table evidence:
+
+```powershell
+uv run python scripts/run_demo.py --invoice samples/invoice_001_canada_post_sample.pdf --po samples/purchase_order_001_polychemtex.pdf --delivery-note samples/delivery_note_001_bunker_receipt.pdf --parser docling --output-md data/processed/reports/demo-docling.md
+```
+
+Docling runs in-process through its Python `DocumentConverter`; there is no parser API service to start.
+The adapter stores Docling Markdown and structured JSON evidence under `data/processed/parser_raw/`.
+
+For faster Docling runs, set `DOCLING_DO_OCR=false` or `DOCLING_DO_TABLE_STRUCTURE=false`.
 
 Expected shape:
 
@@ -379,8 +390,8 @@ uv add <package>
 The intended parser policy is conservative:
 
 - LiteParse first for clean digital PDFs and fast extraction.
-- MinerU first for images, receipts, scans, dense tables, handwriting, stamps, and signatures.
-- MinerU retry when LiteParse output has low confidence, validation errors, payment-critical mismatches, or complex-document warnings.
+- Docling first for images, receipts, scans, dense tables, handwriting, stamps, and signatures.
+- Docling retry when LiteParse output has low confidence, validation errors, payment-critical mismatches, or complex-document warnings.
 
 The point is not parser maximalism. The point is routing documents by operational risk and keeping parser choice explainable.
 
@@ -399,7 +410,7 @@ The point is not parser maximalism. The point is routing documents by operationa
 
 Near-term:
 
-- Wire real LiteParse and MinerU adapters into graph execution.
+- Wire real LiteParse and Docling adapters into graph execution.
 - Persist runs, uploaded documents, parser outputs, approvals, and ERP mock results.
 - Write audit events from graph nodes, not only helper tests.
 - Maintain the downloaded sample corpus under `samples/` and expand `samples/eval_manifest.jsonl`.
@@ -461,7 +472,7 @@ This prototype processes financial documents and may contain sensitive vendor, b
 ## References
 
 - LiteParse: <https://github.com/run-llama/liteparse>
-- MinerU: <https://github.com/opendatalab/MinerU>
+- Docling: <https://github.com/docling-project/docling>
 - LangGraph interrupts: <https://docs.langchain.com/oss/python/langgraph/interrupts>
 - FastAPI file uploads: <https://fastapi.tiangolo.com/tutorial/request-files/>
 - Pydantic strict mode: <https://docs.pydantic.dev/latest/concepts/strict_mode/>

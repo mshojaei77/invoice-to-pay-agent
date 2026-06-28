@@ -34,7 +34,7 @@ def test_extract_text_rejects_all_file_types() -> None:
     with pytest.raises(ValueError, match="Unsupported file type"):
         extract_text("invoice.txt")
 
-    with pytest.raises(ValueError, match="requires LiteParse or MinerU"):
+    with pytest.raises(ValueError, match="requires LiteParse or Docling"):
         extract_text("invoice.pdf")
 
 

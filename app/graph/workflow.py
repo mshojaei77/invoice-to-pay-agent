@@ -12,7 +12,7 @@ from app.graph.nodes import (
     post_to_erp_mock,
     reconcile_parser_outputs,
     risk_score,
-    route_to_mineru_if_needed,
+    route_to_docling_if_needed,
     save_uploads,
     validate_business_rules,
     validate_schema,
@@ -29,7 +29,7 @@ def build_graph():
     builder.add_node("normalize_ap_documents", normalize_ap_documents)
     builder.add_node("validate_schema", validate_schema)
     builder.add_node("validate_business_rules", validate_business_rules)
-    builder.add_node("route_to_mineru_if_needed", route_to_mineru_if_needed)
+    builder.add_node("route_to_docling_if_needed", route_to_docling_if_needed)
     builder.add_node("reconcile_parser_outputs", reconcile_parser_outputs)
     builder.add_node("duplicate_check", duplicate_check)
     builder.add_node("match_invoice_po_delivery", match_invoice_po_delivery)
@@ -43,8 +43,8 @@ def build_graph():
     builder.add_edge("parse_documents_fast_with_liteparse", "normalize_ap_documents")
     builder.add_edge("normalize_ap_documents", "validate_schema")
     builder.add_edge("validate_schema", "validate_business_rules")
-    builder.add_edge("validate_business_rules", "route_to_mineru_if_needed")
-    builder.add_edge("route_to_mineru_if_needed", "reconcile_parser_outputs")
+    builder.add_edge("validate_business_rules", "route_to_docling_if_needed")
+    builder.add_edge("route_to_docling_if_needed", "reconcile_parser_outputs")
     builder.add_edge("reconcile_parser_outputs", "duplicate_check")
     builder.add_edge("duplicate_check", "match_invoice_po_delivery")
     builder.add_edge("match_invoice_po_delivery", "risk_score")

@@ -3,8 +3,8 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from uuid import uuid4
 from typing import Any
+from uuid import uuid4
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -20,8 +20,8 @@ def main() -> None:
         "--parser",
         default="liteparse",
         type=_normalize_parser_name,
-        choices=("liteparse", "mineru"),
-        help="Document parser to use: liteparse or mineru.",
+        choices=("liteparse", "docling"),
+        help="Document parser to use: liteparse or docling.",
     )
     parser.add_argument(
         "--output-md",
@@ -169,11 +169,11 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
 
 def _normalize_parser_name(value: str) -> str:
     normalized = value.strip().lower().replace("_", "")
-    if normalized == "mineru":
-        return "mineru"
+    if normalized == "docling":
+        return "docling"
     if normalized == "liteparse":
         return "liteparse"
-    raise argparse.ArgumentTypeError("parser must be liteparse or mineru")
+    raise argparse.ArgumentTypeError("parser must be liteparse or docling")
 
 
 if __name__ == "__main__":

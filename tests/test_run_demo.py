@@ -1,13 +1,14 @@
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
 from scripts.run_demo import build_markdown_report, write_markdown_report, _normalize_parser_name
 
 
-def test_normalize_parser_name_accepts_mineru_spellings() -> None:
-    assert _normalize_parser_name("MinerU") == "mineru"
-    assert _normalize_parser_name("MinerU_") == "mineru"
+def test_normalize_parser_name_accepts_docling() -> None:
+    assert _normalize_parser_name("Docling") == "docling"
     assert _normalize_parser_name("liteparse") == "liteparse"
 
 
@@ -51,3 +52,21 @@ def test_write_markdown_report_creates_parent_directory(tmp_path: Path) -> None:
     assert written_path == output_path
     assert output_path.exists()
     assert "# Invoice-to-Pay Demo Run" in output_path.read_text(encoding="utf-8")
+
+
+def test_cli_rejects_unknown_parser() -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/run_demo.py",
+            "--invoice",
+            "samples/invoice_001_canada_post_sample.pdf",
+            "--parser",
+            "unknown",
+        ],
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode != 0
+    assert "parser must be liteparse or docling" in result.stderr

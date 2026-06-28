@@ -9,7 +9,7 @@ from app.graph.nodes import (
     post_to_erp_mock,
     reconcile_parser_outputs,
     risk_score,
-    route_to_mineru_if_needed,
+    route_to_docling_if_needed,
     save_uploads,
     validate_business_rules,
     validate_schema,
@@ -69,9 +69,9 @@ class TestParseDocuments:
         assert result["parsed_documents"] == []
         assert result["parser_warnings"][0]["error"] == "parse failed"
 
-    def test_uses_cli_selected_mineru_parser(self) -> None:
+    def test_uses_cli_selected_docling_parser(self) -> None:
         parsed = {
-            "parser_name": "mineru",
+            "parser_name": "docling",
             "parser_version": "unknown",
             "document_type": "invoice",
             "text": "# Invoice",
@@ -82,16 +82,19 @@ class TestParseDocuments:
             "page_count": 1,
             "confidence": 0.85,
             "warnings": [],
-            "raw_artifact_path": "data/processed/parser_raw/mineru-test.json",
+            "raw_artifact_path": "data/processed/parser_raw/docling-test.json",
         }
 
-        with patch("app.graph.nodes.MinerUAdapter") as adapter:
-            adapter.return_value.parser_name = "mineru"
+        with patch("app.graph.nodes.DoclingAdapter") as adapter:
+            adapter.return_value.parser_name = "docling"
             adapter.return_value.parse.return_value.model_dump.return_value = parsed
-            result = parse_documents_fast_with_liteparse(make_state(parser_name="mineru"))
+            result = parse_documents_fast_with_liteparse(
+                make_state(parser_name="docling")
+            )
 
         assert result["parsed_documents"] == [parsed]
-        assert result["parser_route"] == [{"parser": "mineru", "reason": "cli_selected"}]
+        assert result["parser_route"] == [{"parser": "docling", "reason": "cli_selected"}]
+        adapter.assert_called_once_with()
 
 
 class TestNormalize:
@@ -127,14 +130,14 @@ class TestValidateBusinessRules:
         assert codes == {"missing_po", "missing_delivery_note"}
 
 
-class TestRouteToMineru:
+class TestRouteToDocling:
     def test_passes_warnings_through(self) -> None:
         state = make_state(parser_warnings=["handwriting"])
-        result = route_to_mineru_if_needed(state)
+        result = route_to_docling_if_needed(state)
         assert result["parser_warnings"] == ["handwriting"]
 
     def test_empty_warnings(self) -> None:
-        result = route_to_mineru_if_needed(make_state())
+        result = route_to_docling_if_needed(make_state())
         assert result["parser_warnings"] == []
 
 

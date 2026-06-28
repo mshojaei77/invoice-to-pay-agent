@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -79,48 +80,77 @@ class LiteParseAdapter(ParserAdapter):
         )
 
 
-class MinerUAdapter(ParserAdapter):
-    parser_name = "mineru"
+class DoclingAdapter(ParserAdapter):
+    parser_name = "docling"
 
     def parse(self, file_path: Path, document_type: str = "unknown") -> ParsedDocument:
-        output_dir = RAW_PARSER_DIR / f"mineru-{uuid4()}"
-        output_dir.mkdir(parents=True, exist_ok=True)
+        from docling.datamodel.base_models import InputFormat
+        from docling.datamodel.pipeline_options import PdfPipelineOptions
+        from docling.document_converter import DocumentConverter, PdfFormatOption
 
-        subprocess.run(
-            [
-                "mineru",
-                "-p",
-                str(file_path),
-                "-o",
-                str(output_dir),
-                "-b",
-                "pipeline",
-            ],
-            check=True,
+        pipeline_options = PdfPipelineOptions(
+            do_ocr=_env_bool("DOCLING_DO_OCR", True),
+            do_table_structure=_env_bool("DOCLING_DO_TABLE_STRUCTURE", True),
+        )
+        converter = DocumentConverter(
+            format_options={
+                InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options),
+            }
+        )
+        result = converter.convert(str(file_path))
+        document = result.document
+        markdown = document.export_to_markdown()
+        raw_document = document.export_to_dict()
+        raw_artifact_path = _write_raw_artifact(
+            "docling",
+            {
+                "source": str(file_path),
+                "document": raw_document,
+                "markdown": markdown,
+            },
         )
 
-        markdown_files = list(output_dir.rglob("*.md"))
-        json_files = list(output_dir.rglob("*.json"))
-
-        markdown = markdown_files[0].read_text(encoding="utf-8") if markdown_files else ""
-        raw_payload = {
-            "output_dir": str(output_dir),
-            "markdown_files": [str(p) for p in markdown_files],
-            "json_files": [str(p) for p in json_files],
-        }
-        raw_artifact_path = _write_raw_artifact("mineru", raw_payload)
-
         return ParsedDocument(
-            parser_name="mineru",
+            parser_name="docling",
             parser_version="unknown",
             document_type=document_type,
             text=markdown,
             markdown=markdown,
-            tables=[],
-            blocks=[],
-            images=[],
-            page_count=1,
+            tables=_docling_items(raw_document, "tables"),
+            blocks=_docling_blocks(raw_document),
+            images=_docling_items(raw_document, "pictures"),
+            page_count=_docling_page_count(raw_document),
             confidence=0.85,
             warnings=[],
             raw_artifact_path=raw_artifact_path,
         )
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _docling_items(raw_document: dict[str, Any], key: str) -> list[dict[str, Any]]:
+    items = raw_document.get(key, [])
+    return items if isinstance(items, list) else []
+
+
+def _docling_blocks(raw_document: dict[str, Any]) -> list[dict[str, Any]]:
+    blocks = []
+    for key in ("texts", "groups"):
+        value = raw_document.get(key, [])
+        if isinstance(value, list):
+            blocks.extend(item for item in value if isinstance(item, dict))
+    return blocks
+
+
+def _docling_page_count(raw_document: dict[str, Any]) -> int:
+    pages = raw_document.get("pages", {})
+    if isinstance(pages, dict):
+        return max(len(pages), 1)
+    if isinstance(pages, list):
+        return max(len(pages), 1)
+    return 1

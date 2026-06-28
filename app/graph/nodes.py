@@ -8,7 +8,7 @@ from langgraph.types import interrupt
 
 from app.graph.state import APGraphState
 from app.services.audit import AUDIT_PATH, write_audit_event
-from app.services.parser import LiteParseAdapter, MinerUAdapter
+from app.services.parser import DoclingAdapter, LiteParseAdapter
 from app.services.risk import calculate_risk
 
 
@@ -26,7 +26,7 @@ def save_uploads(state: APGraphState) -> dict[str, Any]:
 
 def parse_documents_fast_with_liteparse(state: APGraphState) -> dict[str, Any]:
     parser_name = str(state.get("parser_name") or "liteparse").lower()
-    parser = MinerUAdapter() if parser_name == "mineru" else LiteParseAdapter()
+    parser = DoclingAdapter() if parser_name == "docling" else LiteParseAdapter()
     route_reason = "cli_selected" if state.get("parser_name") else "fast_default"
     parsed_documents = []
     warnings = []
@@ -107,7 +107,7 @@ def validate_business_rules(state: APGraphState) -> dict[str, Any]:
     return {"business_rule_errors": errors}
 
 
-def route_to_mineru_if_needed(state: APGraphState) -> dict[str, Any]:
+def route_to_docling_if_needed(state: APGraphState) -> dict[str, Any]:
     return {"parser_warnings": state.get("parser_warnings", [])}
 
 

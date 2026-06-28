@@ -1,6 +1,6 @@
 """Legacy text extraction stub.
 
-The graph now uses LiteParse and MinerU adapters via app.services.parser.
+The graph now uses LiteParse and Docling adapters via app.services.parser.
 This module remains for reference only and is not used in production paths.
 """
 
@@ -16,7 +16,7 @@ INVOICE_NUMBER_RE = re.compile(r"invoice\s*(?:no\.?|number)?\s*[:#\-\s]+([A-Z0-9
 def extract_text(path: str) -> str:
     suffix = Path(path).suffix.lower()
     if suffix == ".pdf":
-        raise ValueError("PDF extraction requires LiteParse or MinerU adapter")
+        raise ValueError("PDF extraction requires LiteParse or Docling adapter")
     raise ValueError(f"Unsupported file type: {suffix}")
 
 

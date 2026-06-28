@@ -10,7 +10,7 @@ from app.schemas.parsed_document import ParsedDocument
 class ParserRoute:
     first_parser: str
     reason: str
-    allow_mineru_retry: bool = True
+    allow_docling_retry: bool = True
 
 
 def choose_initial_parser(
@@ -21,7 +21,7 @@ def choose_initial_parser(
     hints = hints or []
     suffix = file_path.suffix.lower()
 
-    mineru_hints = {
+    docling_hints = {
         "receipt_photo",
         "scanned",
         "dense_tables",
@@ -31,23 +31,23 @@ def choose_initial_parser(
     }
 
     if suffix in {".png", ".jpg", ".jpeg", ".tiff"}:
-        return ParserRoute("mineru", "image_input")
+        return ParserRoute("docling", "image_input")
 
     if declared_document_type == "receipt":
-        return ParserRoute("mineru", "receipt")
+        return ParserRoute("docling", "receipt")
 
-    if any(h in mineru_hints for h in hints):
-        return ParserRoute("mineru", "complex_document_hint")
+    if any(h in docling_hints for h in hints):
+        return ParserRoute("docling", "complex_document_hint")
 
     return ParserRoute("liteparse", "fast_default")
 
 
-def should_retry_with_mineru(
+def should_retry_with_docling(
     parsed: ParsedDocument,
     validation_errors: list[dict],
     payment_critical_mismatches: list[str],
 ) -> bool:
-    if parsed.parser_name == "mineru":
+    if parsed.parser_name == "docling":
         return False
 
     if parsed.confidence < 0.75:

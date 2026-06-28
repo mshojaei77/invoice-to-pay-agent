@@ -6,7 +6,7 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 
-ParserName = Literal["liteparse", "mineru"]
+ParserName = Literal["liteparse", "docling"]
 DocumentType = Literal[
     "invoice",
     "purchase_order",
