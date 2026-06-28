@@ -1,0 +1,1 @@
+"""ERP mock service placeholder."""

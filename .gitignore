@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypotheses
+.hf_cache/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# App data
+data/
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+*.sqlite3-shm
+*.sqlite3-wal
+
+# IDEs
+.vscode/
+.idea/
+
+# Mac
+.DS_Store
+DEPLOYMENT_guide.md
+.runlogs/
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+crawl_output
+toolkit/crawler_state.sqlite3-shm
+toolkit/crawler_state.sqlite3-wal
+etc
+workspaces
+.codex
+.agents
+AGENTS.md

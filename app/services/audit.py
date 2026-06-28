@@ -1,0 +1,1 @@
+"""Audit persistence service placeholder."""
