@@ -8,7 +8,7 @@ from langgraph.types import interrupt
 
 from app.graph.state import APGraphState
 from app.services.audit import AUDIT_PATH, write_audit_event
-from app.services.parser import LiteParseAdapter
+from app.services.parser import LiteParseAdapter, MinerUAdapter
 from app.services.risk import calculate_risk
 
 
@@ -25,7 +25,9 @@ def save_uploads(state: APGraphState) -> dict[str, Any]:
 
 
 def parse_documents_fast_with_liteparse(state: APGraphState) -> dict[str, Any]:
-    parser = LiteParseAdapter()
+    parser_name = str(state.get("parser_name") or "liteparse").lower()
+    parser = MinerUAdapter() if parser_name == "mineru" else LiteParseAdapter()
+    route_reason = "cli_selected" if state.get("parser_name") else "fast_default"
     parsed_documents = []
     warnings = []
 
@@ -47,7 +49,7 @@ def parse_documents_fast_with_liteparse(state: APGraphState) -> dict[str, Any]:
 
     return {
         "parsed_documents": parsed_documents,
-        "parser_route": [{"parser": "liteparse", "reason": "fast_default"}],
+        "parser_route": [{"parser": parser.parser_name, "reason": route_reason}],
         "parser_warnings": warnings,
     }
 
@@ -275,7 +277,7 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "requires_human_approval": state.get("requires_human_approval", False),
             "approval": state.get("approval"),
         },
-        parser_or_model_name="liteparse",
+        parser_or_model_name=str(state.get("parser_name") or "liteparse").lower(),
         errors=state.get("validation_errors", []) + state.get("business_rule_errors", []),
     )
     return {"audit_events": [event]}

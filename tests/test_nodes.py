@@ -69,6 +69,30 @@ class TestParseDocuments:
         assert result["parsed_documents"] == []
         assert result["parser_warnings"][0]["error"] == "parse failed"
 
+    def test_uses_cli_selected_mineru_parser(self) -> None:
+        parsed = {
+            "parser_name": "mineru",
+            "parser_version": "unknown",
+            "document_type": "invoice",
+            "text": "# Invoice",
+            "markdown": "# Invoice",
+            "tables": [],
+            "blocks": [],
+            "images": [],
+            "page_count": 1,
+            "confidence": 0.85,
+            "warnings": [],
+            "raw_artifact_path": "data/processed/parser_raw/mineru-test.json",
+        }
+
+        with patch("app.graph.nodes.MinerUAdapter") as adapter:
+            adapter.return_value.parser_name = "mineru"
+            adapter.return_value.parse.return_value.model_dump.return_value = parsed
+            result = parse_documents_fast_with_liteparse(make_state(parser_name="mineru"))
+
+        assert result["parsed_documents"] == [parsed]
+        assert result["parser_route"] == [{"parser": "mineru", "reason": "cli_selected"}]
+
 
 class TestNormalize:
     def test_returns_none_for_all(self) -> None:

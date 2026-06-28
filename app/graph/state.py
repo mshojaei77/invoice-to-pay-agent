@@ -9,6 +9,7 @@ class APGraphState(TypedDict):
     uploaded_documents: list[dict[str, Any]]
     parsed_documents: NotRequired[list[dict[str, Any]]]
 
+    parser_name: NotRequired[str]
     parser_route: NotRequired[list[dict[str, Any]]]
     parser_warnings: NotRequired[list[Any]]
 

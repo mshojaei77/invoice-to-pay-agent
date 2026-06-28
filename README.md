@@ -148,6 +148,15 @@ Run a low-risk invoice-to-pay scenario:
 uv run python scripts/run_demo.py --invoice samples/invoice_001_canada_post_sample.pdf --po samples/purchase_order_001_polychemtex.pdf --delivery-note samples/delivery_note_001_bunker_receipt.pdf
 ```
 
+Choose a parser and write a Markdown report:
+
+```bash
+uv run python scripts/run_demo.py --invoice samples/invoice_001_canada_post_sample.pdf --po samples/purchase_order_001_polychemtex.pdf --delivery-note samples/delivery_note_001_bunker_receipt.pdf --parser liteparse --output-md data/processed/reports/demo-liteparse.md
+```
+
+`--parser` accepts `liteparse` or `mineru`; `MinerU_` is normalized to `mineru`.
+When `--output-md` is omitted, the demo writes `data/processed/reports/<run_id>.md`.
+
 Expected shape:
 
 ```text
@@ -156,6 +165,7 @@ final_status=completed
 risk_level=low
 erp_status=posted
 audit_log=data/processed/audit.jsonl
+markdown_report=data/processed/reports/<run_id>.md
 ```
 
 Run a missing-support scenario that requires approval:
@@ -461,4 +471,3 @@ This prototype processes financial documents and may contain sensitive vendor, b
 This project is intended to be released under the MIT License.
 
 Before publishing, add a root `LICENSE` file containing the MIT License text and make sure package metadata declares the license consistently. The MIT License allows broad reuse, modification, distribution, and private use while preserving copyright and license notice requirements.
-
