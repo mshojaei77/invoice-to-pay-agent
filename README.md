@@ -22,19 +22,6 @@ This project models the decision path finance teams actually care about:
 
 The answer is encoded as a graph, not hidden in a prompt.
 
-## Who This Is For
-
-| Audience | Why it is worth a look |
-| --- | --- |
-| Finance teams | A practical blueprint for reducing invoice exceptions, duplicate-payment risk, and ERP copy-paste work while keeping approvals explicit. |
-| CFOs and operators | A small, inspectable automation wedge in a real budget line: AP processing, procurement controls, reconciliation, and compliance. |
-| Investors and YC-style analysts | A vertical AI workflow with a clear painkiller use case, measurable operational ROI, and expansion paths into vendor risk, procurement, payments, and audit. |
-| AI engineers | A compact LangGraph system with stateful nodes, human interrupts, parser routing, typed schemas, deterministic service tests, and API endpoints. |
-| LangGraph builders | A naturally graph-shaped workflow where each node has a business responsibility and the approval gate is the single controlled interrupt. |
-| Reddit skeptics | The repo is intentionally boring in the right places: tests, schemas, state, risk reasons, and no magical "autonomous payment" claims. |
-| Code geeks | Thin FastAPI routes, focused services, strict models, reproducible `uv` setup, and a test suite covering graph, API, schemas, risk, matching, parser routing, and audit helpers. |
-| LinkedIn readers | A concrete example of AI agents doing back-office work where trust, controls, and explainability matter more than a chat interface. |
-
 ## Current Status
 
 This is an early but runnable prototype.

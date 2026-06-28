@@ -25,7 +25,7 @@ def existing_event_ids(path: Path) -> set[str]:
         return set()
 
     ids = set()
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in path.read_text(encoding="utf-8-sig").splitlines():
         if line.strip():
             ids.add(json.loads(line)["event_id"])
     return ids

@@ -16,7 +16,7 @@ def test_health_endpoint() -> None:
 
 def test_create_run_with_files(tmp_path) -> None:
     import pathlib
-    original_cwd = pathlib.Path.cwd()
+    original_cwd = pathlib.Path.cwd
     pathlib.Path.cwd = lambda: tmp_path
 
     try:

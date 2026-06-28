@@ -36,10 +36,38 @@ class TestSaveUploads:
 
 
 class TestParseDocuments:
-    def test_returns_empty_parsed_docs(self) -> None:
-        result = parse_documents_fast_with_liteparse(make_state())
-        assert result["parsed_documents"] == []
+    def test_returns_parsed_docs(self) -> None:
+        parsed = {
+            "parser_name": "liteparse",
+            "parser_version": "unknown",
+            "document_type": "invoice",
+            "text": "Invoice INV-001",
+            "markdown": "Invoice INV-001",
+            "tables": [],
+            "blocks": [],
+            "images": [],
+            "page_count": 1,
+            "confidence": 0.8,
+            "warnings": [],
+            "raw_artifact_path": "data/processed/parser_raw/liteparse-test.json",
+        }
+
+        with patch("app.graph.nodes.LiteParseAdapter") as adapter:
+            adapter.return_value.parser_name = "liteparse"
+            adapter.return_value.parse.return_value.model_dump.return_value = parsed
+            result = parse_documents_fast_with_liteparse(make_state())
+
+        assert result["parsed_documents"] == [parsed]
         assert result["parser_route"] == [{"parser": "liteparse", "reason": "fast_default"}]
+
+    def test_returns_warning_when_parser_fails(self) -> None:
+        with patch("app.graph.nodes.LiteParseAdapter") as adapter:
+            adapter.return_value.parser_name = "liteparse"
+            adapter.return_value.parse.side_effect = RuntimeError("parse failed")
+            result = parse_documents_fast_with_liteparse(make_state())
+
+        assert result["parsed_documents"] == []
+        assert result["parser_warnings"][0]["error"] == "parse failed"
 
 
 class TestNormalize:
@@ -166,11 +194,35 @@ class TestApprovalGate:
             duplicate_result={"duplicate_status": "clear"},
         )
 
-        with patch("app.graph.nodes.interrupt", return_value={"status": "approved"}) as mock:
+        with (
+            patch("app.graph.nodes.write_audit_event"),
+            patch("app.graph.nodes.interrupt", return_value={"status": "approved"}) as mock,
+        ):
             result = approval_gate(state)
 
         mock.assert_called_once()
         assert result["approval"]["status"] == "approved"
+
+    def test_writes_audit_when_approval_required(self) -> None:
+        state = make_state(
+            requires_human_approval=True,
+            risk_level="medium",
+            risk_score=30.0,
+            risk_reasons=["missing_po"],
+            business_rule_errors=[{"code": "missing_po"}],
+            match_result={"match_status": "mismatch", "mismatch_reasons": ["missing_purchase_order"]},
+            duplicate_result={"duplicate_status": "clear"},
+        )
+
+        with (
+            patch("app.graph.nodes.write_audit_event") as write_audit_event,
+            patch("app.graph.nodes.interrupt", return_value={"status": "approved"}),
+        ):
+            approval_gate(state)
+
+        write_audit_event.assert_called_once()
+        assert write_audit_event.call_args.kwargs["node_name"] == "approval_gate"
+        assert write_audit_event.call_args.kwargs["output_summary"]["status"] == "requires_approval"
 
 
 class TestPostToErpMock:
@@ -194,6 +246,20 @@ class TestPostToErpMock:
 
 
 class TestWriteAuditLog:
-    def test_returns_empty(self) -> None:
-        result = write_audit_log(make_state())
-        assert result == {}
+    def test_writes_audit_event(self) -> None:
+        event = {"event_id": "event-1", "status": "written"}
+
+        with patch("app.graph.nodes.write_audit_event", return_value=event) as write_audit_event:
+            result = write_audit_log(
+                make_state(
+                    risk_level="low",
+                    risk_score=0.0,
+                    requires_human_approval=False,
+                    approval={"status": "auto_approved"},
+                    erp_result={"status": "posted"},
+                )
+            )
+
+        write_audit_event.assert_called_once()
+        assert write_audit_event.call_args.kwargs["node_name"] == "write_audit_log"
+        assert result == {"audit_events": [event]}

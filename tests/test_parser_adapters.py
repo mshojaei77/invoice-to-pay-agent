@@ -10,12 +10,10 @@ SAMPLE_SCAN = Path("samples/handwritten-invoice-no-tax.pdf")
 
 def test_liteparse_adapter_returns_parsed_document(tmp_path: Path) -> None:
     fake_output = {
-        "text": "Invoice INV-001",
-        "markdown": "# Invoice INV-001",
+        "pages": [{"page": 1, "text": "Invoice INV-001"}],
         "tables": [],
         "blocks": [],
         "images": [],
-        "page_count": 1,
         "confidence": 0.91,
         "warnings": [],
     }
@@ -31,6 +29,8 @@ def test_liteparse_adapter_returns_parsed_document(tmp_path: Path) -> None:
     assert isinstance(result, ParsedDocument)
     assert result.parser_name == "liteparse"
     assert result.document_type == "invoice"
+    assert result.text == "Invoice INV-001"
+    assert result.page_count == 1
 
 
 def test_mineru_adapter_returns_parsed_document(tmp_path: Path) -> None:

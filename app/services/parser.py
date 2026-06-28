@@ -53,8 +53,15 @@ class LiteParseAdapter(ParserAdapter):
 
         raw = json.loads(output_path.read_text(encoding="utf-8"))
 
-        text = raw.get("text", "")
-        markdown = raw.get("markdown", text)
+        pages = raw.get("pages", [])
+        page_text = "\n\n".join(
+            page.get("text", "")
+            for page in pages
+            if isinstance(page, dict) and page.get("text")
+        )
+        text = raw.get("text") or page_text
+        markdown = raw.get("markdown") or text
+        page_count = raw.get("page_count") or len(pages) or 1
 
         return ParsedDocument(
             parser_name="liteparse",
@@ -65,7 +72,7 @@ class LiteParseAdapter(ParserAdapter):
             tables=raw.get("tables", []),
             blocks=raw.get("blocks", []),
             images=raw.get("images", []),
-            page_count=max(int(raw.get("page_count", 1)), 1),
+            page_count=max(int(page_count), 1),
             confidence=float(raw.get("confidence", 0.8)),
             warnings=raw.get("warnings", []),
             raw_artifact_path=output_path,

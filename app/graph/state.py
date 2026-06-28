@@ -10,7 +10,7 @@ class APGraphState(TypedDict):
     parsed_documents: NotRequired[list[dict[str, Any]]]
 
     parser_route: NotRequired[list[dict[str, Any]]]
-    parser_warnings: NotRequired[list[str]]
+    parser_warnings: NotRequired[list[Any]]
 
     invoice: NotRequired[dict[str, Any] | None]
     purchase_order: NotRequired[dict[str, Any] | None]

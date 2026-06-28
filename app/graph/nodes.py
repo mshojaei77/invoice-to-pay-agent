@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from langgraph.types import interrupt
 
 from app.graph.state import APGraphState
+from app.services.audit import AUDIT_PATH, write_audit_event
+from app.services.parser import LiteParseAdapter
 from app.services.risk import calculate_risk
 
 
@@ -22,10 +25,30 @@ def save_uploads(state: APGraphState) -> dict[str, Any]:
 
 
 def parse_documents_fast_with_liteparse(state: APGraphState) -> dict[str, Any]:
+    parser = LiteParseAdapter()
+    parsed_documents = []
+    warnings = []
+
+    for document in state.get("uploaded_documents", []):
+        try:
+            parsed = parser.parse(
+                file_path=Path(document["path"]),
+                document_type=document.get("document_type", "unknown"),
+            )
+            parsed_documents.append(parsed.model_dump(mode="json"))
+        except Exception as exc:
+            warnings.append(
+                {
+                    "document": document,
+                    "parser": parser.parser_name,
+                    "error": str(exc),
+                }
+            )
+
     return {
-        "parsed_documents": [],
+        "parsed_documents": parsed_documents,
         "parser_route": [{"parser": "liteparse", "reason": "fast_default"}],
-        "parser_warnings": [],
+        "parser_warnings": warnings,
     }
 
 
@@ -168,6 +191,30 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             }
         }
 
+    write_audit_event(
+        run_id=state["run_id"],
+        node_name="approval_gate",
+        node_input={
+            "risk_level": state.get("risk_level"),
+            "risk_score": state.get("risk_score"),
+            "risk_reasons": state.get("risk_reasons", []),
+            "match_result": state.get("match_result"),
+            "duplicate_result": state.get("duplicate_result"),
+        },
+        output_summary={
+            "status": "requires_approval",
+            "erp_status": "not_posted",
+            "audit_path": str(AUDIT_PATH),
+        },
+        risk_delta={
+            "risk_level": state.get("risk_level"),
+            "risk_score": state.get("risk_score"),
+            "risk_reasons": state.get("risk_reasons", []),
+        },
+        decision={"requires_human_approval": True},
+        errors=state.get("validation_errors", []) + state.get("business_rule_errors", []),
+    )
+
     approval = interrupt(
         {
             "run_id": state["run_id"],
@@ -203,7 +250,35 @@ def post_to_erp_mock(state: APGraphState) -> dict[str, Any]:
 
 
 def write_audit_log(state: APGraphState) -> dict[str, Any]:
-    return {}
+    event = write_audit_event(
+        run_id=state["run_id"],
+        node_name="write_audit_log",
+        node_input={
+            "uploaded_documents": state.get("uploaded_documents", []),
+            "risk_level": state.get("risk_level"),
+            "risk_score": state.get("risk_score"),
+            "approval": state.get("approval"),
+            "erp_result": state.get("erp_result"),
+        },
+        output_summary={
+            "status": "completed",
+            "risk_level": state.get("risk_level"),
+            "erp_status": (state.get("erp_result") or {}).get("status"),
+            "audit_path": str(AUDIT_PATH),
+        },
+        risk_delta={
+            "risk_level": state.get("risk_level"),
+            "risk_score": state.get("risk_score"),
+            "risk_reasons": state.get("risk_reasons", []),
+        },
+        decision={
+            "requires_human_approval": state.get("requires_human_approval", False),
+            "approval": state.get("approval"),
+        },
+        parser_or_model_name="liteparse",
+        errors=state.get("validation_errors", []) + state.get("business_rule_errors", []),
+    )
+    return {"audit_events": [event]}
 
 
 def _has_uploaded_path_fragment(state: APGraphState, fragment: str) -> bool:
