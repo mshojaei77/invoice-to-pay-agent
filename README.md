@@ -55,7 +55,7 @@ Implemented now:
 
 Prototype limitations:
 
-- Parser graph nodes are still fixture/stub oriented; parser adapters and routing services are present, but real document extraction is not yet wired end-to-end through the graph.
+- Parser graph nodes are still deterministic/stub oriented; parser adapters and routing services are present, but real document extraction is not yet wired end-to-end through the graph.
 - Persistence is in-memory for active runs; audit helper support exists, but durable production storage is still roadmap work.
 - ERP integration is intentionally mocked.
 - No UI is included yet.
@@ -154,7 +154,7 @@ Useful endpoints:
 Example upload:
 
 ```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@data/eval/invoices/clean_001.pdf" -F "files=@data/eval/purchase_orders/po_001.pdf" -F "files=@data/eval/delivery_notes/dn_001.pdf"
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/sample-pdf-invoice.pdf" -F "files=@samples/purchase-order-1.pdf" -F "files=@samples/Delivery-Note-Receipt-PDF-Download.pdf"
 ```
 
 ## Run It Step by Step
@@ -168,77 +168,10 @@ You need:
 - Python 3.11 or newer
 - `uv`, the Python package manager used by this repo
 
-Check Python:
-
-```bash
-python --version
-```
-
-Expected result:
-
-```text
-Python 3.11.x
-```
-
-If Python is missing, install it from https://www.python.org/downloads/ and reopen your terminal.
-
-Check `uv`:
-
-```bash
-uv --version
-```
-
-If `uv` is missing, install it:
-
-```bash
-pip install uv
-```
-
-Then check again:
-
-```bash
-uv --version
-```
 
 ### 2. Open the Project Folder
 
 Open PowerShell, Terminal, or your editor terminal, then move into the project directory.
-
-On Windows:
-
-```powershell
-cd C:\my_projects\BoostMe\invoice-to-pay-agent
-```
-
-On macOS or Linux, use the folder where you cloned the repo:
-
-```bash
-cd /path/to/invoice-to-pay-agent
-```
-
-Confirm you are in the right place:
-
-```bash
-dir
-```
-
-On macOS or Linux:
-
-```bash
-ls
-```
-
-You should see files like:
-
-```text
-README.md
-pyproject.toml
-uv.lock
-app/
-scripts/
-tests/
-data/
-```
 
 ### 3. Install Project Dependencies
 
@@ -247,20 +180,6 @@ Run:
 ```bash
 uv sync
 ```
-
-What this does:
-
-- Creates or updates the local Python environment
-- Installs FastAPI, LangGraph, Pydantic, LiteParse, MinerU, pytest, and the other dependencies from `pyproject.toml` and `uv.lock`
-
-Expected result:
-
-```text
-Resolved ...
-Installed ...
-```
-
-If it finishes without an error, the project is ready to run.
 
 ### 4. Run the Test Suite
 
@@ -280,10 +199,10 @@ One dependency warning from FastAPI/Starlette may appear. That warning does not 
 
 ### 5. Run a Simple Finance Scenario
 
-This scenario uses a sample invoice fixture with no matching PO. That should trigger human approval instead of posting to the ERP mock.
+This scenario uses a downloaded sample invoice with no matching PO. That should trigger human approval instead of posting to the ERP mock.
 
 ```bash
-uv run python scripts/run_demo.py --invoice data/eval/invoices/missing_po_001.pdf
+uv run python scripts/run_demo.py --invoice samples/sample-tax-invoice.pdf
 ```
 
 Expected result:
@@ -307,7 +226,7 @@ What it means:
 This scenario includes an invoice, purchase order, and delivery note. It should finish as a low-risk run and post to the ERP mock.
 
 ```bash
-uv run python scripts/run_demo.py --invoice data/eval/invoices/clean_001.pdf --po data/eval/purchase_orders/po_001.pdf --delivery-note data/eval/delivery_notes/dn_001.pdf
+uv run python scripts/run_demo.py --invoice samples/sample-pdf-invoice.pdf --po samples/purchase-order-1.pdf --delivery-note samples/Delivery-Note-Receipt-PDF-Download.pdf
 ```
 
 Expected result:
@@ -361,7 +280,7 @@ Open a second terminal in the same project folder. Keep the API server running i
 Submit one invoice, one PO, and one delivery note:
 
 ```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@data/eval/invoices/clean_001.pdf" -F "files=@data/eval/purchase_orders/po_001.pdf" -F "files=@data/eval/delivery_notes/dn_001.pdf"
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/sample-pdf-invoice.pdf" -F "files=@samples/purchase-order-1.pdf" -F "files=@samples/Delivery-Note-Receipt-PDF-Download.pdf"
 ```
 
 Expected result:
@@ -386,7 +305,7 @@ The real response includes more fields. The important parts are `run_id`, `statu
 Submit an invoice without PO or delivery support:
 
 ```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@data/eval/invoices/missing_po_001.pdf"
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/sample-tax-invoice.pdf"
 ```
 
 Expected result:
@@ -453,7 +372,7 @@ uv run pytest
 | Port `8000` is already in use | Stop the other app using port 8000, or run with `uv run uvicorn app.api.main:app --host 0.0.0.0 --port 8001`. |
 | `curl.exe` is not available | Open `http://localhost:8000/docs` in a browser and use FastAPI's built-in "Try it out" form. |
 | The API loses old runs after restart | Current runs are stored in memory. Restarting the server clears active run state. Durable storage is roadmap work. |
-| The sample files look tiny | They are fixture PDFs for predictable tests and demos, not production invoice samples. More realistic samples are on the roadmap. |
+| A sample file is hard to classify | The project uses real downloaded PDFs from `samples/`; early graph nodes still score support-document presence deterministically until parser extraction is wired through the graph. |
 
 ## Parser Strategy
 
@@ -481,7 +400,7 @@ The test suite already covers the early contract:
 - API run, approval, and rejection behavior
 - Audit helper behavior
 
-Future eval fixtures should measure:
+The current eval smoke tests use `samples/eval_manifest.jsonl`, which points at downloaded PDFs in `samples/`. Future eval scenarios should measure:
 
 - Invoice number accuracy
 - Vendor accuracy
@@ -502,7 +421,7 @@ Near-term:
 - Wire real LiteParse and MinerU adapters into graph execution
 - Persist runs, uploaded documents, parser outputs, approvals, and ERP mock results
 - Write audit events from graph nodes, not only helper tests
-- Add more realistic sample AP fixtures under `data/samples/`
+- Maintain the downloaded sample corpus under `samples/` and expand `samples/eval_manifest.jsonl`
 - Add CI for tests and compile checks
 
 Product track:
@@ -519,7 +438,7 @@ AI engineering track:
 - Parser-version tracking
 - MLflow or equivalent eval tracking
 - Langfuse/OpenTelemetry tracing
-- Scenario benchmark script for clean, mismatch, duplicate, missing-PO, and rejection flows
+- Scenario benchmark script for clean, missing-support, parser-challenge, and rejection flows
 - Documented parser confidence and fallback metrics
 
 Enterprise track:

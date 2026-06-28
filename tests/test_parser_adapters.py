@@ -4,11 +4,11 @@ from unittest.mock import patch
 from app.schemas.parsed_document import ParsedDocument
 from app.services.parser import LiteParseAdapter
 
+SAMPLE_INVOICE = Path("samples/sample-pdf-invoice.pdf")
+SAMPLE_SCAN = Path("samples/handwritten-invoice-no-tax.pdf")
+
 
 def test_liteparse_adapter_returns_parsed_document(tmp_path: Path) -> None:
-    fake_input = tmp_path / "invoice.pdf"
-    fake_input.write_bytes(b"%PDF fake")
-
     fake_output = {
         "text": "Invoice INV-001",
         "markdown": "# Invoice INV-001",
@@ -26,7 +26,7 @@ def test_liteparse_adapter_returns_parsed_document(tmp_path: Path) -> None:
         output_path.write_text(__import__("json").dumps(fake_output), encoding="utf-8")
 
     with patch("app.services.parser.subprocess.run", side_effect=fake_run):
-        result = LiteParseAdapter().parse(fake_input, document_type="invoice")
+        result = LiteParseAdapter().parse(SAMPLE_INVOICE, document_type="invoice")
 
     assert isinstance(result, ParsedDocument)
     assert result.parser_name == "liteparse"
@@ -34,9 +34,6 @@ def test_liteparse_adapter_returns_parsed_document(tmp_path: Path) -> None:
 
 
 def test_mineru_adapter_returns_parsed_document(tmp_path: Path) -> None:
-    fake_input = tmp_path / "scan.pdf"
-    fake_input.write_bytes(b"%PDF fake")
-
     def fake_run(cmd: list[str], check: bool) -> None:
         output_dir = Path(cmd[-1])
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -44,7 +41,7 @@ def test_mineru_adapter_returns_parsed_document(tmp_path: Path) -> None:
 
     with patch("app.services.parser.subprocess.run", side_effect=fake_run):
         from app.services.parser import MinerUAdapter
-        result = MinerUAdapter().parse(fake_input, document_type="invoice")
+        result = MinerUAdapter().parse(SAMPLE_SCAN, document_type="invoice")
 
     assert isinstance(result, ParsedDocument)
     assert result.parser_name == "mineru"

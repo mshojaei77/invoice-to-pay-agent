@@ -1,9 +1,11 @@
 from fastapi.testclient import TestClient
+from pathlib import Path
 
 from app.api.main import app
 from app.api.routes import RUNS, RUN_GRAPHS
 
 client = TestClient(app)
+SAMPLE_INVOICE = Path("samples/sample-pdf-invoice.pdf")
 
 
 def test_health_endpoint() -> None:
@@ -21,7 +23,7 @@ def test_create_run_with_files(tmp_path) -> None:
         response = client.post(
             "/runs",
             files=[
-                ("files", ("invoice.pdf", b"%PDF-1.4 fake pdf content", "application/pdf")),
+                ("files", (SAMPLE_INVOICE.name, SAMPLE_INVOICE.read_bytes(), "application/pdf")),
             ],
         )
         assert response.status_code == 200
