@@ -1,916 +1,661 @@
-Below is a **tiny-step coding TODO** for the first prototype. I’m keeping it LangGraph-first and MVP-focused: upload docs → extract structured invoice/PO JSON → validate → duplicate check → match → human approval → mock ERP post → audit/eval. This follows your uploaded MVP/stack plan. 
+# Invoice-to-Pay Agent - Ordered Implementation Plan
 
----
+This is the canonical build order for the prototype. Keep the project message simple:
 
-# Invoice-to-Pay Agent — tiny coding TODO
+> This is not an OCR demo. It is an auditable invoice-to-pay workflow that parses messy AP documents, validates extracted fields, matches invoice evidence, detects duplicates, routes risky cases to humans, and only posts clean decisions to an ERP mock.
 
-## 0. Start with the smallest useful architecture
+## Architecture Rule
 
-Use **LangGraph `StateGraph`** because this workflow is naturally stateful: each node reads/writes shared state, and edges decide the next step. LangGraph’s docs describe nodes as the work units and edges as the control flow, with graph state evolving over time. ([LangChain Docs][1])
+Use LangGraph as the product core. The API, dashboard, storage, tracing, and batch analytics should wrap the graph instead of duplicating business logic.
 
-Your first graph:
+Final graph order:
 
 ```text
 START
-  ↓
-save_uploads
-  ↓
-extract_invoice
-  ↓
-extract_po
-  ↓
-validate_extraction
-  ↓
-duplicate_check
-  ↓
-match_invoice_po
-  ↓
+  -> save_uploads
+  -> parse_documents_fast_with_liteparse
+  -> normalize_ap_documents
+  -> validate_schema
+  -> validate_business_rules
+  -> route_to_mineru_if_needed
+  -> reconcile_parser_outputs
+  -> duplicate_check
+  -> match_invoice_po_delivery
+  -> risk_score
+  -> approval_gate
+  -> post_to_erp_mock
+  -> write_audit_log
+  -> END
+```
+
+Use a human interrupt only at `approval_gate`.
+
+---
+
+## 1. Replace Parser Path With LiteParse And MinerU Only
+
+Replace the current `pdfplumber` path with exactly two local parser adapters: LiteParse for fast local parsing and MinerU for heavy local parsing.
+
+Why first: every downstream decision depends on reliable document parsing. LiteParse is the fast path for clean digital PDFs and simple POs. MinerU is the heavy path for scanned documents, dense tables, image-heavy files, handwriting, signatures, stamps, and other complex AP layouts.
+
+Implement:
+
+```text
+app/services/parser.py
+app/services/parser_router.py
+app/schemas/parsed_document.py
+tests/test_parser_contract.py
+```
+
+Normalized output:
+
+```text
+ParsedDocument:
+  parser_name
+  parser_version
+  document_type
+  text
+  markdown
+  tables
+  blocks
+  images
+  page_count
+  confidence
+  warnings
+  raw_artifact_path
+```
+
+Rules:
+
+- Do not add a third parser to the main path.
+- LiteParse runs first for clean digital PDFs, simple invoices, and normal POs.
+- MinerU runs for scanned/image-based documents, dense or malformed tables, handwritten/signature/stamp cases, low-confidence output, or failed validation.
+- Keep parser configuration in environment variables.
+- Store the raw parser response for audit/debug.
+- Convert parser output to strict internal schemas before any matching or posting.
+
+Parser routing rules:
+
+```text
+digital PDF with selectable text        -> LiteParse
+simple PO table                         -> LiteParse first
+receipt photo or scanned invoice        -> MinerU
+dense / merged / multi-page table       -> MinerU
+handwriting, stamp, or signature        -> MinerU
+missing totals, VAT, IBAN, line items   -> MinerU retry
+payment-critical mismatch               -> human review, not auto-post
+```
+
+---
+
+## 2. Define Strict Pydantic AP Schemas
+
+Every parser output must pass through Pydantic v2 strict validation before the graph treats it as business data.
+
+Implement:
+
+```text
+app/schemas/ap_document.py
+app/schemas/invoice.py
+app/schemas/purchase_order.py
+app/schemas/delivery_note.py
+app/schemas/common.py
+tests/test_schemas.py
+```
+
+Required validation rules:
+
+```text
+total_amount > 0
+currency in allowed list
+invoice_number required for invoice
+po_number required for purchase order
+delivery_note_number required for delivery note
+issue_date <= today
+due_date >= issue_date
+line_items total approximately equals subtotal
+subtotal + tax_amount approximately equals total_amount
+```
+
+Use strict types and explicit validators. Finance workflows should reject wrong types instead of silently coercing them.
+
+---
+
+## 3. Build LangGraph State And Nodes
+
+Build the graph before the UI. The graph is the workflow engine and the audit boundary.
+
+Implement:
+
+```text
+app/graph/state.py
+app/graph/nodes.py
+app/graph/workflow.py
+scripts/run_demo.py
+scripts/approve_demo.py
+scripts/reject_demo.py
+tests/test_graph.py
+```
+
+State should include:
+
+```text
+run_id
+uploaded_documents
+parsed_documents
+parser_route
+parser_warnings
+invoice
+purchase_order
+delivery_note
+validation_errors
+business_rule_errors
+duplicate_result
+match_result
+risk_level
 risk_score
-  ↓
-approval_gate   ← human-in-loop interrupt
-  ↓
-post_to_erp_mock
-  ↓
-write_audit_log
-  ↓
-END
+risk_reasons
+requires_human_approval
+approval
+erp_result
+audit_events
 ```
+
+Rules:
+
+- Every node returns only the fields it updates.
+- Keep side effects idempotent because interrupted nodes may rerun.
+- Compile with a checkpointer and pass a stable `thread_id`.
 
 ---
 
-# 1. Create repo skeleton
+## 4. Add Risk Scoring
 
-```bash
-mkdir invoice-to-pay-agent
-cd invoice-to-pay-agent
+Do not make the system binary. Add a risk model that explains why a run needs review.
 
-mkdir -p app/{api,graph,schemas,services,storage,evals}
-mkdir -p tests data/{samples,uploads,processed} docs
-touch README.md .env.example docker-compose.yml
-touch app/main.py
-touch app/graph/state.py app/graph/nodes.py app/graph/workflow.py
-touch app/schemas/invoice.py app/schemas/purchase_order.py app/schemas/audit.py
-touch app/services/extraction.py app/services/matching.py app/services/duplicates.py
-touch app/services/erp_mock.py app/services/audit.py
-touch tests/test_matching.py tests/test_schemas.py
-```
-
----
-
-# 2. Install minimal dependencies
-
-Start lean. Do **not** add PySpark, MLflow, MinIO, Kubernetes yet.
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-
-pip install -U langgraph langchain langchain-openai fastapi uvicorn pydantic python-multipart python-dotenv
-pip install -U pdfplumber pillow pytesseract rapidfuzz sqlalchemy pytest
-```
-
-Why these first:
-
-* `langgraph`: workflow orchestration.
-* `fastapi`: upload/API layer; FastAPI supports file uploads through `UploadFile` and `File`. ([FastAPI][2])
-* `pydantic`: strict invoice/PO schemas; Pydantic models validate parsed data and can emit JSON Schema. ([Pydantic][3])
-* `pdfplumber/pytesseract`: cheap first OCR/text extraction.
-* `rapidfuzz`: duplicate/vendor fuzzy matching.
-
----
-
-# 3. Define strict Pydantic schemas
-
-Create `app/schemas/invoice.py`.
-
-```python
-from datetime import date
-from decimal import Decimal
-from typing import List, Optional
-from pydantic import BaseModel, Field
-
-
-class InvoiceLineItem(BaseModel):
-    description: str
-    quantity: float = Field(ge=0)
-    unit_price: Decimal = Field(ge=0)
-    line_total: Decimal = Field(ge=0)
-
-
-class Invoice(BaseModel):
-    invoice_number: str
-    vendor_name: str
-    vendor_iban: Optional[str] = None
-    vat_number: Optional[str] = None
-    issue_date: Optional[date] = None
-    due_date: Optional[date] = None
-    currency: str = "EUR"
-    subtotal: Decimal = Field(ge=0)
-    vat_total: Decimal = Field(ge=0)
-    total: Decimal = Field(ge=0)
-    line_items: List[InvoiceLineItem]
-```
-
-Create `app/schemas/purchase_order.py`.
-
-```python
-from decimal import Decimal
-from typing import List, Optional
-from pydantic import BaseModel, Field
-
-
-class POLineItem(BaseModel):
-    sku: Optional[str] = None
-    description: str
-    quantity: float = Field(ge=0)
-    unit_price: Decimal = Field(ge=0)
-    line_total: Decimal = Field(ge=0)
-
-
-class PurchaseOrder(BaseModel):
-    po_number: str
-    vendor_name: str
-    currency: str = "EUR"
-    total: Decimal = Field(ge=0)
-    line_items: List[POLineItem]
-```
-
-Tiny task:
-
-```bash
-pytest tests/test_schemas.py
-```
-
-Test only schema validation first.
-
----
-
-# 4. Define LangGraph state
-
-LangGraph supports state schemas using `TypedDict`, Pydantic models, or dataclasses. For this MVP, use `TypedDict` because it is simple and readable. ([LangChain Docs][4])
-
-Create `app/graph/state.py`.
-
-```python
-from typing import Any, Dict, List, Optional, TypedDict
-
-
-class InvoiceToPayState(TypedDict, total=False):
-    run_id: str
-    invoice_path: str
-    po_path: Optional[str]
-
-    invoice_text: str
-    po_text: Optional[str]
-
-    invoice: Dict[str, Any]
-    purchase_order: Optional[Dict[str, Any]]
-
-    validation_errors: List[str]
-    duplicate_result: Dict[str, Any]
-    match_result: Dict[str, Any]
-    risk_score: float
-    risk_reasons: List[str]
-
-    approval: Dict[str, Any]
-    erp_result: Dict[str, Any]
-
-    audit_events: List[Dict[str, Any]]
-```
-
-Tiny rule: every node returns only the fields it updates.
-
----
-
-# 5. Add text extraction service
-
-Create `app/services/extraction.py`.
-
-```python
-from pathlib import Path
-import pdfplumber
-
-
-def extract_text_from_pdf(path: str) -> str:
-    text_parts = []
-    with pdfplumber.open(path) as pdf:
-        for page in pdf.pages:
-            text_parts.append(page.extract_text() or "")
-    return "\n".join(text_parts).strip()
-
-
-def extract_text(path: str) -> str:
-    suffix = Path(path).suffix.lower()
-    if suffix == ".pdf":
-        return extract_text_from_pdf(path)
-    raise ValueError(f"Unsupported file type: {suffix}")
-```
-
-Tiny TODO:
-
-* Add PDF only first.
-* Add image OCR later.
-* Add VLM later.
-
----
-
-# 6. Build simple deterministic extractors before LLM extraction
-
-Do not start with an LLM. Start with crude regex + fallback. This makes testing easier.
-
-Create `app/services/extraction.py` additions:
-
-```python
-import re
-from decimal import Decimal
-
-
-def extract_invoice_stub(text: str) -> dict:
-    invoice_number = re.search(r"(invoice\s*(no|number)?[:\s#-]+)([A-Z0-9-]+)", text, re.I)
-    total = re.search(r"(total[:\s]+)(€?\s*[0-9,.]+)", text, re.I)
-
-    return {
-        "invoice_number": invoice_number.group(3) if invoice_number else "UNKNOWN",
-        "vendor_name": "UNKNOWN_VENDOR",
-        "vendor_iban": None,
-        "vat_number": None,
-        "issue_date": None,
-        "due_date": None,
-        "currency": "EUR",
-        "subtotal": Decimal("0"),
-        "vat_total": Decimal("0"),
-        "total": Decimal(total.group(2).replace("€", "").replace(",", "").strip()) if total else Decimal("0"),
-        "line_items": [],
-    }
-```
-
-Tiny TODO:
-
-* Get graph running with stub extraction.
-* Replace with LLM/VLM later.
-
----
-
-# 7. Add LangGraph nodes
-
-Create `app/graph/nodes.py`.
-
-```python
-from uuid import uuid4
-from app.graph.state import InvoiceToPayState
-from app.services.extraction import extract_text, extract_invoice_stub
-from app.schemas.invoice import Invoice
-
-
-def save_uploads_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    return {
-        "run_id": state.get("run_id") or str(uuid4()),
-        "audit_events": [{"event": "run_started"}],
-    }
-
-
-def extract_invoice_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    text = extract_text(state["invoice_path"])
-    invoice_dict = extract_invoice_stub(text)
-    return {
-        "invoice_text": text,
-        "invoice": invoice_dict,
-        "audit_events": state.get("audit_events", []) + [{"event": "invoice_extracted"}],
-    }
-
-
-def extract_po_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    if not state.get("po_path"):
-        return {
-            "purchase_order": None,
-            "audit_events": state.get("audit_events", []) + [{"event": "po_missing"}],
-        }
-
-    text = extract_text(state["po_path"])
-    return {
-        "po_text": text,
-        "purchase_order": None,
-        "audit_events": state.get("audit_events", []) + [{"event": "po_extracted"}],
-    }
-
-
-def validate_extraction_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    errors = []
-    try:
-        Invoice(**state["invoice"])
-    except Exception as e:
-        errors.append(str(e))
-
-    return {
-        "validation_errors": errors,
-        "audit_events": state.get("audit_events", []) + [{"event": "validation_done", "errors": len(errors)}],
-    }
-```
-
----
-
-# 8. Add duplicate check
-
-Create `app/services/duplicates.py`.
-
-```python
-from app.schemas.invoice import Invoice
-
-
-_seen_invoice_keys: set[str] = set()
-
-
-def check_duplicate(invoice: dict) -> dict:
-    parsed = Invoice(**invoice)
-    key = f"{parsed.vendor_name.lower()}::{parsed.invoice_number}::{parsed.total}"
-
-    is_duplicate = key in _seen_invoice_keys
-    if not is_duplicate:
-        _seen_invoice_keys.add(key)
-
-    return {
-        "is_duplicate": is_duplicate,
-        "duplicate_key": key,
-    }
-```
-
-Add node:
-
-```python
-from app.services.duplicates import check_duplicate
-
-
-def duplicate_check_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    result = check_duplicate(state["invoice"])
-    return {
-        "duplicate_result": result,
-        "audit_events": state.get("audit_events", []) + [{"event": "duplicate_check_done", **result}],
-    }
-```
-
-Tiny TODO later:
-
-* Replace in-memory set with PostgreSQL unique index.
-* Add fuzzy duplicate check by vendor + amount + date.
-
----
-
-# 9. Add invoice-vs-PO matching
-
-Create `app/services/matching.py`.
-
-```python
-from decimal import Decimal
-
-
-def match_invoice_po(invoice: dict, purchase_order: dict | None) -> dict:
-    if purchase_order is None:
-        return {
-            "match_type": "invoice_only",
-            "matched": False,
-            "mismatches": ["missing_purchase_order"],
-        }
-
-    mismatches = []
-
-    invoice_total = Decimal(str(invoice["total"]))
-    po_total = Decimal(str(purchase_order["total"]))
-
-    if invoice_total != po_total:
-        mismatches.append({
-            "field": "total",
-            "invoice": str(invoice_total),
-            "purchase_order": str(po_total),
-        })
-
-    return {
-        "match_type": "2_way",
-        "matched": len(mismatches) == 0,
-        "mismatches": mismatches,
-    }
-```
-
-Add node:
-
-```python
-from app.services.matching import match_invoice_po
-
-
-def match_invoice_po_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    result = match_invoice_po(state["invoice"], state.get("purchase_order"))
-    return {
-        "match_result": result,
-        "audit_events": state.get("audit_events", []) + [{"event": "matching_done", "matched": result["matched"]}],
-    }
-```
-
----
-
-# 10. Add risk scoring
-
-```python
-def risk_score_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    score = 0.0
-    reasons = []
-
-    if state.get("validation_errors"):
-        score += 0.3
-        reasons.append("schema_validation_errors")
-
-    if state.get("duplicate_result", {}).get("is_duplicate"):
-        score += 0.5
-        reasons.append("possible_duplicate_invoice")
-
-    if not state.get("match_result", {}).get("matched"):
-        score += 0.4
-        reasons.append("invoice_po_mismatch")
-
-    return {
-        "risk_score": min(score, 1.0),
-        "risk_reasons": reasons,
-        "audit_events": state.get("audit_events", []) + [{"event": "risk_scored", "risk_score": min(score, 1.0)}],
-    }
-```
-
-Tiny rule:
+Output:
 
 ```text
-risk_score >= 0.4 → human approval required
-risk_score < 0.4  → can auto-post to ERP mock
+risk_level: low | medium | high
+risk_score: float
+risk_reasons: list[str]
+requires_human_approval: bool
 ```
 
----
-
-# 11. Add human approval with LangGraph interrupt
-
-Use LangGraph `interrupt()` for the approval queue. Official docs say interrupts pause graph execution, save graph state through persistence, and resume later with `Command(resume=...)`. ([LangChain Docs][5])
-
-```python
-from langgraph.types import interrupt
-
-
-def approval_gate_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    if state.get("risk_score", 1.0) < 0.4:
-        return {
-            "approval": {"status": "auto_approved", "reviewer": "system"},
-            "audit_events": state.get("audit_events", []) + [{"event": "auto_approved"}],
-        }
-
-    decision = interrupt({
-        "message": "Invoice requires human approval",
-        "invoice": state["invoice"],
-        "duplicate_result": state.get("duplicate_result"),
-        "match_result": state.get("match_result"),
-        "risk_score": state.get("risk_score"),
-        "risk_reasons": state.get("risk_reasons"),
-    })
-
-    return {
-        "approval": decision,
-        "audit_events": state.get("audit_events", []) + [{"event": "human_decision_received", "decision": decision}],
-    }
-```
-
-Important implementation detail: compile the graph with a checkpointer and pass a `thread_id`, because LangGraph checkpointers persist graph state and are required for human-in-the-loop resume flows. ([LangChain Docs][6])
-
----
-
-# 12. Add ERP mock
-
-Create `app/services/erp_mock.py`.
-
-```python
-def post_invoice_to_erp(invoice: dict, approval: dict) -> dict:
-    if approval.get("status") not in {"approved", "auto_approved"}:
-        return {
-            "posted": False,
-            "reason": "not_approved",
-        }
-
-    return {
-        "posted": True,
-        "erp_document_id": f"ERP-{invoice['invoice_number']}",
-    }
-```
-
-Add node:
-
-```python
-from app.services.erp_mock import post_invoice_to_erp
-
-
-def post_to_erp_mock_node(state: InvoiceToPayState) -> InvoiceToPayState:
-    result = post_invoice_to_erp(state["invoice"], state["approval"])
-    return {
-        "erp_result": result,
-        "audit_events": state.get("audit_events", []) + [{"event": "erp_post_attempted", **result}],
-    }
-```
-
----
-
-# 13. Build the graph
-
-Create `app/graph/workflow.py`.
-
-```python
-from langgraph.graph import StateGraph, START, END
-from langgraph.checkpoint.memory import InMemorySaver
-
-from app.graph.state import InvoiceToPayState
-from app.graph.nodes import (
-    save_uploads_node,
-    extract_invoice_node,
-    extract_po_node,
-    validate_extraction_node,
-    duplicate_check_node,
-    match_invoice_po_node,
-    risk_score_node,
-    approval_gate_node,
-    post_to_erp_mock_node,
-)
-
-
-def build_graph():
-    builder = StateGraph(InvoiceToPayState)
-
-    builder.add_node("save_uploads", save_uploads_node)
-    builder.add_node("extract_invoice", extract_invoice_node)
-    builder.add_node("extract_po", extract_po_node)
-    builder.add_node("validate_extraction", validate_extraction_node)
-    builder.add_node("duplicate_check", duplicate_check_node)
-    builder.add_node("match_invoice_po", match_invoice_po_node)
-    builder.add_node("risk_score", risk_score_node)
-    builder.add_node("approval_gate", approval_gate_node)
-    builder.add_node("post_to_erp_mock", post_to_erp_mock_node)
-
-    builder.add_edge(START, "save_uploads")
-    builder.add_edge("save_uploads", "extract_invoice")
-    builder.add_edge("extract_invoice", "extract_po")
-    builder.add_edge("extract_po", "validate_extraction")
-    builder.add_edge("validate_extraction", "duplicate_check")
-    builder.add_edge("duplicate_check", "match_invoice_po")
-    builder.add_edge("match_invoice_po", "risk_score")
-    builder.add_edge("risk_score", "approval_gate")
-    builder.add_edge("approval_gate", "post_to_erp_mock")
-    builder.add_edge("post_to_erp_mock", END)
-
-    checkpointer = InMemorySaver()
-    return builder.compile(checkpointer=checkpointer)
-
-
-graph = build_graph()
-```
-
-For production later, replace `InMemorySaver` with durable persistence. LangGraph docs explicitly separate checkpointers for thread state from stores for longer-term application data. ([LangChain Docs][6])
-
----
-
-# 14. Add a CLI smoke test before FastAPI
-
-Create `scripts/run_demo.py`.
-
-```bash
-mkdir scripts
-touch scripts/run_demo.py
-```
-
-```python
-from app.graph.workflow import graph
-
-config = {"configurable": {"thread_id": "demo-invoice-001"}}
-
-result = graph.invoke(
-    {
-        "invoice_path": "data/samples/invoice_001.pdf",
-        "po_path": None,
-    },
-    config=config,
-)
-
-print(result)
-```
-
-Run:
-
-```bash
-python scripts/run_demo.py
-```
-
-Goal:
-
-* graph runs
-* interrupt appears if risk is high
-* no API yet
-
----
-
-# 15. Add resume-after-approval script
-
-LangGraph resumes an interrupted graph by invoking again with `Command(resume=...)`. ([LangChain Docs][5])
-
-Create `scripts/approve_demo.py`.
-
-```python
-from langgraph.types import Command
-from app.graph.workflow import graph
-
-config = {"configurable": {"thread_id": "demo-invoice-001"}}
-
-result = graph.invoke(
-    Command(resume={"status": "approved", "reviewer": "mohammad"}),
-    config=config,
-)
-
-print(result)
-```
-
-Run:
-
-```bash
-python scripts/approve_demo.py
-```
-
----
-
-# 16. Add FastAPI upload endpoint
-
-Create `app/main.py`.
-
-```python
-from pathlib import Path
-from uuid import uuid4
-
-from fastapi import FastAPI, File, UploadFile
-from langgraph.types import Command
-
-from app.graph.workflow import graph
-
-app = FastAPI(title="Invoice-to-Pay Agent")
-
-UPLOAD_DIR = Path("data/uploads")
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-
-
-@app.post("/runs")
-async def create_run(
-    invoice: UploadFile = File(...),
-    po: UploadFile | None = File(None),
-):
-    run_id = str(uuid4())
-
-    invoice_path = UPLOAD_DIR / f"{run_id}_{invoice.filename}"
-    invoice_path.write_bytes(await invoice.read())
-
-    po_path = None
-    if po:
-        po_path = UPLOAD_DIR / f"{run_id}_{po.filename}"
-        po_path.write_bytes(await po.read())
-
-    config = {"configurable": {"thread_id": run_id}}
-
-    result = graph.invoke(
-        {
-            "run_id": run_id,
-            "invoice_path": str(invoice_path),
-            "po_path": str(po_path) if po_path else None,
-        },
-        config=config,
-    )
-
-    return {"run_id": run_id, "result": result}
-
-
-@app.post("/runs/{run_id}/approve")
-async def approve_run(run_id: str):
-    config = {"configurable": {"thread_id": run_id}}
-
-    result = graph.invoke(
-        Command(resume={"status": "approved", "reviewer": "api_user"}),
-        config=config,
-    )
-
-    return {"run_id": run_id, "result": result}
-
-
-@app.post("/runs/{run_id}/reject")
-async def reject_run(run_id: str):
-    config = {"configurable": {"thread_id": run_id}}
-
-    result = graph.invoke(
-        Command(resume={"status": "rejected", "reviewer": "api_user"}),
-        config=config,
-    )
-
-    return {"run_id": run_id, "result": result}
-```
-
-Run:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-Test upload:
-
-```bash
-curl -X POST "http://localhost:8000/runs" \
-  -F "invoice=@data/samples/invoice_001.pdf"
-```
-
----
-
-# 17. Add streaming later, not now
-
-After the basic API works, add streaming so the UI can show each node update. LangGraph supports streaming state updates with `stream_mode="updates"` and full state values with `stream_mode="values"`. ([LangChain Docs][7])
-
-TODO later:
+Risk triggers:
 
 ```text
-POST /runs/stream
-GET /runs/{run_id}/events
+missing PO
+missing delivery note
+duplicate candidate found
+total mismatch
+IBAN missing or invalid-looking
+VAT missing or invalid-looking
+handwritten correction detected
+low parser confidence
+line-item total mismatch
+vendor mismatch between invoice and PO
+schema validation errors
+business rule validation errors
 ```
 
----
-
-# 18. Add tests in this order
-
-## `tests/test_schemas.py`
-
-* valid invoice passes
-* missing invoice number fails
-* negative total fails
-
-## `tests/test_matching.py`
-
-* matching total passes
-* mismatch total fails
-* missing PO returns `invoice_only`
-
-## `tests/test_graph.py`
-
-* low-risk invoice auto-approves
-* high-risk invoice interrupts
-* approved invoice posts to ERP mock
-* rejected invoice does not post
-
----
-
-# 19. Add audit log
-
-First version: JSONL file.
-
-Create `app/services/audit.py`.
-
-```python
-import json
-from pathlib import Path
-
-AUDIT_PATH = Path("data/processed/audit.jsonl")
-AUDIT_PATH.parent.mkdir(parents=True, exist_ok=True)
-
-
-def write_audit_events(run_id: str, events: list[dict]) -> None:
-    with AUDIT_PATH.open("a", encoding="utf-8") as f:
-        for event in events:
-            f.write(json.dumps({"run_id": run_id, **event}, default=str) + "\n")
-```
-
-Add `write_audit_log_node` later.
-
-Important LangGraph note: when graphs resume after interrupts, node code may rerun from the beginning of the node, so side effects should be idempotent. Use append IDs, upserts, or “already written?” checks before writing to DB/files. ([LangChain Docs][1])
-
----
-
-# 20. Add LLM extraction only after deterministic baseline works
-
-Replace `extract_invoice_stub()` with:
+Suggested routing:
 
 ```text
-extract_invoice_llm(text) -> Invoice
+low risk     -> auto-approve allowed
+medium risk  -> human approval required
+high risk    -> human approval required, ERP post blocked unless explicitly approved
 ```
-
-Tiny TODO:
-
-* Give model the Pydantic JSON schema.
-* Ask for JSON only.
-* Validate with `Invoice.model_validate_json(...)`.
-* If validation fails, run one repair prompt.
-* If repair fails, route to human review.
-
-Pydantic is useful here because it gives both runtime validation and JSON Schema generation. ([Pydantic][8])
 
 ---
 
-# 21. Add Docker Compose
+## 5. Add Duplicate Detection
 
-First services:
+Duplicate protection is one of the most business-relevant AP features.
 
-```yaml
-services:
-  api:
-    build: .
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    volumes:
-      - ./data:/app/data
-```
-
-Later add:
+Use:
 
 ```text
+vendor_name + invoice_number
+vendor_name + total_amount + issue_date
+rapidfuzz similarity on vendor names
+PostgreSQL unique constraints later
+```
+
+Output:
+
+```text
+duplicate_status: clear | possible_duplicate | confirmed_duplicate
+duplicate_candidates: [...]
+```
+
+Start with an in-memory or JSONL-backed implementation only for the CLI demo. Move the durable version into PostgreSQL in step 9.
+
+---
+
+## 6. Add PO / Delivery-Note Matching
+
+Implement both 2-way and 3-way matching.
+
+2-way match:
+
+```text
+invoice vs purchase_order
+```
+
+3-way match:
+
+```text
+invoice vs purchase_order vs delivery_note
+```
+
+Compare:
+
+```text
+vendor
+PO number
+line items
+quantity
+unit price
+subtotal
+tax
+total
+delivery status
+```
+
+Route mismatches to human approval.
+
+---
+
+## 7. Add JSONL Audit Logs
+
+Before PostgreSQL, write simple JSONL audit logs.
+
+Implement:
+
+```text
+app/services/audit.py
+data/processed/audit.jsonl
+tests/test_audit.py
+```
+
+Each graph node should append an event shaped like:
+
+```json
+{
+  "run_id": "...",
+  "timestamp": "...",
+  "node": "match_invoice_po_delivery",
+  "input_hash": "...",
+  "output_summary": "...",
+  "risk_delta": "...",
+  "decision": "...",
+  "model_or_parser": "liteparse|mineru",
+  "errors": []
+}
+```
+
+Rules:
+
+- Include stable event IDs so resume/retry flows do not duplicate side effects.
+- Never write secrets or raw API keys into audit logs.
+- Keep raw parser artifacts separately from summarized audit events.
+
+---
+
+## 8. Add FastAPI Endpoints
+
+Expose the graph through thin FastAPI routes after the CLI graph works.
+
+Endpoints:
+
+```text
+POST /runs
+GET  /runs/{run_id}
+POST /runs/{run_id}/approve
+POST /runs/{run_id}/reject
+GET  /runs/{run_id}/audit
+GET  /health
+```
+
+Rules:
+
+- Routes save files and call the graph.
+- Business logic stays in services and graph nodes.
+- File upload support requires `python-multipart`.
+- Return clear run status: `completed`, `requires_approval`, `rejected`, `posted`, or `failed`.
+
+---
+
+## 9. Add PostgreSQL Persistence
+
+Move from JSONL-only to durable records.
+
+Tables:
+
+```text
+ap_runs
+documents
+parsed_documents
+invoices
+purchase_orders
+delivery_notes
+duplicate_candidates
+approval_tasks
+erp_posts
+audit_events
+```
+
+Rules:
+
+- Keep JSONL audit logs as a local artifact even after Postgres exists.
+- Add unique constraints for duplicate protection.
+- Use migrations once the schema stabilizes.
+
+---
+
+## 10. Add ERP Mock Post / Reject Logic
+
+Keep it fake but realistic.
+
+ERP mock should reject:
+
+```text
+missing approval
+high risk without explicit approval
+duplicate invoice
+total mismatch
+invalid schema
+missing vendor
+missing invoice number
+```
+
+ERP mock should return:
+
+```text
+erp_post_id
+status
+rejection_reason
+posted_at
+```
+
+Tests:
+
+```text
+approved clean invoice posts
+rejected invoice does not post
+duplicate invoice does not post
+total mismatch does not post unless explicitly approved
+invalid schema never posts
+```
+
+---
+
+## 11. Add Evaluation Fixtures
+
+Create a small, versioned evaluation dataset.
+
+Layout:
+
+```text
+data/eval/
+  invoices/
+  purchase_orders/
+  delivery_notes/
+  ground_truth.jsonl
+```
+
+Metrics:
+
+```text
+invoice_number_accuracy
+vendor_accuracy
+total_amount_accuracy
+line_item_accuracy
+po_match_accuracy
+duplicate_detection_precision
+duplicate_detection_recall
+approval_routing_accuracy
+hallucinated_field_rate
+```
+
+Use real-world mini scenarios:
+
+```text
+clean invoice with matching PO
+invoice missing PO
+duplicate invoice
+total mismatch
+vendor mismatch
+handwritten correction
+missing IBAN
+delivery quantity mismatch
+```
+
+---
+
+## 12. Add MLflow Tracking
+
+Use MLflow for parser, extraction, and evaluation runs.
+
+Track:
+
+```text
+parser_version
+prompt_version
+schema_version
+document_type
+field_accuracy
+latency
+cost
+validation_failures
+approval_routing_accuracy
+```
+
+Store artifacts:
+
+```text
+parsed_documents.jsonl
+eval_report.json
+confusion_matrix.json
+audit_sample.jsonl
+```
+
+---
+
+## 13. Add DeepEval / GenAI Eval Tests
+
+Add evals for extraction and decision quality.
+
+Test cases:
+
+```text
+Should route duplicate invoice to human
+Should reject total mismatch
+Should not invent missing IBAN
+Should flag handwritten correction
+Should not post without approval
+Should preserve audit log
+```
+
+Use DeepEval or MLflow GenAI evaluation. Keep the evaluator runnable from CI in a smoke mode.
+
+---
+
+## 14. Add Traces With Langfuse Or OpenTelemetry
+
+Add traces after graph and evals work.
+
+Track:
+
+```text
+graph run
+node duration
+parser latency
+LLM call
+validation failure
+risk score
+approval decision
+ERP mock result
+```
+
+Rules:
+
+- Make tracing optional through environment variables.
+- Do not require tracing services for local tests.
+- Keep run IDs aligned across graph, API, audit, MLflow, and traces.
+
+---
+
+## 15. Add Streamlit Approval Dashboard
+
+Only add UI after API and graph are stable.
+
+Pages:
+
+```text
+Upload documents
+Review extracted fields
+Show PO / delivery match
+Show duplicate warning
+Approve / reject
+View audit timeline
+View eval metrics
+```
+
+Use Streamlit first. Next.js can come later if a polished product demo is needed.
+
+---
+
+## 16. Add Docker Compose
+
+Services:
+
+```text
+api
 postgres
 minio
 mlflow
-langfuse
+langfuse or otel-collector
+streamlit
 ```
 
-Do not add everything on day 1. That is how one-week prototypes go to die. Tiny monster, then bigger monster.
+Rules:
+
+- Keep `docker compose up` as the recruiter-friendly entrypoint.
+- Use `.env.example` for required variables.
+- Mount `./data` for local artifacts.
 
 ---
 
-# 22. GitHub README checklist
+## 17. Add GitHub Actions CI
 
-Your README should show hiring managers the production thinking:
+CI should run:
 
 ```text
-# Invoice-to-Pay Agent
+ruff
+mypy or pyright
+pytest
+compileall
+schema tests
+graph smoke test
+eval smoke test
+```
 
-## Problem
-Finance teams waste time on invoice extraction, PO matching, duplicate checks, approvals, and ERP handoff.
+Rules:
 
-## Demo
-GIF / screenshots
+- Keep MinerU heavy-parser integration tests optional unless the local runtime is available.
+- Use mocked LiteParse and MinerU parser fixtures for normal CI.
+- Fail on schema regressions and graph smoke failures.
 
-## Architecture
-LangGraph workflow diagram
+---
 
-## Features
-- Upload invoice + PO
-- Extract strict JSON
-- Validate with Pydantic
-- Duplicate check
-- 2-way match
-- Risk score
-- Human approval with LangGraph interrupt
-- ERP mock post
-- Audit log
+## 18. Add MinIO Document Storage
 
-## Run locally
-docker compose up
+Store original files and parsed outputs.
 
-## Evaluation
-- extraction accuracy
-- validation failure rate
-- duplicate detection
-- mismatch detection
-- approval routing accuracy
+Buckets:
 
-## Production roadmap
-- PostgreSQL persistence
-- MinIO storage
-- Azure Blob / ADLS mapping
-- Databricks/Spark batch processing
-- MLflow eval tracking
-- Langfuse tracing
+```text
+raw-documents
+parsed-documents
+audit-artifacts
+eval-fixtures
+```
+
+Rules:
+
+- Store raw uploads before parsing.
+- Store normalized parser output.
+- Keep object keys tied to `run_id`.
+
+---
+
+## 19. Add Cloud Deployment Docs
+
+Do not overbuild cloud in week one. Add a professional mapping document.
+
+Implement:
+
+```text
+docs/cloud_mapping.md
+```
+
+Include:
+
+```text
+MinIO -> Azure Data Lake / GCS
+PostgreSQL -> Azure PostgreSQL / Cloud SQL
+FastAPI -> Azure Container Apps / GKE
+MLflow -> Databricks MLflow
+Local batch jobs -> Databricks / Spark
+Langfuse/OpenTelemetry -> managed observability backend
 ```
 
 ---
 
-# Your first coding order
+## 20. Add PySpark Batch Analytics
 
-Do exactly this:
+Do this last, after the core AP agent works.
 
-1. Create repo skeleton.
-2. Add Pydantic invoice/PO schemas.
-3. Add text extraction from PDF.
-4. Add deterministic invoice stub extractor.
-5. Add LangGraph state.
-6. Add graph nodes one by one.
-7. Compile graph with `InMemorySaver`.
-8. Run CLI smoke test.
-9. Add interrupt approval.
-10. Add approve/reject resume scripts.
-11. Add FastAPI upload endpoint.
-12. Add tests.
-13. Add JSONL audit log.
-14. Add Docker.
-15. Replace stub extraction with LLM extraction.
-16. Add PostgreSQL.
-17. Add Streamlit approval dashboard.
-18. Add MLflow/Ragas evals.
-19. Add MinIO.
-20. Add PySpark/Databricks-style batch processing.
+Batch jobs:
 
-The **first deliverable** should be a working CLI graph with human approval. Once that works, the API/UI/storage layers are just boring engineering — the good kind.
+```text
+monthly duplicate report
+vendor exception report
+approval delay report
+field extraction quality by vendor
+invoice mismatch trend
+```
 
-[1]: https://docs.langchain.com/oss/python/langgraph/graph-api?utm_source=chatgpt.com "Graph API overview - Docs by LangChain"
-[2]: https://fastapi.tiangolo.com/tutorial/request-files/?utm_source=chatgpt.com "Request Files"
-[3]: https://pydantic.dev/docs/validation/latest/concepts/models/?utm_source=chatgpt.com "Models | Pydantic Docs"
-[4]: https://docs.langchain.com/oss/python/langgraph/use-graph-api?utm_source=chatgpt.com "Use the graph API - Docs by LangChain"
-[5]: https://docs.langchain.com/oss/python/langgraph/interrupts?utm_source=chatgpt.com "Interrupts - Docs by LangChain"
-[6]: https://docs.langchain.com/oss/python/langgraph/persistence?utm_source=chatgpt.com "Persistence - Docs by LangChain"
-[7]: https://docs.langchain.com/oss/python/langgraph/streaming?utm_source=chatgpt.com "Streaming - Docs by LangChain"
-[8]: https://pydantic.dev/docs/validation/latest/concepts/json_schema/?utm_source=chatgpt.com "JSON Schema | Pydantic Docs"
+This helps with Databricks/Spark job matching without making the MVP heavy.
+
+---
+
+## Dependency Policy
+
+Use `uv` only:
+
+```bash
+uv add liteparse pydantic langgraph fastapi uvicorn python-multipart rapidfuzz sqlalchemy pytest
+```
+
+Add heavier dependencies only when their implementation step begins:
+
+```bash
+uv add mlflow deepeval streamlit boto3 psycopg[binary] opentelemetry-sdk
+```
+
+Do not add PySpark, MinIO clients, MLflow, Langfuse, or dashboard dependencies before their step is active.
+
+---
+
+## Reference Docs
+
+- LiteParse: https://github.com/run-llama/liteparse
+- MinerU: https://github.com/opendatalab/MinerU
+- Pydantic strict mode: https://docs.pydantic.dev/latest/concepts/strict_mode/
+- LangGraph interrupts: https://docs.langchain.com/oss/python/langgraph/interrupts
+- FastAPI file uploads: https://fastapi.tiangolo.com/tutorial/request-files/
+- MLflow tracking: https://mlflow.org/docs/latest/ml/tracking/
+- MLflow GenAI evaluation: https://mlflow.org/docs/latest/genai/eval-monitor/

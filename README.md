@@ -1,57 +1,62 @@
 # Invoice-to-Pay Agent
 
-AI-assisted accounts payable automation, built as a reproducible LangGraph-first prototype.
+An auditable invoice-to-pay workflow for finance teams, built as a reproducible LangGraph-first AI agent.
 
-This project turns invoices, receipts, purchase orders, and delivery notes into validated, auditable, ERP-ready payment decisions. It is intentionally small enough to inspect, but shaped like a real finance workflow: extract, validate, match, detect duplicates, route approvals, post to ERP, and evaluate quality.
+This is not an OCR demo. It is a controlled AP workflow that parses messy finance documents with LiteParse and MinerU, validates extracted fields with strict Pydantic schemas, matches invoice evidence, detects duplicates, routes risky cases to humans, and only posts clean decisions to an ERP mock.
 
 ## Why This Exists
 
-Finance teams do not just need better OCR. They need fewer payment mistakes, faster month-end close, traceable approvals, duplicate-invoice protection, and a cleaner handoff into ERP systems.
+Finance teams do not just need better extraction. They need fewer payment mistakes, faster exception handling, duplicate-invoice protection, traceable approvals, and a cleaner handoff into ERP systems.
 
-Most invoice automation demos stop at "we extracted fields from a PDF." Real AP work starts after extraction:
+The real AP problem starts after a document is parsed:
 
 - Is this invoice already in the system?
 - Does it match the purchase order?
-- Did goods or services arrive?
+- Did the goods or services arrive?
 - Is the IBAN or VAT number plausible?
-- Who needs to approve it?
-- Can the output be trusted enough to post?
-- Can an auditor reconstruct what happened?
+- Are handwritten corrections or stamps present?
+- Who needs to approve the exception?
+- Can the ERP post be trusted?
+- Can an auditor reconstruct every decision?
 
-`invoice-to-pay-agent` is a practical answer to that full workflow.
+`invoice-to-pay-agent` is designed around those controls.
 
 ## Who It Is For
 
-**Finance teams:** A clear prototype for reducing manual AP review, duplicate payments, invoice exceptions, and copy-paste work across tools.
+**Finance teams:** A practical automation blueprint for reducing manual AP review, duplicate payments, invoice exceptions, and ERP copy-paste work.
 
-**Investors and startup analysts:** A focused wedge into a high-budget back-office workflow with expansion paths into procurement, vendor risk, compliance, reconciliation, and ERP integrations.
+**Investors and YC-style startup analysts:** A focused wedge into an existing budget line with expansion paths into procurement, vendor risk, compliance, reconciliation, and ERP integrations.
 
-**AI engineers:** A compact LangGraph project with strict schemas, deterministic baselines, human approval gates, audit logs, and a path toward eval-driven LLM extraction.
+**AI engineers:** A compact LangGraph system with strict schemas, human interrupts, risk scoring, eval fixtures, MLflow tracking, and optional tracing.
 
-**Code geeks:** A repo that starts boring on purpose: typed state, Pydantic contracts, small services, testable extraction, and no premature platform sprawl.
+**Code geeks:** A repo that values boring production shape: typed contracts, thin APIs, inspectable state, deterministic tests, and reusable services.
 
-**Reddit skeptics:** This is not "just call an LLM on a PDF." The plan includes validation, duplicate detection, mismatch handling, human review, and evaluation because AP automation fails in the messy edge cases.
+**Reddit skeptics:** The point is not "send a PDF to an LLM." The point is validation, mismatch detection, duplicate protection, approval routing, audit logs, and measurable evals.
 
-**LinkedIn readers:** A clean demo of AI agents doing operational work where accuracy, controls, and traceability matter more than chat UI novelty.
+**LinkedIn readers:** A clean demo of AI agents doing operational work where controls, accuracy, and traceability matter more than chat UI novelty.
 
-**LangGraph people:** The workflow is naturally graph-shaped: each node updates shared state, risk controls decide the route, and human-in-the-loop approval can pause and resume execution.
+**LangGraph people:** The core workflow is naturally graph-shaped: each node updates shared state, human approval pauses at one explicit interrupt, and resumable execution protects real-world actions.
 
 ## Product Vision
 
 ```text
-Upload docs
-  -> extract strict JSON
-  -> validate fields
+Upload invoice / PO / delivery note
+  -> store raw documents
+  -> parse fast with LiteParse
+  -> normalize to AP document schemas
+  -> validate schema and business rules
+  -> if incomplete, scanned, table-heavy, handwritten, or risky: reparse with MinerU
+  -> reconcile parser outputs
   -> detect duplicates
-  -> match invoice vs PO / delivery note
+  -> run 2-way / 3-way match
   -> score risk
   -> request approval when needed
-  -> post to ERP mock
+  -> post or reject through ERP mock
   -> write audit trail
-  -> report quality metrics
+  -> track evals, metrics, and traces
 ```
 
-The goal is a lightweight, inspectable AP agent that finance teams can trust before it touches real payments.
+The goal is a lightweight AP agent that finance teams can inspect before it touches real payments.
 
 ## Current Prototype Status
 
@@ -59,69 +64,28 @@ Implemented:
 
 - `uv`-managed Python project
 - Professional `app/` skeleton
-- Strict Pydantic invoice and purchase-order schemas
-- PDF text extraction with `pdfplumber`
-- Deterministic invoice stub extractor for invoice number and total
-- Tests for schema validation and extraction defaults
+- Initial Pydantic invoice and purchase-order schemas
+- Initial extraction tests and schema tests
 
-Next milestone:
+Planned change:
 
-- LangGraph state and nodes
-- CLI smoke test
-- Human approval interrupt
-- ERP mock post
-- JSONL audit log
+- Replace the temporary parser path with LiteParse and MinerU only.
+- Expand schemas into strict AP document contracts.
+- Build the LangGraph workflow as the core product before adding UI/storage layers.
 
-## Planned MVP Features
-
-| Capability | Why it matters |
-| --- | --- |
-| Document upload | Accept invoice PDF/image plus optional PO and delivery note |
-| OCR / VLM extraction | Convert documents into strict JSON |
-| Schema validation | Catch missing, negative, malformed, or suspicious values |
-| Field extraction | Vendor, IBAN, VAT, total, line items, dates, currency |
-| 2-way / 3-way matching | Compare invoice against PO and delivery evidence |
-| Duplicate detection | Reduce duplicate-payment risk before approval |
-| Risk scoring | Route clean invoices automatically and exceptions to humans |
-| Approval queue | Keep humans in control for risky or mismatched invoices |
-| ERP mock endpoint | Simulate the payment-system handoff |
-| Evaluation report | Track extraction accuracy, mismatch detection, and hallucination rate |
-| Audit log | Preserve every decision and agent step for review |
-
-## Architecture
-
-```text
-app/
-  api/          FastAPI endpoints
-  graph/        LangGraph state, nodes, workflow
-  schemas/      Pydantic invoice, PO, audit contracts
-  services/     extraction, matching, duplicates, ERP mock, audit
-  storage/      future persistence boundary
-  evals/        future evaluation harness
-tests/
-  schema and extraction tests
-data/
-  samples, uploads, processed artifacts
-```
-
-The first production-quality principle is separation of concerns:
-
-- Schemas define what "valid" means.
-- Services do deterministic work.
-- Graph nodes orchestrate state transitions.
-- API routes stay thin.
-- Evals decide whether the agent is improving.
-
-## Workflow Design
+## Core Workflow
 
 ```text
 START
   -> save_uploads
-  -> extract_invoice
-  -> extract_po
-  -> validate_extraction
+  -> parse_documents_fast_with_liteparse
+  -> normalize_ap_documents
+  -> validate_schema
+  -> validate_business_rules
+  -> route_to_mineru_if_needed
+  -> reconcile_parser_outputs
   -> duplicate_check
-  -> match_invoice_po
+  -> match_invoice_po_delivery
   -> risk_score
   -> approval_gate
   -> post_to_erp_mock
@@ -129,13 +93,109 @@ START
   -> END
 ```
 
-Why LangGraph:
+Only `approval_gate` should use a human interrupt. Everything before it prepares evidence; everything after it performs or records a controlled decision.
 
-- Invoice processing is stateful.
-- Each step should be observable.
-- Human approval requires pause/resume behavior.
-- Finance workflows need deterministic routing, not a single opaque prompt.
-- Failed or risky states should become review tasks, not silent failures.
+## Planned MVP Features
+
+| Capability | Why it matters |
+| --- | --- |
+| LiteParse fast parsing | Fast local parsing for clean digital AP documents |
+| MinerU heavy parsing | Heavy local parsing for scans, dense tables, handwriting, and complex layouts |
+| Strict Pydantic AP schemas | Reject wrong or incomplete finance data before decisions |
+| LangGraph workflow | Make the AP process stateful, resumable, and inspectable |
+| Risk scoring | Explain which invoices need human review |
+| Duplicate detection | Reduce duplicate-payment risk |
+| 2-way / 3-way matching | Compare invoice, PO, and delivery evidence |
+| JSONL audit logs | Keep an inspectable local trail from day one |
+| FastAPI endpoints | Expose uploads, run status, approvals, rejection, and audit |
+| PostgreSQL persistence | Store durable runs, documents, approvals, duplicates, and posts |
+| ERP mock logic | Simulate realistic post/reject behavior |
+| Evaluation fixtures | Measure extraction, matching, duplicate, and approval quality |
+| MLflow tracking | Track parser versions, schema versions, metrics, cost, and latency |
+| DeepEval / GenAI evals | Test agent decisions and hallucination-sensitive behavior |
+| Langfuse or OpenTelemetry traces | Inspect graph, parser, validation, approval, and ERP timing |
+| Streamlit dashboard | Give humans an approval and audit review surface |
+| Docker Compose | Run the local stack reproducibly |
+| GitHub Actions CI | Keep schema, graph, eval, and smoke tests honest |
+| MinIO document storage | Store raw documents, parsed outputs, and audit artifacts |
+| Cloud deployment docs | Map the local stack to Azure/GCP/Databricks-style targets |
+| PySpark batch analytics | Analyze duplicates, exceptions, approval delays, and quality trends |
+
+## Architecture
+
+```text
+app/
+  api/          FastAPI routes
+  graph/        LangGraph state, nodes, workflow
+  schemas/      Strict Pydantic AP contracts
+  services/     parser, validation, matching, duplicates, ERP mock, audit
+  storage/      PostgreSQL and MinIO boundaries
+  evals/        fixtures, metrics, DeepEval / MLflow GenAI checks
+tests/
+  schema, parser contract, graph, matching, audit, eval smoke tests
+data/
+  samples, uploads, processed artifacts, eval fixtures
+docs/
+  cloud mapping and operating notes
+```
+
+Design rules:
+
+- LiteParse and MinerU are the only parser paths.
+- LiteParse runs first for clean digital PDFs and quick preflight.
+- MinerU runs for scans, dense tables, handwritten/signature cases, failed validation, or high-risk parser output.
+- Pydantic schemas define what valid AP data means.
+- Services do focused business work.
+- LangGraph nodes orchestrate state transitions.
+- API routes stay thin.
+- Audit logs, MLflow runs, and traces all share the same `run_id`.
+
+## Risk Model
+
+Output:
+
+```text
+risk_level: low | medium | high
+risk_score: float
+risk_reasons: list[str]
+requires_human_approval: bool
+```
+
+Risk triggers include:
+
+- Missing PO or delivery note
+- Duplicate candidate found
+- Invoice total mismatch
+- Line-item total mismatch
+- Vendor mismatch between invoice and PO
+- Missing or invalid-looking IBAN/VAT
+- Handwritten correction detected
+- Low parser confidence
+- Schema or business-rule validation errors
+
+## Evaluation Plan
+
+The project will track:
+
+- Invoice number accuracy
+- Vendor accuracy
+- Total amount accuracy
+- Line-item accuracy
+- PO match accuracy
+- Duplicate detection precision and recall
+- Approval routing accuracy
+- Hallucinated-field rate
+- ERP rejection correctness
+
+Evaluation fixtures live under:
+
+```text
+data/eval/
+  invoices/
+  purchase_orders/
+  delivery_notes/
+  ground_truth.jsonl
+```
 
 ## Tech Stack
 
@@ -144,36 +204,39 @@ Current:
 - Python 3.11
 - `uv`
 - Pydantic
-- pdfplumber
 - pytest
 
-Near-term:
+Next:
 
+- LiteParse
+- MinerU
 - LangGraph
 - FastAPI
-- python-multipart
 - rapidfuzz
 - SQLAlchemy
 
-Later:
+Production-shaped additions:
 
-- PostgreSQL for durable invoice and duplicate records
-- MinIO for document storage
-- OpenTelemetry / Langfuse for traces
-- MLflow plus Ragas or DeepEval for quality tracking
-- Streamlit or Next.js for approval UI
-- PySpark for batch AP analytics
+- PostgreSQL
+- MinIO
+- MLflow
+- DeepEval or MLflow GenAI evaluation
+- Langfuse or OpenTelemetry
+- Streamlit
+- Docker Compose
+- GitHub Actions
+- PySpark
 
 ## Cloud Mapping
 
 | Local prototype | Cloud-ready target |
 | --- | --- |
-| Local filesystem | Azure Data Lake or Google Cloud Storage |
+| MinIO | Azure Data Lake or Google Cloud Storage |
 | PostgreSQL | Azure PostgreSQL or Cloud SQL |
 | FastAPI | Azure Container Apps or GKE |
-| Local batch jobs | Databricks or managed Spark |
 | MLflow local | Databricks MLflow |
-| Local traces | Langfuse / OpenTelemetry backend |
+| Local batch jobs | Databricks or managed Spark |
+| Langfuse / OpenTelemetry | Managed observability backend |
 
 ## Run Locally
 
@@ -201,47 +264,35 @@ Run the placeholder CLI entrypoint:
 uv run invoice-to-pay-agent
 ```
 
-## Engineering Principles
-
-- Start deterministic before adding LLM extraction.
-- Validate every model output with Pydantic.
-- Keep human approval explicit for risky invoices.
-- Make every agent step auditable.
-- Prefer small services over giant workflow nodes.
-- Add persistence only after the CLI workflow works.
-- Measure extraction and matching quality before claiming automation.
-
-## Evaluation Plan
-
-The project will track:
-
-- Field extraction accuracy
-- Required-field validation failure rate
-- Duplicate detection precision and recall
-- PO mismatch detection accuracy
-- Hallucinated-field rate
-- Human approval routing accuracy
-- ERP-post success and rejection reasons
-
-The target is not a flashy demo. The target is an AP workflow that can be inspected, tested, and improved.
-
 ## Roadmap
 
-1. Build the working CLI graph with human approval.
-2. Add approve/reject resume scripts.
-3. Add FastAPI upload endpoints.
-4. Add JSONL audit persistence.
-5. Add duplicate and matching services.
-6. Add deterministic evaluation fixtures.
-7. Replace the stub extractor with LLM/VLM extraction behind the same schema.
-8. Add PostgreSQL and document storage.
-9. Add approval dashboard.
-10. Add cloud deployment docs.
+1. Replace parser path with LiteParse and MinerU only.
+2. Define strict Pydantic AP schemas.
+3. Build LangGraph state and nodes.
+4. Add risk scoring.
+5. Add duplicate detection.
+6. Add PO / delivery-note matching.
+7. Add JSONL audit logs.
+8. Add FastAPI endpoints.
+9. Add PostgreSQL persistence.
+10. Add ERP mock post/reject logic.
+11. Add evaluation fixtures.
+12. Add MLflow tracking.
+13. Add DeepEval / GenAI eval tests.
+14. Add traces with Langfuse or OpenTelemetry.
+15. Add Streamlit approval dashboard.
+16. Add Docker Compose.
+17. Add GitHub Actions CI.
+18. Add MinIO document storage.
+19. Add cloud deployment docs.
+20. Add PySpark batch analytics.
 
 ## References
 
-- LangGraph docs: https://docs.langchain.com/oss/python/langgraph/overview
-- Pydantic docs: https://docs.pydantic.dev/latest/concepts/models/
+- LiteParse: https://github.com/run-llama/liteparse
+- MinerU: https://github.com/opendatalab/MinerU
+- Pydantic strict mode: https://docs.pydantic.dev/latest/concepts/strict_mode/
+- LangGraph interrupts: https://docs.langchain.com/oss/python/langgraph/interrupts
 - FastAPI file uploads: https://fastapi.tiangolo.com/tutorial/request-files/
-- pdfplumber: https://github.com/jsvine/pdfplumber
-
+- MLflow tracking: https://mlflow.org/docs/latest/ml/tracking/
+- MLflow GenAI evaluation: https://mlflow.org/docs/latest/genai/eval-monitor/
