@@ -141,7 +141,7 @@ Useful endpoints:
 Example upload:
 
 ```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@samples/sample-pdf-invoice.pdf" -F "files=@samples/purchase-order-1.pdf" -F "files=@samples/Delivery-Note-Receipt-PDF-Download.pdf"
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_001_canada_post_sample.pdf" -F "files=@samples/purchase_order_001_polychemtex.pdf" -F "files=@samples/delivery_note_001_bunker_receipt.pdf"
 ```
 
 ## Run It Step by Step
@@ -189,7 +189,7 @@ One dependency warning from FastAPI/Starlette may appear. That warning does not 
 This scenario uses a downloaded sample invoice with no matching PO. That should trigger human approval instead of posting to the ERP mock.
 
 ```bash
-uv run python scripts/run_demo.py --invoice samples/sample-tax-invoice.pdf
+uv run python scripts/run_demo.py --invoice samples/invoice_002_tax_sample_local_supply.pdf
 ```
 
 Expected result:
@@ -213,7 +213,7 @@ What it means:
 This scenario includes an invoice, purchase order, and delivery note. It should finish as a low-risk run and post to the ERP mock.
 
 ```bash
-uv run python scripts/run_demo.py --invoice samples/sample-pdf-invoice.pdf --po samples/purchase-order-1.pdf --delivery-note samples/Delivery-Note-Receipt-PDF-Download.pdf
+uv run python scripts/run_demo.py --invoice samples/invoice_001_canada_post_sample.pdf --po samples/purchase_order_001_polychemtex.pdf --delivery-note samples/delivery_note_001_bunker_receipt.pdf
 ```
 
 Expected result:
@@ -267,7 +267,7 @@ Open a second terminal in the same project folder. Keep the API server running i
 Submit one invoice, one PO, and one delivery note:
 
 ```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@samples/sample-pdf-invoice.pdf" -F "files=@samples/purchase-order-1.pdf" -F "files=@samples/Delivery-Note-Receipt-PDF-Download.pdf"
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_001_canada_post_sample.pdf" -F "files=@samples/purchase_order_001_polychemtex.pdf" -F "files=@samples/delivery_note_001_bunker_receipt.pdf"
 ```
 
 Expected result:
@@ -292,7 +292,7 @@ The real response includes more fields. The important parts are `run_id`, `statu
 Submit an invoice without PO or delivery support:
 
 ```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@samples/sample-tax-invoice.pdf"
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_002_tax_sample_local_supply.pdf"
 ```
 
 Expected result:

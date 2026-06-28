@@ -4,8 +4,8 @@ from unittest.mock import patch
 from app.schemas.parsed_document import ParsedDocument
 from app.services.parser import LiteParseAdapter
 
-SAMPLE_INVOICE = Path("samples/sample-pdf-invoice.pdf")
-SAMPLE_SCAN = Path("samples/handwritten-invoice-no-tax.pdf")
+SAMPLE_INVOICE = Path("samples/invoice_001_canada_post_sample.pdf")
+SAMPLE_SCAN = Path("samples/invoice_004_handwritten_no_tax.pdf")
 
 
 def test_liteparse_adapter_returns_parsed_document(tmp_path: Path) -> None:

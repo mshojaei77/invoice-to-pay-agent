@@ -21,9 +21,9 @@ def test_clean_auto_post_path(graph) -> None:
         {
             "run_id": run_id,
             "uploaded_documents": [
-                {"path": "samples/sample-pdf-invoice.pdf", "document_type": "invoice"},
-                {"path": "samples/purchase-order-1.pdf", "document_type": "purchase_order"},
-                {"path": "samples/Delivery-Note-Receipt-PDF-Download.pdf", "document_type": "delivery_note"},
+                {"path": "samples/invoice_001_canada_post_sample.pdf", "document_type": "invoice"},
+                {"path": "samples/purchase_order_001_polychemtex.pdf", "document_type": "purchase_order"},
+                {"path": "samples/delivery_note_001_bunker_receipt.pdf", "document_type": "delivery_note"},
             ],
         },
         config={"configurable": {"thread_id": run_id}},
@@ -44,9 +44,9 @@ def test_all_nodes_executed(graph) -> None:
         {
             "run_id": run_id,
             "uploaded_documents": [
-                {"path": "samples/sample-pdf-invoice.pdf", "document_type": "invoice"},
-                {"path": "samples/purchase-order-1.pdf", "document_type": "purchase_order"},
-                {"path": "samples/Delivery-Note-Receipt-PDF-Download.pdf", "document_type": "delivery_note"},
+                {"path": "samples/invoice_001_canada_post_sample.pdf", "document_type": "invoice"},
+                {"path": "samples/purchase_order_001_polychemtex.pdf", "document_type": "purchase_order"},
+                {"path": "samples/delivery_note_001_bunker_receipt.pdf", "document_type": "delivery_note"},
             ],
         },
         config={"configurable": {"thread_id": run_id}},

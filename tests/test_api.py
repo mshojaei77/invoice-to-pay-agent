@@ -5,7 +5,7 @@ from app.api.main import app
 from app.api.routes import RUNS, RUN_GRAPHS
 
 client = TestClient(app)
-SAMPLE_INVOICE = Path("samples/sample-pdf-invoice.pdf")
+SAMPLE_INVOICE = Path("samples/invoice_001_canada_post_sample.pdf")
 
 
 def test_health_endpoint() -> None:
