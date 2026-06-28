@@ -1,10 +1,28 @@
 # Invoice-to-Pay Agent
 
-Controls-first accounts payable automation, built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, human approval interrupts, ERP mock posting, and pytest-backed scenarios.
+Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, approval interrupts, ERP mock posting, audit logs, and pytest-backed scenarios.
 
-This repo is not a "send a PDF to an LLM" demo. It is a reproducible AP workflow prototype for the messy middle of invoice operations: validation, duplicate risk, PO and delivery-note matching, approval routing, and auditability before anything gets posted.
+This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of invoice operations: validation, duplicate risk, PO and delivery-note matching, approval routing, and auditability before anything gets posted.
 
-## Why Finance Teams Should Care
+## Table of Contents
+
+- [Why This Exists](#why-this-exists)
+- [Features](#features)
+- [Current Status](#current-status)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [API](#api)
+- [Testing](#testing)
+- [Evaluation Data](#evaluation-data)
+- [Project Structure](#project-structure)
+- [Configuration](#configuration)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
+
+## Why This Exists
 
 Accounts payable teams do not lose time only on extraction. They lose time on exceptions, duplicate checks, incomplete support, vendor mismatches, approval chasing, and audit reconstruction.
 
@@ -22,34 +40,40 @@ This project models the decision path finance teams actually care about:
 
 The answer is encoded as a graph, not hidden in a prompt.
 
+## Features
+
+- FastAPI service with health, run creation, run lookup, approval, rejection, and audit endpoints.
+- LangGraph workflow with in-memory checkpointing and a single approval interrupt.
+- Strict Pydantic v2 schemas for invoices, purchase orders, delivery notes, parsed documents, and audit records.
+- Parser routing service designed for LiteParse-first and MinerU fallback decisions.
+- Deterministic business validation, duplicate detection, invoice/PO/delivery matching, and risk scoring.
+- ERP mock service for controlled post/reject outcomes.
+- Demo scripts for command-line invoice-to-pay scenarios.
+- Real PDF sample corpus and JSONL eval manifest for smoke-level scenario coverage.
+- Pytest suite covering API, graph, parser routing, schemas, validation, matching, duplicate handling, audit, and eval smoke tests.
+
 ## Current Status
 
 This is an early but runnable prototype.
 
-Implemented now:
+Implemented:
 
-- `uv`-managed Python 3.11 project
-- FastAPI app with health, run creation, run lookup, approve, reject, and audit endpoints
-- LangGraph workflow with in-memory checkpointing
-- Typed graph state for AP runs
-- Pydantic schemas for invoices, purchase orders, delivery notes, parsed documents, and audit contracts
-- Parser routing service that chooses LiteParse or MinerU based on file type and complexity hints
-- Risk scoring with explicit reasons and human-approval thresholding
-- Duplicate and matching service logic
-- ERP mock post/reject behavior
-- Demo scripts for normal, approval, and rejection flows
-- Pytest coverage across API, graph, nodes, schemas, parser routing, risk, matching, duplicate handling, business validation, audit, and eval smoke tests
+- `uv`-managed Python 3.11 project.
+- End-to-end graph execution for deterministic AP scenarios.
+- API and CLI demo paths.
+- Approval and rejection resume flow.
+- Audit log helper behavior.
+- Test coverage across the main service and workflow boundaries.
 
-Prototype limitations:
+Known limitations:
 
-- Parser graph nodes are still deterministic/stub oriented; parser adapters and routing services are present, but real document extraction is not yet wired end-to-end through the graph.
-- Persistence is in-memory for active runs; audit helper support exists, but durable production storage is still roadmap work.
+- Parser graph nodes are still deterministic/stub oriented. Parser adapters and routing services exist, but real LiteParse/MinerU extraction is not yet wired end-to-end through graph execution.
+- Active API runs use in-memory storage and are lost when the server restarts.
 - ERP integration is intentionally mocked.
-- No UI is included yet.
+- No review UI is included yet.
+- The repository currently documents MIT licensing, but a root `LICENSE` file should be added before publishing as a polished open source release.
 
-That honesty is deliberate. Finance automation should earn trust through visible contracts, tests, and controlled rollout.
-
-## Workflow
+## Architecture
 
 ```text
 Upload invoice / PO / delivery note
@@ -72,10 +96,235 @@ The graph shape is the product architecture:
 
 - Nodes before `approval_gate` gather evidence and calculate risk.
 - `approval_gate` is the single human interrupt for medium/high-risk runs.
-- Nodes after approval perform the controlled post/reject outcome.
+- Nodes after approval perform the controlled post or reject outcome.
 - Every run has a `run_id` so API state, approval, ERP result, and audit records can be correlated.
 
-## Architecture
+### Risk Model
+
+Risk output is intentionally simple and inspectable:
+
+```text
+risk_level: low | medium | high
+risk_score: float
+risk_reasons: list[str]
+requires_human_approval: bool
+```
+
+Current risk triggers include:
+
+- Schema validation errors.
+- Missing PO.
+- Missing delivery note.
+- Missing or invalid payment-critical vendor fields.
+- Handwritten correction signal.
+- Low parser confidence signal.
+- Possible or confirmed duplicate.
+- PO, vendor, delivery, quantity, subtotal, tax, or total mismatches.
+
+Low-risk runs can auto-approve. Medium/high-risk runs pause at the LangGraph interrupt and must be approved or rejected through the API or a future UI.
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11 or newer.
+- [`uv`](https://docs.astral.sh/uv/) for dependency management.
+
+Install dependencies:
+
+```bash
+uv sync
+```
+
+Run the test suite:
+
+```bash
+uv run pytest
+```
+
+Run a low-risk invoice-to-pay scenario:
+
+```bash
+uv run python scripts/run_demo.py --invoice samples/invoice_001_canada_post_sample.pdf --po samples/purchase_order_001_polychemtex.pdf --delivery-note samples/delivery_note_001_bunker_receipt.pdf
+```
+
+Expected shape:
+
+```text
+run_id=<generated-id>
+final_status=completed
+risk_level=low
+erp_status=posted
+audit_log=data/processed/audit.jsonl
+```
+
+Run a missing-support scenario that requires approval:
+
+```bash
+uv run python scripts/run_demo.py --invoice samples/invoice_002_tax_sample_local_supply.pdf
+```
+
+Expected shape:
+
+```text
+run_id=<generated-id>
+final_status=requires_approval
+erp_status=not_posted
+audit_log=data/processed/audit.jsonl
+```
+
+## Usage
+
+### Start the API
+
+```bash
+uv run invoice-to-pay-agent
+```
+
+The server listens on `http://localhost:8000`.
+
+Health check:
+
+```bash
+curl.exe http://localhost:8000/health
+```
+
+Expected response:
+
+```json
+{"status":"ok"}
+```
+
+### Submit Documents
+
+Open a second terminal while the API server is running:
+
+```bash
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_001_canada_post_sample.pdf" -F "files=@samples/purchase_order_001_polychemtex.pdf" -F "files=@samples/delivery_note_001_bunker_receipt.pdf"
+```
+
+Important response fields:
+
+```json
+{
+  "run_id": "...",
+  "status": "posted",
+  "result": {
+    "risk_level": "low",
+    "erp_result": {
+      "status": "posted"
+    }
+  }
+}
+```
+
+### Approval Flow
+
+Submit an invoice without PO or delivery support:
+
+```bash
+curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_002_tax_sample_local_supply.pdf"
+```
+
+Expected status:
+
+```json
+{
+  "run_id": "...",
+  "status": "requires_approval"
+}
+```
+
+Approve the waiting run:
+
+```bash
+curl.exe -X POST http://localhost:8000/runs/YOUR_RUN_ID_HERE/approve
+```
+
+Reject the waiting run:
+
+```bash
+curl.exe -X POST http://localhost:8000/runs/YOUR_RUN_ID_HERE/reject
+```
+
+Replace `YOUR_RUN_ID_HERE` with the actual `run_id` from the create-run response.
+
+## API
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/health` | Liveness check. |
+| `POST` | `/runs` | Upload one or more AP documents and start a graph run. |
+| `GET` | `/runs/{run_id}` | Inspect latest in-memory run state. |
+| `POST` | `/runs/{run_id}/approve` | Resume a waiting run with approval. |
+| `POST` | `/runs/{run_id}/reject` | Resume a waiting run with rejection. |
+| `GET` | `/runs/{run_id}/audit` | Return matching audit events when present. |
+
+Interactive API docs are available while the server is running:
+
+```text
+http://localhost:8000/docs
+```
+
+## Testing
+
+Run all tests:
+
+```bash
+uv run pytest
+```
+
+Run one focused test module:
+
+```bash
+uv run pytest tests/test_graph.py
+```
+
+Check Python compilation:
+
+```bash
+uv run python -m compileall app tests scripts
+```
+
+The suite is designed to keep the prototype honest at the contract and workflow level. It currently covers:
+
+- API run, approval, rejection, and audit behavior.
+- Graph state transitions.
+- Pydantic schema validation.
+- Parser route decisions.
+- Business-rule errors.
+- Risk scoring thresholds and reasons.
+- Duplicate outcomes.
+- Invoice, PO, and delivery-note matching.
+- Eval manifest smoke checks.
+
+## Evaluation Data
+
+The sample corpus lives in `samples/`, with scenario metadata in `samples/eval_manifest.jsonl`.
+
+Current eval coverage includes:
+
+- Clean invoice with PO and delivery note.
+- Invoice missing PO support.
+- Handwritten invoice scenario.
+- International invoice scenario.
+- Non-invoice statement scenario.
+
+Future eval work should measure:
+
+- Invoice number accuracy.
+- Vendor accuracy.
+- Total and tax accuracy.
+- Line-item accuracy.
+- PO match accuracy.
+- Delivery match accuracy.
+- Duplicate precision and recall.
+- Approval routing correctness.
+- ERP post/reject correctness.
+- Hallucinated-field rate.
+- Parser fallback rate and latency.
+
+## Project Structure
 
 ```text
 app/
@@ -91,275 +340,29 @@ scripts/
   approve_demo.py  exercise approval-oriented flow
   reject_demo.py   exercise rejection-oriented flow
 
+samples/
+  *.pdf             sample invoices, POs, delivery notes, and reference documents
+  eval_manifest.jsonl
+
 tests/
   API, graph, schema, parser, risk, matching, duplicate, audit, and eval smoke tests
 ```
 
-## Risk Model
+## Configuration
 
-Risk output is intentionally simple and inspectable:
+The current prototype does not require secrets for deterministic demo execution.
 
-```text
-risk_level: low | medium | high
-risk_score: float
-risk_reasons: list[str]
-requires_human_approval: bool
-```
-
-Current risk triggers include:
-
-- Schema validation errors
-- Missing PO
-- Missing delivery note
-- Missing or invalid payment-critical vendor fields
-- Handwritten correction signal
-- Low parser confidence signal
-- Possible or confirmed duplicate
-- PO, vendor, delivery, quantity, subtotal, tax, or total mismatches
-
-Low-risk runs can auto-approve. Medium/high-risk runs pause at the LangGraph interrupt and must be approved or rejected through the API or a future UI.
-
-## API
-
-Start the server:
-
-```bash
-uv run invoice-to-pay-agent
-```
-
-Useful endpoints:
-
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `GET` | `/health` | Liveness check |
-| `POST` | `/runs` | Upload one or more AP documents and start a graph run |
-| `GET` | `/runs/{run_id}` | Inspect latest run state |
-| `POST` | `/runs/{run_id}/approve` | Resume a waiting run with approval |
-| `POST` | `/runs/{run_id}/reject` | Resume a waiting run with rejection |
-| `GET` | `/runs/{run_id}/audit` | Return matching audit events when present |
-
-Example upload:
-
-```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_001_canada_post_sample.pdf" -F "files=@samples/purchase_order_001_polychemtex.pdf" -F "files=@samples/delivery_note_001_bunker_receipt.pdf"
-```
-
-## Run It Step by Step
-
-This section is written for people who do not normally run Python projects. You should be able to copy each command, paste it into a terminal, and see the same kind of result.
-
-### 1. Install the Two Required Tools
-
-You need:
-
-- Python 3.11 or newer
-- `uv`, the Python package manager used by this repo
-
-
-### 2. Open the Project Folder
-
-Open PowerShell, Terminal, or your editor terminal, then move into the project directory.
-
-### 3. Install Project Dependencies
-
-Run:
-
-```bash
-uv sync
-```
-
-### 4. Run the Test Suite
-
-Run:
-
-```bash
-uv run pytest
-```
-
-Expected result:
+`.env.example` is intentionally minimal:
 
 ```text
-143 passed
+# OpenAI and storage settings will be added when LLM extraction and persistence are implemented.
 ```
 
-One dependency warning from FastAPI/Starlette may appear. That warning does not stop the project from running.
-
-### 5. Run a Simple Finance Scenario
-
-This scenario uses a downloaded sample invoice with no matching PO. That should trigger human approval instead of posting to the ERP mock.
+Use `pyproject.toml` and `uv.lock` as the source of truth for dependencies. Add packages with:
 
 ```bash
-uv run python scripts/run_demo.py --invoice samples/invoice_002_tax_sample_local_supply.pdf
+uv add <package>
 ```
-
-Expected result:
-
-```text
-run_id=<some-generated-id>
-final_status=requires_approval
-erp_status=not_posted
-audit_log=data/processed/audit.jsonl
-```
-
-What it means:
-
-- The graph accepted the invoice.
-- The project noticed support is missing.
-- The invoice was not posted automatically.
-- A finance reviewer would need to approve or reject it.
-
-### 6. Run a Clean Invoice-to-Pay Scenario
-
-This scenario includes an invoice, purchase order, and delivery note. It should finish as a low-risk run and post to the ERP mock.
-
-```bash
-uv run python scripts/run_demo.py --invoice samples/invoice_001_canada_post_sample.pdf --po samples/purchase_order_001_polychemtex.pdf --delivery-note samples/delivery_note_001_bunker_receipt.pdf
-```
-
-Expected result:
-
-```text
-run_id=<some-generated-id>
-final_status=completed
-risk_level=low
-erp_status=posted
-audit_log=data/processed/audit.jsonl
-```
-
-What it means:
-
-- The invoice had the expected supporting documents.
-- The run was scored as low risk.
-- The ERP mock received a post action.
-
-### 7. Start the API Server
-
-Use this when you want to try the project as a service instead of a command-line demo.
-
-```bash
-uv run invoice-to-pay-agent
-```
-
-Expected result:
-
-```text
-INFO:     Uvicorn running on http://0.0.0.0:8000
-```
-
-Keep this terminal open. The API server is running while this command is active.
-
-Open this URL in your browser:
-
-```text
-http://localhost:8000/health
-```
-
-Expected browser result:
-
-```json
-{"status":"ok"}
-```
-
-### 8. Submit Documents to the API
-
-Open a second terminal in the same project folder. Keep the API server running in the first terminal.
-
-Submit one invoice, one PO, and one delivery note:
-
-```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_001_canada_post_sample.pdf" -F "files=@samples/purchase_order_001_polychemtex.pdf" -F "files=@samples/delivery_note_001_bunker_receipt.pdf"
-```
-
-Expected result:
-
-```json
-{
-  "run_id": "...",
-  "status": "posted",
-  "result": {
-    "risk_level": "low",
-    "erp_result": {
-      "status": "posted"
-    }
-  }
-}
-```
-
-The real response includes more fields. The important parts are `run_id`, `status`, `risk_level`, and `erp_result`.
-
-### 9. Try an Approval Scenario Through the API
-
-Submit an invoice without PO or delivery support:
-
-```bash
-curl.exe -X POST http://localhost:8000/runs -F "files=@samples/invoice_002_tax_sample_local_supply.pdf"
-```
-
-Expected result:
-
-```json
-{
-  "run_id": "...",
-  "status": "requires_approval"
-}
-```
-
-Copy the `run_id` from the response.
-
-Approve it:
-
-```bash
-curl.exe -X POST http://localhost:8000/runs/YOUR_RUN_ID_HERE/approve
-```
-
-Or reject it:
-
-```bash
-curl.exe -X POST http://localhost:8000/runs/YOUR_RUN_ID_HERE/reject
-```
-
-Replace `YOUR_RUN_ID_HERE` with the actual `run_id`.
-
-### 10. Stop the Server
-
-Go back to the terminal running the API server and press:
-
-```text
-Ctrl+C
-```
-
-The server will stop.
-
-### 11. Useful Checks
-
-Check that Python files still compile:
-
-```bash
-uv run python -m compileall app tests
-```
-
-Run one focused test file:
-
-```bash
-uv run pytest tests/test_graph.py
-```
-
-Run all tests again:
-
-```bash
-uv run pytest
-```
-
-### 12. Common Problems
-
-| Problem | What to do |
-| --- | --- |
-| `uv is not recognized` | Run `pip install uv`, close the terminal, reopen it, and try `uv --version`. |
-| `python is not recognized` | Install Python 3.11+ and make sure "Add Python to PATH" is selected during installation. |
-| Port `8000` is already in use | Stop the other app using port 8000, or run with `uv run uvicorn app.api.main:app --host 0.0.0.0 --port 8001`. |
-| `curl.exe` is not available | Open `http://localhost:8000/docs` in a browser and use FastAPI's built-in "Try it out" form. |
-| The API loses old runs after restart | Current runs are stored in memory. Restarting the server clears active run state. Durable storage is roadmap work. |
-| A sample file is hard to classify | The project uses real downloaded PDFs from `samples/`; early graph nodes still score support-document presence deterministically until parser extraction is wired through the graph. |
 
 ## Parser Strategy
 
@@ -370,83 +373,6 @@ The intended parser policy is conservative:
 - MinerU retry when LiteParse output has low confidence, validation errors, payment-critical mismatches, or complex-document warnings.
 
 The point is not parser maximalism. The point is routing documents by operational risk and keeping parser choice explainable.
-
-## Evaluation Philosophy
-
-AP agents should be judged with business scenarios, not only extraction demos.
-
-The test suite already covers the early contract:
-
-- Schema shape and strict validation
-- Parser route decisions
-- Business-rule errors
-- Risk scoring thresholds and reasons
-- Duplicate outcomes
-- Invoice / PO / delivery-note matching
-- Graph state transitions
-- API run, approval, and rejection behavior
-- Audit helper behavior
-
-The current eval smoke tests use `samples/eval_manifest.jsonl`, which points at downloaded PDFs in `samples/`. Future eval scenarios should measure:
-
-- Invoice number accuracy
-- Vendor accuracy
-- Total and tax accuracy
-- Line-item accuracy
-- PO match accuracy
-- Delivery match accuracy
-- Duplicate precision and recall
-- Approval routing correctness
-- ERP post/reject correctness
-- Hallucinated-field rate
-- Parser fallback rate and latency
-
-## Roadmap
-
-Near-term:
-
-- Wire real LiteParse and MinerU adapters into graph execution
-- Persist runs, uploaded documents, parser outputs, approvals, and ERP mock results
-- Write audit events from graph nodes, not only helper tests
-- Maintain the downloaded sample corpus under `samples/` and expand `samples/eval_manifest.jsonl`
-- Add CI for tests and compile checks
-
-Product track:
-
-- Streamlit or lightweight web approval console
-- Durable Postgres storage
-- MinIO or object-storage document archive
-- Vendor and PO master-data mocks
-- Exception queue and reviewer assignment
-- Batch analytics for duplicate trends and approval delays
-
-AI engineering track:
-
-- Parser-version tracking
-- MLflow or equivalent eval tracking
-- Langfuse/OpenTelemetry tracing
-- Scenario benchmark script for clean, missing-support, parser-challenge, and rejection flows
-- Documented parser confidence and fallback metrics
-
-Enterprise track:
-
-- ERP connector interface
-- Role-based approval policy
-- Audit export
-- Cloud deployment guide
-- Data retention and PII handling notes
-
-## Tech Stack
-
-- Python 3.11
-- `uv`
-- FastAPI
-- LangGraph
-- Pydantic v2
-- LiteParse
-- MinerU
-- rapidfuzz
-- pytest
 
 ## Design Principles
 
@@ -459,14 +385,80 @@ Enterprise track:
 - Treat parser fallback as a risk-control mechanism.
 - Prefer deterministic tests and scenario evals over impressive demos.
 
+## Roadmap
+
+Near-term:
+
+- Wire real LiteParse and MinerU adapters into graph execution.
+- Persist runs, uploaded documents, parser outputs, approvals, and ERP mock results.
+- Write audit events from graph nodes, not only helper tests.
+- Maintain the downloaded sample corpus under `samples/` and expand `samples/eval_manifest.jsonl`.
+- Add CI for tests and compile checks.
+- Add a root `LICENSE` file for MIT release hygiene.
+
+Product track:
+
+- Streamlit or lightweight web approval console.
+- Durable Postgres storage.
+- MinIO or object-storage document archive.
+- Vendor and PO master-data mocks.
+- Exception queue and reviewer assignment.
+- Batch analytics for duplicate trends and approval delays.
+
+AI engineering track:
+
+- Parser-version tracking.
+- MLflow or equivalent eval tracking.
+- Langfuse/OpenTelemetry tracing.
+- Scenario benchmark script for clean, missing-support, parser-challenge, and rejection flows.
+- Documented parser confidence and fallback metrics.
+
+Enterprise track:
+
+- ERP connector interface.
+- Role-based approval policy.
+- Audit export.
+- Cloud deployment guide.
+- Data retention and PII handling notes.
+
+## Contributing
+
+Contributions are welcome while the project is still in prototype stage. Please keep changes aligned with the existing architecture:
+
+- Use `uv` for dependency changes and commit both `pyproject.toml` and `uv.lock`.
+- Keep API routes thin and move business logic into `app/services/`.
+- Keep graph nodes small and inspectable.
+- Add or update tests for behavior changes.
+- Prefer scenario-level evidence for workflow changes.
+- Do not replace deterministic controls with opaque LLM decisions.
+
+Before opening a pull request, run:
+
+```bash
+uv run pytest
+uv run python -m compileall app tests scripts
+```
+
+## Security
+
+This prototype processes financial documents and may contain sensitive vendor, bank, tax, or payment details in real deployments.
+
+- Do not commit real invoices, credentials, bank details, or customer data.
+- Keep secrets out of source control and use environment variables when integrations are added.
+- Treat uploaded documents and audit logs as sensitive operational data.
+- Report security issues privately to the maintainer instead of opening a public issue.
+
 ## References
 
-- LiteParse: https://github.com/run-llama/liteparse
-- MinerU: https://github.com/opendatalab/MinerU
-- LangGraph interrupts: https://docs.langchain.com/oss/python/langgraph/interrupts
-- FastAPI file uploads: https://fastapi.tiangolo.com/tutorial/request-files/
-- Pydantic strict mode: https://docs.pydantic.dev/latest/concepts/strict_mode/
+- LiteParse: <https://github.com/run-llama/liteparse>
+- MinerU: <https://github.com/opendatalab/MinerU>
+- LangGraph interrupts: <https://docs.langchain.com/oss/python/langgraph/interrupts>
+- FastAPI file uploads: <https://fastapi.tiangolo.com/tutorial/request-files/>
+- Pydantic strict mode: <https://docs.pydantic.dev/latest/concepts/strict_mode/>
 
-## One-Line Pitch
+## License
 
-An invoice-to-pay agent for teams that want AI speed without giving up finance controls.
+This project is intended to be released under the MIT License.
+
+Before publishing, add a root `LICENSE` file containing the MIT License text and make sure package metadata declares the license consistently. The MIT License allows broad reuse, modification, distribution, and private use while preserving copyright and license notice requirements.
+
