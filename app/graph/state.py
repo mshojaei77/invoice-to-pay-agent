@@ -1,24 +1,33 @@
-from typing import Any, TypedDict
+from __future__ import annotations
+
+from typing import Any, NotRequired, TypedDict
 
 
-class InvoiceToPayState(TypedDict, total=False):
+class APGraphState(TypedDict):
     run_id: str
-    invoice_path: str
-    po_path: str | None
 
-    invoice_text: str
-    po_text: str | None
+    uploaded_documents: list[dict[str, Any]]
+    parsed_documents: NotRequired[list[dict[str, Any]]]
 
-    invoice: dict[str, Any]
-    purchase_order: dict[str, Any] | None
+    parser_route: NotRequired[list[dict[str, Any]]]
+    parser_warnings: NotRequired[list[str]]
 
-    validation_errors: list[str]
-    duplicate_result: dict[str, Any]
-    match_result: dict[str, Any]
-    risk_score: float
-    risk_reasons: list[str]
+    invoice: NotRequired[dict[str, Any] | None]
+    purchase_order: NotRequired[dict[str, Any] | None]
+    delivery_note: NotRequired[dict[str, Any] | None]
 
-    approval: dict[str, Any]
-    erp_result: dict[str, Any]
+    validation_errors: NotRequired[list[dict[str, Any]]]
+    business_rule_errors: NotRequired[list[dict[str, Any]]]
 
-    audit_events: list[dict[str, Any]]
+    duplicate_result: NotRequired[dict[str, Any]]
+    match_result: NotRequired[dict[str, Any]]
+
+    risk_level: NotRequired[str]
+    risk_score: NotRequired[float]
+    risk_reasons: NotRequired[list[str]]
+    requires_human_approval: NotRequired[bool]
+
+    approval: NotRequired[dict[str, Any] | None]
+
+    erp_result: NotRequired[dict[str, Any] | None]
+    audit_events: NotRequired[list[dict[str, Any]]]

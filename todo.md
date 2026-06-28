@@ -1,14 +1,21 @@
-# Invoice-to-Pay Agent - Ordered Implementation Plan
+# Invoice-to-Pay Agent TODO
 
-This is the canonical build order for the prototype. Keep the project message simple:
+Tiny implementation steps for turning the prototype into an auditable invoice-to-pay workflow.
 
-> This is not an OCR demo. It is an auditable invoice-to-pay workflow that parses messy AP documents, validates extracted fields, matches invoice evidence, detects duplicates, routes risky cases to humans, and only posts clean decisions to an ERP mock.
+Keep the product rule simple: this is not an OCR demo. The graph must parse AP documents, validate strict schemas, match evidence, detect duplicates, route risky cases to humans, post only clean decisions to an ERP mock, and write an audit trail.
 
-## Architecture Rule
+## Working Rules
 
-Use LangGraph as the product core. The API, dashboard, storage, tracing, and batch analytics should wrap the graph instead of duplicating business logic.
+- [ ] Keep LangGraph as the product core.
+- [ ] Keep API, dashboard, storage, tracing, and batch jobs as wrappers around the graph.
+- [ ] Use a human interrupt only at `approval_gate`.
+- [ ] Use LiteParse and MinerU as the only parser paths.
+- [ ] Use `uv add <package>` for dependencies.
+- [ ] Add or update tests with each feature step.
+- [ ] Run `uv run pytest` before marking a milestone done.
+- [ ] Run `uv run python -m compileall app tests` before marking a milestone done.
 
-Final graph order:
+## Target Graph
 
 ```text
 START
@@ -28,634 +35,475 @@ START
   -> END
 ```
 
-Use a human interrupt only at `approval_gate`.
-
----
-
-## 1. Replace Parser Path With LiteParse And MinerU Only
-
-Replace the current `pdfplumber` path with exactly two local parser adapters: LiteParse for fast local parsing and MinerU for heavy local parsing.
-
-Why first: every downstream decision depends on reliable document parsing. LiteParse is the fast path for clean digital PDFs and simple POs. MinerU is the heavy path for scanned documents, dense tables, image-heavy files, handwriting, signatures, stamps, and other complex AP layouts.
-
-Implement:
-
-```text
-app/services/parser.py
-app/services/parser_router.py
-app/schemas/parsed_document.py
-tests/test_parser_contract.py
-```
-
-Normalized output:
-
-```text
-ParsedDocument:
-  parser_name
-  parser_version
-  document_type
-  text
-  markdown
-  tables
-  blocks
-  images
-  page_count
-  confidence
-  warnings
-  raw_artifact_path
-```
-
-Rules:
-
-- Do not add a third parser to the main path.
-- LiteParse runs first for clean digital PDFs, simple invoices, and normal POs.
-- MinerU runs for scanned/image-based documents, dense or malformed tables, handwritten/signature/stamp cases, low-confidence output, or failed validation.
-- Keep parser configuration in environment variables.
-- Store the raw parser response for audit/debug.
-- Convert parser output to strict internal schemas before any matching or posting.
-
-Parser routing rules:
-
-```text
-digital PDF with selectable text        -> LiteParse
-simple PO table                         -> LiteParse first
-receipt photo or scanned invoice        -> MinerU
-dense / merged / multi-page table       -> MinerU
-handwriting, stamp, or signature        -> MinerU
-missing totals, VAT, IBAN, line items   -> MinerU retry
-payment-critical mismatch               -> human review, not auto-post
-```
-
----
-
-## 2. Define Strict Pydantic AP Schemas
-
-Every parser output must pass through Pydantic v2 strict validation before the graph treats it as business data.
-
-Implement:
-
-```text
-app/schemas/ap_document.py
-app/schemas/invoice.py
-app/schemas/purchase_order.py
-app/schemas/delivery_note.py
-app/schemas/common.py
-tests/test_schemas.py
-```
-
-Required validation rules:
-
-```text
-total_amount > 0
-currency in allowed list
-invoice_number required for invoice
-po_number required for purchase order
-delivery_note_number required for delivery note
-issue_date <= today
-due_date >= issue_date
-line_items total approximately equals subtotal
-subtotal + tax_amount approximately equals total_amount
-```
-
-Use strict types and explicit validators. Finance workflows should reject wrong types instead of silently coercing them.
-
----
-
-## 3. Build LangGraph State And Nodes
-
-Build the graph before the UI. The graph is the workflow engine and the audit boundary.
-
-Implement:
-
-```text
-app/graph/state.py
-app/graph/nodes.py
-app/graph/workflow.py
-scripts/run_demo.py
-scripts/approve_demo.py
-scripts/reject_demo.py
-tests/test_graph.py
-```
-
-State should include:
-
-```text
-run_id
-uploaded_documents
-parsed_documents
-parser_route
-parser_warnings
-invoice
-purchase_order
-delivery_note
-validation_errors
-business_rule_errors
-duplicate_result
-match_result
-risk_level
-risk_score
-risk_reasons
-requires_human_approval
-approval
-erp_result
-audit_events
-```
-
-Rules:
-
-- Every node returns only the fields it updates.
-- Keep side effects idempotent because interrupted nodes may rerun.
-- Compile with a checkpointer and pass a stable `thread_id`.
-
----
-
-## 4. Add Risk Scoring
-
-Do not make the system binary. Add a risk model that explains why a run needs review.
-
-Output:
-
-```text
-risk_level: low | medium | high
-risk_score: float
-risk_reasons: list[str]
-requires_human_approval: bool
-```
-
-Risk triggers:
-
-```text
-missing PO
-missing delivery note
-duplicate candidate found
-total mismatch
-IBAN missing or invalid-looking
-VAT missing or invalid-looking
-handwritten correction detected
-low parser confidence
-line-item total mismatch
-vendor mismatch between invoice and PO
-schema validation errors
-business rule validation errors
-```
-
-Suggested routing:
-
-```text
-low risk     -> auto-approve allowed
-medium risk  -> human approval required
-high risk    -> human approval required, ERP post blocked unless explicitly approved
-```
-
----
-
-## 5. Add Duplicate Detection
-
-Duplicate protection is one of the most business-relevant AP features.
-
-Use:
-
-```text
-vendor_name + invoice_number
-vendor_name + total_amount + issue_date
-rapidfuzz similarity on vendor names
-PostgreSQL unique constraints later
-```
-
-Output:
-
-```text
-duplicate_status: clear | possible_duplicate | confirmed_duplicate
-duplicate_candidates: [...]
-```
-
-Start with an in-memory or JSONL-backed implementation only for the CLI demo. Move the durable version into PostgreSQL in step 9.
-
----
-
-## 6. Add PO / Delivery-Note Matching
-
-Implement both 2-way and 3-way matching.
-
-2-way match:
-
-```text
-invoice vs purchase_order
-```
-
-3-way match:
-
-```text
-invoice vs purchase_order vs delivery_note
-```
-
-Compare:
-
-```text
-vendor
-PO number
-line items
-quantity
-unit price
-subtotal
-tax
-total
-delivery status
-```
-
-Route mismatches to human approval.
-
----
-
-## 7. Add JSONL Audit Logs
-
-Before PostgreSQL, write simple JSONL audit logs.
-
-Implement:
-
-```text
-app/services/audit.py
-data/processed/audit.jsonl
-tests/test_audit.py
-```
-
-Each graph node should append an event shaped like:
-
-```json
-{
-  "run_id": "...",
-  "timestamp": "...",
-  "node": "match_invoice_po_delivery",
-  "input_hash": "...",
-  "output_summary": "...",
-  "risk_delta": "...",
-  "decision": "...",
-  "model_or_parser": "liteparse|mineru",
-  "errors": []
-}
-```
-
-Rules:
-
-- Include stable event IDs so resume/retry flows do not duplicate side effects.
-- Never write secrets or raw API keys into audit logs.
-- Keep raw parser artifacts separately from summarized audit events.
-
----
-
-## 8. Add FastAPI Endpoints
-
-Expose the graph through thin FastAPI routes after the CLI graph works.
-
-Endpoints:
-
-```text
-POST /runs
-GET  /runs/{run_id}
-POST /runs/{run_id}/approve
-POST /runs/{run_id}/reject
-GET  /runs/{run_id}/audit
-GET  /health
-```
-
-Rules:
-
-- Routes save files and call the graph.
-- Business logic stays in services and graph nodes.
-- File upload support requires `python-multipart`.
-- Return clear run status: `completed`, `requires_approval`, `rejected`, `posted`, or `failed`.
-
----
-
-## 9. Add PostgreSQL Persistence
-
-Move from JSONL-only to durable records.
-
-Tables:
-
-```text
-ap_runs
-documents
-parsed_documents
-invoices
-purchase_orders
-delivery_notes
-duplicate_candidates
-approval_tasks
-erp_posts
-audit_events
-```
-
-Rules:
-
-- Keep JSONL audit logs as a local artifact even after Postgres exists.
-- Add unique constraints for duplicate protection.
-- Use migrations once the schema stabilizes.
-
----
-
-## 10. Add ERP Mock Post / Reject Logic
-
-Keep it fake but realistic.
-
-ERP mock should reject:
-
-```text
-missing approval
-high risk without explicit approval
-duplicate invoice
-total mismatch
-invalid schema
-missing vendor
-missing invoice number
-```
-
-ERP mock should return:
-
-```text
-erp_post_id
-status
-rejection_reason
-posted_at
-```
-
-Tests:
-
-```text
-approved clean invoice posts
-rejected invoice does not post
-duplicate invoice does not post
-total mismatch does not post unless explicitly approved
-invalid schema never posts
-```
-
----
-
-## 11. Add Evaluation Fixtures
-
-Create a small, versioned evaluation dataset.
-
-Layout:
-
-```text
-data/eval/
-  invoices/
-  purchase_orders/
-  delivery_notes/
-  ground_truth.jsonl
-```
-
-Metrics:
-
-```text
-invoice_number_accuracy
-vendor_accuracy
-total_amount_accuracy
-line_item_accuracy
-po_match_accuracy
-duplicate_detection_precision
-duplicate_detection_recall
-approval_routing_accuracy
-hallucinated_field_rate
-```
-
-Use real-world mini scenarios:
-
-```text
-clean invoice with matching PO
-invoice missing PO
-duplicate invoice
-total mismatch
-vendor mismatch
-handwritten correction
-missing IBAN
-delivery quantity mismatch
-```
-
----
-
-## 12. Add MLflow Tracking
-
-Use MLflow for parser, extraction, and evaluation runs.
-
-Track:
-
-```text
-parser_version
-prompt_version
-schema_version
-document_type
-field_accuracy
-latency
-cost
-validation_failures
-approval_routing_accuracy
-```
-
-Store artifacts:
-
-```text
-parsed_documents.jsonl
-eval_report.json
-confusion_matrix.json
-audit_sample.jsonl
-```
-
----
-
-## 13. Add DeepEval / GenAI Eval Tests
-
-Add evals for extraction and decision quality.
-
-Test cases:
-
-```text
-Should route duplicate invoice to human
-Should reject total mismatch
-Should not invent missing IBAN
-Should flag handwritten correction
-Should not post without approval
-Should preserve audit log
-```
-
-Use DeepEval or MLflow GenAI evaluation. Keep the evaluator runnable from CI in a smoke mode.
-
----
-
-## 14. Add Traces With Langfuse Or OpenTelemetry
-
-Add traces after graph and evals work.
-
-Track:
-
-```text
-graph run
-node duration
-parser latency
-LLM call
-validation failure
-risk score
-approval decision
-ERP mock result
-```
-
-Rules:
-
-- Make tracing optional through environment variables.
-- Do not require tracing services for local tests.
-- Keep run IDs aligned across graph, API, audit, MLflow, and traces.
-
----
-
-## 15. Add Streamlit Approval Dashboard
-
-Only add UI after API and graph are stable.
-
-Pages:
-
-```text
-Upload documents
-Review extracted fields
-Show PO / delivery match
-Show duplicate warning
-Approve / reject
-View audit timeline
-View eval metrics
-```
-
-Use Streamlit first. Next.js can come later if a polished product demo is needed.
-
----
-
-## 16. Add Docker Compose
-
-Services:
-
-```text
-api
-postgres
-minio
-mlflow
-langfuse or otel-collector
-streamlit
-```
-
-Rules:
-
-- Keep `docker compose up` as the recruiter-friendly entrypoint.
-- Use `.env.example` for required variables.
-- Mount `./data` for local artifacts.
-
----
-
-## 17. Add GitHub Actions CI
-
-CI should run:
-
-```text
-ruff
-mypy or pyright
-pytest
-compileall
-schema tests
-graph smoke test
-eval smoke test
-```
-
-Rules:
-
-- Keep MinerU heavy-parser integration tests optional unless the local runtime is available.
-- Use mocked LiteParse and MinerU parser fixtures for normal CI.
-- Fail on schema regressions and graph smoke failures.
-
----
-
-## 18. Add MinIO Document Storage
-
-Store original files and parsed outputs.
-
-Buckets:
-
-```text
-raw-documents
-parsed-documents
-audit-artifacts
-eval-fixtures
-```
-
-Rules:
-
-- Store raw uploads before parsing.
-- Store normalized parser output.
-- Keep object keys tied to `run_id`.
-
----
-
-## 19. Add Cloud Deployment Docs
-
-Do not overbuild cloud in week one. Add a professional mapping document.
-
-Implement:
-
-```text
-docs/cloud_mapping.md
-```
-
-Include:
-
-```text
-MinIO -> Azure Data Lake / GCS
-PostgreSQL -> Azure PostgreSQL / Cloud SQL
-FastAPI -> Azure Container Apps / GKE
-MLflow -> Databricks MLflow
-Local batch jobs -> Databricks / Spark
-Langfuse/OpenTelemetry -> managed observability backend
-```
-
----
-
-## 20. Add PySpark Batch Analytics
-
-Do this last, after the core AP agent works.
-
-Batch jobs:
-
-```text
-monthly duplicate report
-vendor exception report
-approval delay report
-field extraction quality by vendor
-invoice mismatch trend
-```
-
-This helps with Databricks/Spark job matching without making the MVP heavy.
-
----
-
-## Dependency Policy
-
-Use `uv` only:
-
-```bash
-uv add liteparse pydantic langgraph fastapi uvicorn python-multipart rapidfuzz sqlalchemy pytest
-```
-
-Add heavier dependencies only when their implementation step begins:
-
-```bash
-uv add mlflow deepeval streamlit boto3 psycopg[binary] opentelemetry-sdk
-```
-
-Do not add PySpark, MinIO clients, MLflow, Langfuse, or dashboard dependencies before their step is active.
-
----
-
-## Reference Docs
-
-- LiteParse: https://github.com/run-llama/liteparse
-- MinerU: https://github.com/opendatalab/MinerU
-- Pydantic strict mode: https://docs.pydantic.dev/latest/concepts/strict_mode/
-- LangGraph interrupts: https://docs.langchain.com/oss/python/langgraph/interrupts
-- FastAPI file uploads: https://fastapi.tiangolo.com/tutorial/request-files/
-- MLflow tracking: https://mlflow.org/docs/latest/ml/tracking/
-- MLflow GenAI evaluation: https://mlflow.org/docs/latest/genai/eval-monitor/
+## 0. Repo Baseline
+
+- [x] Run `uv sync`.
+- [x] Run `uv run pytest`.
+- [x] Run `uv run python -m compileall app tests`.
+- [x] Note any existing failures before changing code.
+- [x] Check `git status --short`.
+- [x] Keep unrelated local changes untouched.
+
+## 1. Parser Contracts
+
+- [ ] Create `app/schemas/parsed_document.py`.
+- [ ] Add a `ParsedDocument` schema.
+- [ ] Add `parser_name`.
+- [ ] Add `parser_version`.
+- [ ] Add `document_type`.
+- [ ] Add `text`.
+- [ ] Add `markdown`.
+- [ ] Add `tables`.
+- [ ] Add `blocks`.
+- [ ] Add `images`.
+- [ ] Add `page_count`.
+- [ ] Add `confidence`.
+- [ ] Add `warnings`.
+- [ ] Add `raw_artifact_path`.
+- [ ] Add `tests/test_parser_contract.py`.
+- [ ] Test that valid parser output passes.
+- [ ] Test that missing required fields fail.
+- [ ] Test that wrong field types fail.
+- [ ] Run parser contract tests.
+
+## 2. Parser Adapters
+
+- [ ] Create `app/services/parser.py`.
+- [ ] Define a shared parser adapter interface.
+- [ ] Add a LiteParse adapter stub.
+- [ ] Add a MinerU adapter stub.
+- [ ] Return `ParsedDocument` from both adapters.
+- [ ] Store raw parser responses for debugging.
+- [ ] Keep parser config in environment variables.
+- [ ] Remove the old `pdfplumber` main parser path if present.
+- [ ] Verify no third parser is used in the main path.
+- [ ] Add mocked adapter tests.
+- [ ] Run parser tests.
+
+## 3. Parser Routing
+
+- [ ] Create `app/services/parser_router.py`.
+- [ ] Route selectable-text PDFs to LiteParse first.
+- [ ] Route simple PO tables to LiteParse first.
+- [ ] Route receipt photos to MinerU.
+- [ ] Route scanned invoices to MinerU.
+- [ ] Route dense tables to MinerU.
+- [ ] Route handwriting cases to MinerU.
+- [ ] Route stamp or signature cases to MinerU.
+- [ ] Route low-confidence LiteParse output to MinerU.
+- [ ] Route failed validation output to MinerU retry.
+- [ ] Keep payment-critical mismatches for human review.
+- [ ] Add routing tests for each case.
+- [ ] Run parser routing tests.
+
+## 4. Strict AP Schemas
+
+- [ ] Create `app/schemas/common.py`.
+- [ ] Create `app/schemas/ap_document.py`.
+- [ ] Create `app/schemas/invoice.py`.
+- [ ] Create `app/schemas/purchase_order.py`.
+- [ ] Create `app/schemas/delivery_note.py`.
+- [ ] Use Pydantic v2 strict validation.
+- [ ] Add money fields with strict numeric handling.
+- [ ] Add date fields with explicit validation.
+- [ ] Require `invoice_number` for invoices.
+- [ ] Require `po_number` for purchase orders.
+- [ ] Require `delivery_note_number` for delivery notes.
+- [ ] Validate `total_amount > 0`.
+- [ ] Validate allowed currencies.
+- [ ] Validate `issue_date <= today`.
+- [ ] Validate `due_date >= issue_date`.
+- [ ] Validate line-item totals against subtotal.
+- [ ] Validate subtotal plus tax against total.
+- [ ] Add schema tests for valid documents.
+- [ ] Add schema tests for invalid documents.
+- [ ] Run schema tests.
+
+## 5. Business Rule Validation
+
+- [ ] Create or extend a validation service.
+- [ ] Check missing PO.
+- [ ] Check missing delivery note.
+- [ ] Check missing vendor.
+- [ ] Check missing IBAN.
+- [ ] Check invalid-looking IBAN.
+- [ ] Check missing VAT number.
+- [ ] Check invalid-looking VAT number.
+- [ ] Check low parser confidence.
+- [ ] Check handwritten correction warnings.
+- [ ] Return structured business-rule errors.
+- [ ] Add tests for each rule.
+- [ ] Run validation tests.
+
+## 6. LangGraph State
+
+- [ ] Create `app/graph/state.py`.
+- [ ] Add `run_id`.
+- [ ] Add `uploaded_documents`.
+- [ ] Add `parsed_documents`.
+- [ ] Add `parser_route`.
+- [ ] Add `parser_warnings`.
+- [ ] Add `invoice`.
+- [ ] Add `purchase_order`.
+- [ ] Add `delivery_note`.
+- [ ] Add `validation_errors`.
+- [ ] Add `business_rule_errors`.
+- [ ] Add `duplicate_result`.
+- [ ] Add `match_result`.
+- [ ] Add `risk_level`.
+- [ ] Add `risk_score`.
+- [ ] Add `risk_reasons`.
+- [ ] Add `requires_human_approval`.
+- [ ] Add `approval`.
+- [ ] Add `erp_result`.
+- [ ] Add `audit_events`.
+- [ ] Add state shape tests.
+
+## 7. LangGraph Nodes
+
+- [ ] Create `app/graph/nodes.py`.
+- [ ] Add `save_uploads`.
+- [ ] Add `parse_documents_fast_with_liteparse`.
+- [ ] Add `normalize_ap_documents`.
+- [ ] Add `validate_schema`.
+- [ ] Add `validate_business_rules`.
+- [ ] Add `route_to_mineru_if_needed`.
+- [ ] Add `reconcile_parser_outputs`.
+- [ ] Add `duplicate_check`.
+- [ ] Add `match_invoice_po_delivery`.
+- [ ] Add `risk_score`.
+- [ ] Add `approval_gate`.
+- [ ] Add `post_to_erp_mock`.
+- [ ] Add `write_audit_log`.
+- [ ] Make each node return only updated fields.
+- [ ] Keep side effects idempotent.
+- [ ] Add unit tests for each node.
+
+## 8. LangGraph Workflow
+
+- [ ] Create `app/graph/workflow.py`.
+- [ ] Wire nodes in the target graph order.
+- [ ] Add a checkpointer.
+- [ ] Pass a stable `thread_id`.
+- [ ] Add the human interrupt at `approval_gate`.
+- [ ] Add `tests/test_graph.py`.
+- [ ] Test a clean auto-post path.
+- [ ] Test a human approval path.
+- [ ] Test a rejected path.
+- [ ] Test resume after approval.
+- [ ] Run graph tests.
+
+## 9. Demo Scripts
+
+- [ ] Create `scripts/run_demo.py`.
+- [ ] Create `scripts/approve_demo.py`.
+- [ ] Create `scripts/reject_demo.py`.
+- [ ] Keep CLI commands short.
+- [x] Add sample input paths.
+- [ ] Print `run_id`.
+- [ ] Print final status.
+- [ ] Print audit log path.
+- [ ] Add a README snippet for demo usage if needed.
+- [x] Run the demo with a clean sample.
+- [x] Run the demo with a risky sample.
+
+## 10. Risk Scoring
+
+- [ ] Create or extend a risk service.
+- [ ] Output `risk_level`.
+- [ ] Output `risk_score`.
+- [ ] Output `risk_reasons`.
+- [ ] Output `requires_human_approval`.
+- [ ] Score missing PO.
+- [ ] Score missing delivery note.
+- [ ] Score duplicate candidates.
+- [ ] Score total mismatches.
+- [ ] Score missing or invalid-looking IBAN.
+- [ ] Score missing or invalid-looking VAT.
+- [ ] Score handwritten corrections.
+- [ ] Score low parser confidence.
+- [ ] Score line-item total mismatches.
+- [ ] Score vendor mismatches.
+- [ ] Score schema validation errors.
+- [ ] Score business-rule validation errors.
+- [ ] Route low risk to auto-approval eligibility.
+- [ ] Route medium risk to human approval.
+- [ ] Route high risk to human approval.
+- [ ] Block high-risk ERP posts unless explicitly approved.
+- [ ] Add risk tests.
+
+## 11. Duplicate Detection
+
+- [ ] Create or extend duplicate service.
+- [ ] Start with in-memory or JSONL-backed storage.
+- [ ] Match on `vendor_name + invoice_number`.
+- [ ] Match on `vendor_name + total_amount + issue_date`.
+- [ ] Add `rapidfuzz` with `uv add rapidfuzz` when implementing.
+- [ ] Use fuzzy vendor-name matching.
+- [ ] Output `duplicate_status`.
+- [ ] Output `duplicate_candidates`.
+- [ ] Add clear duplicate tests.
+- [ ] Add possible duplicate tests.
+- [ ] Add confirmed duplicate tests.
+- [ ] Keep durable PostgreSQL constraints for a later step.
+
+## 12. PO And Delivery Matching
+
+- [ ] Create or extend matching service.
+- [ ] Add 2-way invoice-to-PO matching.
+- [ ] Add 3-way invoice-to-PO-to-delivery matching.
+- [ ] Compare vendor.
+- [ ] Compare PO number.
+- [ ] Compare line-item descriptions.
+- [ ] Compare quantities.
+- [ ] Compare unit prices.
+- [ ] Compare subtotal.
+- [ ] Compare tax.
+- [ ] Compare total.
+- [ ] Compare delivery status.
+- [ ] Return structured mismatch reasons.
+- [ ] Route mismatches to human approval.
+- [ ] Add matching tests.
+
+## 13. JSONL Audit Logs
+
+- [ ] Create `app/services/audit.py`.
+- [ ] Create `data/processed/` if needed.
+- [ ] Write audit events to `data/processed/audit.jsonl`.
+- [ ] Add stable event IDs.
+- [ ] Add timestamp.
+- [ ] Add `run_id`.
+- [ ] Add node name.
+- [ ] Add input hash.
+- [ ] Add output summary.
+- [ ] Add risk delta.
+- [ ] Add decision.
+- [ ] Add parser or model name.
+- [ ] Add errors list.
+- [ ] Prevent duplicate events on resume.
+- [ ] Keep secrets out of audit logs.
+- [ ] Keep raw parser artifacts separate.
+- [ ] Add `tests/test_audit.py`.
+- [ ] Run audit tests.
+
+## 14. ERP Mock
+
+- [ ] Create or extend ERP mock service.
+- [ ] Reject missing approval when approval is required.
+- [ ] Reject high risk without explicit approval.
+- [ ] Reject duplicate invoices.
+- [ ] Reject total mismatches.
+- [ ] Reject invalid schemas.
+- [ ] Reject missing vendors.
+- [ ] Reject missing invoice numbers.
+- [ ] Return `erp_post_id`.
+- [ ] Return `status`.
+- [ ] Return `rejection_reason`.
+- [ ] Return `posted_at`.
+- [ ] Test approved clean invoice posts.
+- [ ] Test rejected invoice does not post.
+- [ ] Test duplicate invoice does not post.
+- [ ] Test total mismatch does not post unless explicitly approved.
+- [ ] Test invalid schema never posts.
+
+## 15. Evaluation Fixtures
+
+- [ ] Create `data/eval/invoices/`.
+- [ ] Create `data/eval/purchase_orders/`.
+- [ ] Create `data/eval/delivery_notes/`.
+- [ ] Create `data/eval/ground_truth.jsonl`.
+- [ ] Add clean invoice with matching PO.
+- [ ] Add invoice missing PO.
+- [ ] Add duplicate invoice.
+- [ ] Add total mismatch.
+- [ ] Add vendor mismatch.
+- [x] Add handwritten correction.
+- [x] Add missing IBAN.
+- [x] Add delivery quantity mismatch.
+- [ ] Define invoice-number accuracy.
+- [ ] Define vendor accuracy.
+- [ ] Define total amount accuracy.
+- [ ] Define line-item accuracy.
+- [ ] Define PO match accuracy.
+- [ ] Define duplicate precision and recall.
+- [ ] Define approval routing accuracy.
+- [ ] Define hallucinated-field rate.
+- [ ] Add an eval smoke test.
+
+## 16. FastAPI
+
+- [x] Add FastAPI with `uv add fastapi uvicorn python-multipart`.
+- [ ] Create or extend `app/api/`.
+- [ ] Add `POST /runs`.
+- [ ] Add `GET /runs/{run_id}`.
+- [x] Add `POST /runs/{run_id}/approve`.
+- [x] Add `POST /runs/{run_id}/reject`.
+- [ ] Add `GET /runs/{run_id}/audit`.
+- [ ] Add `GET /health`.
+- [ ] Keep routes thin.
+- [ ] Save uploaded files before graph execution.
+- [ ] Return `completed` status.
+- [ ] Return `requires_approval` status.
+- [ ] Return `rejected` status.
+- [ ] Return `posted` status.
+- [ ] Return `failed` status.
+- [ ] Add API tests.
+
+## 17. PostgreSQL Persistence
+
+- [ ] Add SQLAlchemy when this milestone starts.
+- [ ] Create database settings.
+- [ ] Add `ap_runs` table.
+- [ ] Add `documents` table.
+- [ ] Add `parsed_documents` table.
+- [ ] Add `invoices` table.
+- [ ] Add `purchase_orders` table.
+- [ ] Add `delivery_notes` table.
+- [ ] Add `duplicate_candidates` table.
+- [ ] Add `approval_tasks` table.
+- [ ] Add `erp_posts` table.
+- [ ] Add `audit_events` table.
+- [ ] Add duplicate-protection unique constraints.
+- [ ] Keep JSONL audit logs as local artifacts.
+- [ ] Add migration tooling after schema stabilizes.
+- [ ] Add persistence tests.
+
+## 18. MLflow
+
+- [ ] Add MLflow when this milestone starts.
+- [ ] Track parser version.
+- [ ] Track prompt version if prompts exist.
+- [ ] Track schema version.
+- [ ] Track document type.
+- [ ] Track field accuracy.
+- [ ] Track latency.
+- [ ] Track cost if applicable.
+- [ ] Track validation failures.
+- [ ] Track approval routing accuracy.
+- [ ] Store `parsed_documents.jsonl`.
+- [ ] Store `eval_report.json`.
+- [ ] Store `confusion_matrix.json`.
+- [ ] Store `audit_sample.jsonl`.
+- [ ] Add an MLflow smoke test.
+
+## 19. GenAI Evals
+
+- [ ] Choose DeepEval or MLflow GenAI evaluation.
+- [ ] Add the dependency only when implementing.
+- [ ] Test duplicate invoice routing.
+- [ ] Test total mismatch rejection.
+- [ ] Test no invented missing IBAN.
+- [ ] Test handwritten correction flagging.
+- [ ] Test no post without approval.
+- [ ] Test audit log preservation.
+- [ ] Add CI-friendly smoke mode.
+
+## 20. Tracing
+
+- [ ] Choose Langfuse or OpenTelemetry.
+- [ ] Make tracing optional.
+- [ ] Configure tracing through environment variables.
+- [ ] Trace graph runs.
+- [ ] Trace node duration.
+- [ ] Trace parser latency.
+- [ ] Trace LLM calls if any.
+- [ ] Trace validation failures.
+- [ ] Trace risk score.
+- [ ] Trace approval decision.
+- [ ] Trace ERP mock result.
+- [ ] Keep `run_id` aligned across graph, API, audit, MLflow, and traces.
+- [ ] Verify local tests pass with tracing disabled.
+
+## 21. Streamlit Dashboard
+
+- [ ] Add Streamlit when this milestone starts.
+- [ ] Add upload page.
+- [ ] Add extracted-field review page.
+- [ ] Add PO and delivery match view.
+- [ ] Add duplicate warning view.
+- [ ] Add approve action.
+- [ ] Add reject action.
+- [ ] Add audit timeline.
+- [ ] Add eval metrics view.
+- [ ] Keep UI behind the API and graph.
+- [ ] Run a dashboard smoke test.
+
+## 22. Docker Compose
+
+- [ ] Add `.env.example`.
+- [ ] Add API service.
+- [ ] Add PostgreSQL service.
+- [ ] Add MinIO service.
+- [ ] Add MLflow service.
+- [ ] Add tracing service if selected.
+- [ ] Add Streamlit service.
+- [ ] Mount `./data` for local artifacts.
+- [ ] Document `docker compose up`.
+- [ ] Run the local stack.
+- [ ] Run a smoke workflow in the stack.
+
+## 23. GitHub Actions CI
+
+- [ ] Add workflow file.
+- [ ] Run `ruff`.
+- [ ] Run type checks with mypy or pyright.
+- [ ] Run `pytest`.
+- [ ] Run compile checks.
+- [ ] Run schema tests.
+- [ ] Run graph smoke test.
+- [ ] Run eval smoke test.
+- [ ] Mock LiteParse in normal CI.
+- [ ] Mock MinerU in normal CI.
+- [ ] Keep heavy parser tests optional.
+- [ ] Fail CI on schema regressions.
+- [ ] Fail CI on graph smoke failures.
+
+## 24. MinIO Storage
+
+- [ ] Add MinIO client dependency when implementing.
+- [ ] Create `raw-documents` bucket.
+- [ ] Create `parsed-documents` bucket.
+- [ ] Create `audit-artifacts` bucket.
+- [ ] Create `eval-fixtures` bucket.
+- [ ] Store raw uploads before parsing.
+- [ ] Store normalized parser output.
+- [ ] Store audit artifacts.
+- [ ] Tie object keys to `run_id`.
+- [ ] Add storage tests with a local or mocked client.
+
+## 25. Cloud Docs
+
+- [ ] Create `docs/cloud_mapping.md`.
+- [ ] Map MinIO to Azure Data Lake.
+- [ ] Map MinIO to Google Cloud Storage.
+- [ ] Map PostgreSQL to Azure PostgreSQL.
+- [ ] Map PostgreSQL to Cloud SQL.
+- [ ] Map FastAPI to Azure Container Apps.
+- [ ] Map FastAPI to GKE.
+- [ ] Map local MLflow to Databricks MLflow.
+- [ ] Map local batch jobs to Databricks or managed Spark.
+- [ ] Map tracing to a managed observability backend.
+- [ ] Keep the doc practical and short.
+
+## 26. PySpark Analytics
+
+- [ ] Add PySpark only when this milestone starts.
+- [ ] Add monthly duplicate report.
+- [ ] Add vendor exception report.
+- [ ] Add approval delay report.
+- [ ] Add field extraction quality by vendor.
+- [ ] Add invoice mismatch trend.
+- [ ] Add sample input data.
+- [ ] Add a local smoke command.
+- [ ] Add batch analytics docs.
+
+## Definition Of Done For Any Milestone
+
+- [ ] Code is implemented in the existing architecture.
+- [ ] New dependencies were added with `uv add`.
+- [ ] Tests cover the new behavior.
+- [ ] Realistic mini scenario was run for large changes.
+- [ ] `uv run pytest` passes or failures are documented.
+- [ ] `uv run python -m compileall app tests` passes or failures are documented.
+- [ ] `git status --short` was checked.
+- [ ] A conventional commit message is prepared.

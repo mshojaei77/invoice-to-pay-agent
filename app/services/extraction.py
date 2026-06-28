@@ -1,26 +1,22 @@
+"""Legacy text extraction stub.
+
+The graph now uses LiteParse and MinerU adapters via app.services.parser.
+This module remains for reference only and is not used in production paths.
+"""
+
 import re
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-
-import pdfplumber
 
 
 TOTAL_RE = re.compile(r"(?:grand\s+)?total\s*[:\s]+(?:EUR|€)?\s*([0-9][0-9,]*\.?[0-9]*)", re.I)
 INVOICE_NUMBER_RE = re.compile(r"invoice\s*(?:no\.?|number)?\s*[:#\-\s]+([A-Z0-9-]+)", re.I)
 
 
-def extract_text_from_pdf(path: str) -> str:
-    text_parts: list[str] = []
-    with pdfplumber.open(path) as pdf:
-        for page in pdf.pages:
-            text_parts.append(page.extract_text() or "")
-    return "\n".join(text_parts).strip()
-
-
 def extract_text(path: str) -> str:
     suffix = Path(path).suffix.lower()
     if suffix == ".pdf":
-        return extract_text_from_pdf(path)
+        raise ValueError("PDF extraction requires LiteParse or MinerU adapter")
     raise ValueError(f"Unsupported file type: {suffix}")
 
 

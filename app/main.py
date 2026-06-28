@@ -1,5 +1,8 @@
-"""FastAPI entrypoint placeholder for the invoice-to-pay prototype."""
+from app.api.main import app
+
+__all__ = ["app"]
 
 
 def main() -> None:
-    print("Invoice-to-Pay Agent skeleton is ready.")
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
