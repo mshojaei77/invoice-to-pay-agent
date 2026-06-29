@@ -4,6 +4,7 @@ import sys
 
 import pytest
 
+from scripts.review_card import build_review_card
 from scripts.run_demo import build_markdown_report, write_markdown_report, _normalize_parser_name
 
 
@@ -70,3 +71,31 @@ def test_cli_rejects_unknown_parser() -> None:
 
     assert result.returncode != 0
     assert "parser must be liteparse or docling" in result.stderr
+
+
+def test_build_review_card_prioritizes_ap_controls() -> None:
+    review_card = build_review_card(
+        {
+            "risk_level": "medium",
+            "match_result": {
+                "match_status": "mismatch",
+                "mismatch_reasons": ["missing_purchase_order"],
+            },
+            "exception_result": {"exceptions": [{"code": "missing_po"}]},
+            "fraud_result": {"signal_count": 1},
+            "approval_route": {
+                "route": "human_review",
+                "approver_role": "ap_manager",
+            },
+            "payment_plan": {"payment_status": "held"},
+            "__interrupt__": ("approval",),
+        },
+        "run-123",
+    )
+
+    assert "Invoice-to-Pay Review Card" in review_card
+    assert "Risk" in review_card
+    assert "Match status" in review_card
+    assert "missing_purchase_order" in review_card
+    assert "Payment status" in review_card
+    assert "ERP status" in review_card

@@ -1,17 +1,42 @@
 # Invoice-to-Pay Agent
 
-Controls-first finance operations automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, invoice capture planning, risk scoring, exception classification, fraud controls, approval routing, line-level approval planning, GL coding hints, NetSuite AP readiness checks, accounting-platform profiling, multi-company controls, industry policy checks, AP agent orchestration, finance-agent planning, order-to-cash work queues, accrual close planning, spend intelligence, billing/revenue controls, e-invoicing compliance planning, cloud ERP sync planning, pre-approval ledger visibility, payment execution, vendor relationship actions, real-time AP visibility, payment holds, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
+Open-source AP automation prototype for invoice capture, PO/receipt matching, exception routing, fraud controls, approval gates, and ERP-ready audit logs.
 
-This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of enterprise finance operations: invoice capture, validation, duplicate risk, PO and delivery-note matching, fraud controls, line-level approvals, payment execution, supplier follow-up, real-time spend visibility, accrual evidence, spend leakage signals, tax reporting readiness, cash-operation follow-up, NetSuite-style ledger/payment controls, and auditability before anything gets posted.
+Built for engineers who want to understand how production finance agents should work: controlled, typed, auditable, testable, and human-in-the-loop when risk is high.
+
+## Why Not Just OCR?
+
+AP teams do not lose most time on text extraction. They lose it on missing POs, duplicate invoices, vendor mismatches, approval chasing, GL coding, payment holds, and audit reconstruction.
+
+This project models those controls as a graph, not as hidden prompt behavior:
+
+```text
+invoice / PO / delivery note
+  -> parse
+  -> validate
+  -> duplicate check
+  -> PO + delivery matching
+  -> exception classification
+  -> fraud controls
+  -> approval routing
+  -> payment readiness
+  -> ERP mock posting
+  -> audit log
+```
+
+See [docs/demo-report.md](docs/demo-report.md) for a compact AP-manager-friendly output sample.
 
 ## Table of Contents
 
+- [Why Not Just OCR?](#why-not-just-ocr)
 - [Why This Exists](#why-this-exists)
 - [Features](#features)
 - [Current Status](#current-status)
+- [Audience](#audience)
 - [Architecture](#architecture)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
+- [Demo Output](#demo-output)
 - [API](#api)
 - [Testing](#testing)
 - [Evaluation Data](#evaluation-data)
@@ -113,7 +138,13 @@ Known limitations:
 - ERP integration is intentionally mocked.
 - NetSuite readiness is a deterministic sandbox-planning output, not a certified SuiteApp integration.
 - No review UI is included yet.
-- The repository currently documents MIT licensing, but a root `LICENSE` file should be added before publishing as a polished open source release.
+
+## Audience
+
+This repo is written for two audiences:
+
+- AP managers, controllers, finance transformation leads, and ERP consultants who want to inspect the workflow logic: exceptions, approvals, payment holds, ERP handoff, and audit trail.
+- Engineers who want a reproducible finance-agent example with LangGraph, FastAPI, Pydantic schemas, parser routing, approval interrupts, deterministic controls, and pytest scenarios.
 
 ## Architecture
 
@@ -915,6 +946,22 @@ curl.exe -X POST http://localhost:8000/runs/YOUR_RUN_ID_HERE/reject
 
 Replace `YOUR_RUN_ID_HERE` with the actual `run_id` from the create-run response.
 
+## Demo Output
+
+For a compact output that is easier to share with AP managers, controllers, ERP consultants, or hiring reviewers, see [docs/demo-report.md](docs/demo-report.md).
+
+Generate a fresh local report with:
+
+```bash
+uv run python scripts/run_demo.py \
+  --invoice samples/invoice_001_canada_post_sample.pdf \
+  --po samples/purchase_order_001_polychemtex.pdf \
+  --delivery-note samples/delivery_note_003_en_sample.pdf \
+  --output-md data/processed/reports/latest-demo.md
+```
+
+The generated report is intentionally controls-first: status, matching evidence, exception queue, payment readiness, ERP handoff, and audit pointers appear before the long capability map.
+
 ## API
 
 | Method | Path | Purpose |
@@ -1178,6 +1225,4 @@ This prototype processes financial documents and may contain sensitive vendor, b
 
 ## License
 
-This project is intended to be released under the MIT License.
-
-Before publishing, add a root `LICENSE` file containing the MIT License text and make sure package metadata declares the license consistently. The MIT License allows broad reuse, modification, distribution, and private use while preserving copyright and license notice requirements.
+This project is released under the MIT License. See [LICENSE](LICENSE).

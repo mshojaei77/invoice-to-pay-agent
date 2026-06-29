@@ -3,6 +3,7 @@ name = "invoice-to-pay-agent"
 version = "0.1.0"
 description = "Lightweight invoice-to-pay agent prototype with strict schemas and deterministic extraction."
 readme = "README.md"
+license = "MIT"
 authors = [
     { name = "mshojaei77", email = "shojaeireal@gmail.com" }
 ]
