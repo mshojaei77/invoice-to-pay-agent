@@ -6,6 +6,7 @@ from langgraph.graph import END, START, StateGraph
 from app.graph.nodes import (
     ai_cost_tracking,
     ai_governance_check,
+    accounting_platform_profile_node,
     approval_routing,
     approval_gate,
     automation_readiness_check,
@@ -13,8 +14,11 @@ from app.graph.nodes import (
     compliance_check,
     duplicate_check,
     erp_sync_planning,
+    finance_agent_planning,
+    industry_policy_check,
     kpi_snapshot,
     match_invoice_po_delivery,
+    multi_company_controls,
     normalize_ap_documents,
     parse_documents_fast_with_liteparse,
     payment_planning,
@@ -45,11 +49,15 @@ def build_graph():
     builder.add_node("match_invoice_po_delivery", match_invoice_po_delivery)
     builder.add_node("classify_ap_exceptions", classify_ap_exceptions)
     builder.add_node("suggest_gl_coding", suggest_gl_coding_node)
+    builder.add_node("accounting_platform_profile", accounting_platform_profile_node)
+    builder.add_node("multi_company_controls", multi_company_controls)
+    builder.add_node("industry_policy_check", industry_policy_check)
     builder.add_node("risk_score", risk_score)
     builder.add_node("approval_routing", approval_routing)
     builder.add_node("compliance_check", compliance_check)
     builder.add_node("payment_planning", payment_planning)
     builder.add_node("erp_sync_planning", erp_sync_planning)
+    builder.add_node("finance_agent_planning", finance_agent_planning)
     builder.add_node("ai_governance_check", ai_governance_check)
     builder.add_node("automation_readiness_check", automation_readiness_check)
     builder.add_node("ai_cost_tracking", ai_cost_tracking)
@@ -69,12 +77,16 @@ def build_graph():
     builder.add_edge("duplicate_check", "match_invoice_po_delivery")
     builder.add_edge("match_invoice_po_delivery", "classify_ap_exceptions")
     builder.add_edge("classify_ap_exceptions", "suggest_gl_coding")
-    builder.add_edge("suggest_gl_coding", "risk_score")
+    builder.add_edge("suggest_gl_coding", "accounting_platform_profile")
+    builder.add_edge("accounting_platform_profile", "multi_company_controls")
+    builder.add_edge("multi_company_controls", "industry_policy_check")
+    builder.add_edge("industry_policy_check", "risk_score")
     builder.add_edge("risk_score", "approval_routing")
     builder.add_edge("approval_routing", "compliance_check")
     builder.add_edge("compliance_check", "payment_planning")
     builder.add_edge("payment_planning", "erp_sync_planning")
-    builder.add_edge("erp_sync_planning", "ai_governance_check")
+    builder.add_edge("erp_sync_planning", "finance_agent_planning")
+    builder.add_edge("finance_agent_planning", "ai_governance_check")
     builder.add_edge("ai_governance_check", "automation_readiness_check")
     builder.add_edge("automation_readiness_check", "ai_cost_tracking")
     builder.add_edge("ai_cost_tracking", "approval_gate")

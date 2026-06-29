@@ -1,6 +1,6 @@
 # Invoice-to-Pay Agent
 
-Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, cloud ERP sync planning, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
+Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, accounting-platform profiling, multi-company controls, industry policy checks, finance-agent planning, cloud ERP sync planning, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
 
 This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of invoice operations: validation, duplicate risk, PO and delivery-note matching, approval routing, and auditability before anything gets posted.
 
@@ -50,6 +50,10 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Exception queue classification for missing support, 3-way match failures, duplicate controls, vendor master-data problems, pricing mismatches, receiving issues, and parser warnings.
 - Approval routing that sends clean invoices to auto-post and routes duplicate, vendor-master, pricing, receiving, matching, and GL-coding exceptions to the right reviewer role with an SLA hint.
 - GL coding and allocation suggestions based on vendor history and invoice text/path keywords, with finance-review fallback when coding is uncertain.
+- Accounting-platform profile for connector-neutral Exact, NetSuite, Dynamics, SAP, QuickBooks, and generic cloud ERP posting contracts.
+- Multi-company and accountant-collaboration controls for group reporting, entity selection, intercompany review, and accountant-facing workflows.
+- Industry policy checks for manufacturing, wholesale, construction, hospitality, professional services, and generic VAT/valuation requirements.
+- Finance-agent plan for purchase, banking, debtor-management boundary, and accountant-collaboration responsibilities.
 - Cloud ERP sync plan that builds a posting payload with document references, GL coding, payment recommendation, retention class, and single-source-of-truth metadata.
 - AI governance output with approved tool inventory, shadow-AI policy, adoption stage, guardrails, and low-confidence review signals.
 - Automation readiness assessment that separates safe workflow automation from human-led review and blocks autonomous GL posting when risk is not recoverable.
@@ -77,6 +81,7 @@ Implemented:
 - Exception queue, approval route, and GL coding outputs in graph/API/demo results.
 - Cloud ERP sync plan, payment plan, compliance controls, and KPI snapshot outputs in graph/API/demo results.
 - AI governance, automation-readiness, and AI cost outputs in graph/API/demo results.
+- Accounting-platform profile, multi-company controls, industry policy, and finance-agent plan outputs in graph/API/demo results.
 - Test coverage across the main service and workflow boundaries.
 
 Known limitations:
@@ -102,11 +107,15 @@ Upload invoice / PO / delivery note
   -> match_invoice_po_delivery
   -> classify_ap_exceptions
   -> suggest_gl_coding
+  -> accounting_platform_profile
+  -> multi_company_controls
+  -> industry_policy_check
   -> risk_score
   -> approval_routing
   -> compliance_check
   -> payment_planning
   -> erp_sync_planning
+  -> finance_agent_planning
   -> ai_governance_check
   -> automation_readiness_check
   -> ai_cost_tracking
@@ -121,10 +130,14 @@ The graph shape is the product architecture:
 - Nodes before `approval_gate` gather evidence and calculate risk.
 - `classify_ap_exceptions` converts raw errors and mismatches into an AP-facing work queue.
 - `suggest_gl_coding` proposes a GL account, cost center, and allocation when deterministic rules match.
+- `accounting_platform_profile` chooses a connector-neutral ERP/accounting contract for Exact, NetSuite, Dynamics, SAP, QuickBooks, or generic cloud ERP.
+- `multi_company_controls` records entity, intercompany, consolidation, and accountant-collaboration context.
+- `industry_policy_check` applies VAT, valuation, and dimension controls by industry.
 - `approval_routing` decides whether the run can auto-post or should go to AP manager, vendor-master, buyer/receiving, or finance review.
 - `compliance_check` records audit-readiness and role-based-access requirements before posting.
 - `payment_planning` turns approved/blocked invoice state into a cashflow recommendation.
 - `erp_sync_planning` builds a cloud-ERP posting payload and sync readiness status.
+- `finance_agent_planning` describes purchase, banking, debtor-management, and accountant-collaboration agent boundaries.
 - `ai_governance_check` records approved tools, shadow-AI posture, and guardrail status.
 - `automation_readiness_check` decides whether the run is safe for audited automation, assistive review, or human-led review.
 - `ai_cost_tracking` estimates token usage so AI automation spend can be tracked explicitly.
@@ -213,6 +226,68 @@ reason: vendor_history | description_keyword | no_vendor_or_description_rule
 
 Current rules are intentionally simple and transparent. They can be replaced later by vendor history, ERP master data, or account-distribution learning without changing the graph contract.
 
+### Accounting Platform Profile
+
+The workflow now creates a connector-neutral accounting platform profile before ERP sync:
+
+```text
+selected_platform: exact | netsuite | dynamics | sap | quickbooks | generic_cloud_erp
+supported_platforms: exact, netsuite, dynamics, quickbooks, sap
+connector_style: accounting_api | accounting_erp_api | erp_api | adapter_contract
+posting_objects: list[str]
+connector_contract:
+  capabilities
+  required_fields
+```
+
+This keeps the project aligned with real implementation work where consultants may see Exact, NetSuite, Microsoft Dynamics, SAP, QuickBooks, or a generic cloud ERP across different clients. The current platform selection is deterministic and evidence-based, but the contract is the important part: upstream AP controls do not need to be rewritten for each accounting system.
+
+### Multi-Company And Accountant Controls
+
+The multi-company output keeps entity and accountant collaboration explicit:
+
+```text
+entity_code: default_entity | eu_entity | uk_entity | us_entity
+intercompany_review_required: bool
+accountant_collaboration_enabled: bool
+multi_company_supported: bool
+control_status: ready | review
+consolidation_note: str
+```
+
+This supports finance professionals and accounting firms that work across multiple administrations, subsidiaries, or client books. It also avoids burying entity selection inside a posting payload.
+
+### Industry Policy Checks
+
+Industry-specific controls are kept as policy output instead of hard-coded ERP assumptions:
+
+```text
+industry: generic | manufacturing | wholesale | construction | hospitality | professional_services
+policy_status: ready | review
+vat_policy: str
+valuation_policy: str
+extra_controls: list[str]
+missing_controls: list[str]
+```
+
+Examples include goods-receipt and inventory valuation checks for manufacturing, landed-cost review for wholesale, project-code controls for construction, site cost centers for hospitality, and client/project allocation for professional services.
+
+### Finance Agent Plan
+
+The finance-agent plan describes the boundaries of specialized agents without giving them uncontrolled authority:
+
+```text
+agent_plan_status: ready
+selected_platform: str
+agents:
+  purchase_agent
+  banking_agent
+  debtor_management_agent
+  accountant_collaboration_agent
+```
+
+Purchase and banking agents can assist AP workflow automation. Debtor management is explicitly marked as an AR boundary. Accountant collaboration is enabled only when the selected platform/profile supports that workflow.
+
 ### Cloud ERP Sync Plan
 
 The workflow now prepares a cloud-ERP-oriented sync plan before posting:
@@ -230,6 +305,10 @@ posting_payload:
   payment_recommendation
   target_payment_date
   retention_class
+  entity_code
+  industry
+  vat_policy
+  valuation_policy
 ```
 
 This keeps the AP automation layer aligned with the ERP as the financial system of record. The current implementation is a mock payload, but the contract is shaped so a real SAP, NetSuite, Microsoft Dynamics, or other cloud ERP connector can replace it without changing upstream controls.
@@ -520,6 +599,10 @@ The suite is designed to keep the prototype honest at the contract and workflow 
 - Exception classification.
 - Approval routing.
 - GL coding suggestions and review fallback.
+- Accounting-platform profiling.
+- Multi-company and accountant-collaboration controls.
+- Industry VAT and valuation policy checks.
+- Finance-agent planning.
 - Compliance controls.
 - Payment and cashflow planning.
 - Cloud ERP sync payload planning.
@@ -553,6 +636,10 @@ Future eval work should measure:
 - Approval routing correctness.
 - Exception classification precision and reviewer routing accuracy.
 - GL coding/account-distribution accuracy.
+- Accounting platform detection and connector contract completeness.
+- Entity selection, intercompany review, and accountant-collaboration accuracy.
+- Industry VAT, valuation, and dimension policy accuracy.
+- Finance-agent routing and boundary correctness.
 - Compliance-control false positive and false negative rates.
 - Payment recommendation and cashflow bucket accuracy.
 - Touchless rate, exception rate, and on-time payment rollups.
@@ -570,7 +657,7 @@ app/
   api/          FastAPI routes and app wiring
   graph/        LangGraph state, nodes, workflow construction
   schemas/      Strict AP contracts for invoices, POs, delivery notes, parser output, audit
-  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
+  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, accounting platforms, multi-company controls, industry policy, finance agents, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
   storage/      placeholder boundary for durable storage
   evals/        evaluation package boundary
 

@@ -43,6 +43,10 @@ def test_clean_auto_post_path(graph) -> None:
     assert result["ai_governance_result"]["governance_status"] == "ready"
     assert result["automation_readiness"]["recommended_autonomy_level"] == "auto_process_with_audit"
     assert result["ai_cost_snapshot"]["budget_category"] == "ai_automation_usage"
+    assert result["accounting_platform_profile"]["selected_platform"] == "generic_cloud_erp"
+    assert result["multi_company_result"]["control_status"] == "ready"
+    assert result["industry_policy_result"]["policy_status"] == "ready"
+    assert result["finance_agent_plan"]["agent_plan_status"] == "ready"
 
 
 def test_all_nodes_executed(graph) -> None:
@@ -79,6 +83,10 @@ def test_all_nodes_executed(graph) -> None:
     assert "ai_governance_result" in result
     assert "automation_readiness" in result
     assert "ai_cost_snapshot" in result
+    assert "accounting_platform_profile" in result
+    assert "multi_company_result" in result
+    assert "industry_policy_result" in result
+    assert "finance_agent_plan" in result
     assert "approval" in result
     assert "erp_result" in result
     assert "kpi_snapshot" in result

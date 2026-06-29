@@ -235,6 +235,50 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append("- ERP sync plan was not calculated.")
     lines.append("")
 
+    lines.extend(["## Accounting Platform", ""])
+    platform = result.get("accounting_platform_profile") or {}
+    if platform:
+        lines.append(f"- Selected platform: `{platform.get('selected_platform')}`")
+        lines.append(f"- Connector style: `{platform.get('connector_style')}`")
+        lines.append(f"- Target market: `{platform.get('target_market')}`")
+        lines.append(f"- Supported platforms: `{', '.join(platform.get('supported_platforms', []))}`")
+    else:
+        lines.append("- Accounting platform profile was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Multi-Company Controls", ""])
+    multi_company = result.get("multi_company_result") or {}
+    if multi_company:
+        lines.append(f"- Entity code: `{multi_company.get('entity_code')}`")
+        lines.append(f"- Control status: `{multi_company.get('control_status')}`")
+        lines.append(f"- Accountant collaboration: `{multi_company.get('accountant_collaboration_enabled')}`")
+        lines.append(f"- Intercompany review required: `{multi_company.get('intercompany_review_required')}`")
+    else:
+        lines.append("- Multi-company controls were not calculated.")
+    lines.append("")
+
+    lines.extend(["## Industry Policy", ""])
+    industry_policy = result.get("industry_policy_result") or {}
+    if industry_policy:
+        lines.append(f"- Industry: `{industry_policy.get('industry')}`")
+        lines.append(f"- Status: `{industry_policy.get('policy_status')}`")
+        lines.append(f"- VAT policy: `{industry_policy.get('vat_policy')}`")
+        lines.append(f"- Valuation policy: `{industry_policy.get('valuation_policy')}`")
+    else:
+        lines.append("- Industry policy was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Finance Agent Plan", ""])
+    agent_plan = result.get("finance_agent_plan") or {}
+    if agent_plan:
+        lines.append(f"- Status: `{agent_plan.get('agent_plan_status')}`")
+        lines.append(f"- Platform: `{agent_plan.get('selected_platform')}`")
+        for agent in agent_plan.get("agents", []):
+            lines.append(f"- `{agent.get('agent')}`: `{agent.get('mode')}`")
+    else:
+        lines.append("- Finance agent plan was not calculated.")
+    lines.append("")
+
     lines.extend(["## KPI Snapshot", ""])
     kpis = result.get("kpi_snapshot") or {}
     if kpis:

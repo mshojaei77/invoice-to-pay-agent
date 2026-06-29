@@ -9,14 +9,18 @@ from langgraph.types import interrupt
 from app.graph.state import APGraphState
 from app.services.ai_costs import estimate_ai_cost_snapshot
 from app.services.ai_governance import evaluate_ai_governance
+from app.services.accounting_platforms import build_accounting_platform_profile
 from app.services.audit import AUDIT_PATH, write_audit_event
 from app.services.approval_routing import route_approval
 from app.services.automation_readiness import assess_automation_readiness
 from app.services.compliance import evaluate_compliance
 from app.services.erp_integration import build_erp_sync_plan
 from app.services.exceptions import classify_exceptions
+from app.services.finance_agents import build_finance_agent_plan
 from app.services.gl_coding import suggest_gl_coding
+from app.services.industry_policy import apply_industry_policy
 from app.services.kpis import build_kpi_snapshot
+from app.services.multi_company import evaluate_multi_company_controls
 from app.services.parser import DoclingAdapter, LiteParseAdapter
 from app.services.payment_planning import plan_payment
 from app.services.risk import calculate_risk
@@ -198,6 +202,32 @@ def suggest_gl_coding_node(state: APGraphState) -> dict[str, Any]:
     }
 
 
+def accounting_platform_profile_node(state: APGraphState) -> dict[str, Any]:
+    return {
+        "accounting_platform_profile": build_accounting_platform_profile(
+            uploaded_documents=state.get("uploaded_documents", []),
+        )
+    }
+
+
+def multi_company_controls(state: APGraphState) -> dict[str, Any]:
+    return {
+        "multi_company_result": evaluate_multi_company_controls(
+            uploaded_documents=state.get("uploaded_documents", []),
+            accounting_platform_profile=state.get("accounting_platform_profile", {}),
+        )
+    }
+
+
+def industry_policy_check(state: APGraphState) -> dict[str, Any]:
+    return {
+        "industry_policy_result": apply_industry_policy(
+            uploaded_documents=state.get("uploaded_documents", []),
+            gl_coding_result=state.get("gl_coding_result", {}),
+        )
+    }
+
+
 def risk_score(state: APGraphState) -> dict[str, Any]:
     result = calculate_risk(
         validation_errors=state.get("validation_errors", []),
@@ -268,6 +298,23 @@ def erp_sync_planning(state: APGraphState) -> dict[str, Any]:
             gl_coding_result=state.get("gl_coding_result", {}),
             compliance_result=state.get("compliance_result", {}),
             payment_plan=state.get("payment_plan", {}),
+            accounting_platform_profile=state.get("accounting_platform_profile", {}),
+            multi_company_result=state.get("multi_company_result", {}),
+            industry_policy_result=state.get("industry_policy_result", {}),
+        )
+    }
+
+
+def finance_agent_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "finance_agent_plan": build_finance_agent_plan(
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "categories": []},
+            ),
+            payment_plan=state.get("payment_plan", {}),
+            accounting_platform_profile=state.get("accounting_platform_profile", {}),
+            multi_company_result=state.get("multi_company_result", {}),
         )
     }
 
@@ -334,6 +381,10 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "ai_governance_result": state.get("ai_governance_result"),
             "automation_readiness": state.get("automation_readiness"),
             "ai_cost_snapshot": state.get("ai_cost_snapshot"),
+            "accounting_platform_profile": state.get("accounting_platform_profile"),
+            "multi_company_result": state.get("multi_company_result"),
+            "industry_policy_result": state.get("industry_policy_result"),
+            "finance_agent_plan": state.get("finance_agent_plan"),
         },
         output_summary={
             "status": "requires_approval",
@@ -366,6 +417,10 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "ai_governance_result": state.get("ai_governance_result"),
             "automation_readiness": state.get("automation_readiness"),
             "ai_cost_snapshot": state.get("ai_cost_snapshot"),
+            "accounting_platform_profile": state.get("accounting_platform_profile"),
+            "multi_company_result": state.get("multi_company_result"),
+            "industry_policy_result": state.get("industry_policy_result"),
+            "finance_agent_plan": state.get("finance_agent_plan"),
         }
     )
 
@@ -427,6 +482,10 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "ai_governance_result": state.get("ai_governance_result"),
             "automation_readiness": state.get("automation_readiness"),
             "ai_cost_snapshot": state.get("ai_cost_snapshot"),
+            "accounting_platform_profile": state.get("accounting_platform_profile"),
+            "multi_company_result": state.get("multi_company_result"),
+            "industry_policy_result": state.get("industry_policy_result"),
+            "finance_agent_plan": state.get("finance_agent_plan"),
             "erp_result": state.get("erp_result"),
         },
         output_summary={

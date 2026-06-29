@@ -5,13 +5,17 @@ from app.graph.nodes import (
     approval_gate,
     ai_cost_tracking,
     ai_governance_check,
+    accounting_platform_profile_node,
     classify_ap_exceptions,
     compliance_check,
     duplicate_check,
     erp_sync_planning,
+    finance_agent_planning,
+    industry_policy_check,
     kpi_snapshot,
     automation_readiness_check,
     match_invoice_po_delivery,
+    multi_company_controls,
     normalize_ap_documents,
     parse_documents_fast_with_liteparse,
     payment_planning,
@@ -236,6 +240,36 @@ class TestSuggestGlCoding:
         assert result["gl_coding_result"]["coding_status"] == "suggested"
 
 
+class TestAccountingPlatformProfile:
+    def test_returns_platform_profile(self) -> None:
+        result = accounting_platform_profile_node(
+            make_state(uploaded_documents=[{"path": "exact_invoice.pdf", "document_type": "invoice"}])
+        )
+        assert result["accounting_platform_profile"]["selected_platform"] == "exact"
+
+
+class TestMultiCompanyControls:
+    def test_returns_multi_company_controls(self) -> None:
+        result = multi_company_controls(
+            make_state(
+                uploaded_documents=[{"path": "exact_eu_invoice.pdf", "document_type": "invoice"}],
+                accounting_platform_profile={"supports_multi_company": True, "supports_accountant_collaboration": True},
+            )
+        )
+        assert result["multi_company_result"]["entity_code"] == "eu_entity"
+
+
+class TestIndustryPolicyCheck:
+    def test_returns_industry_policy(self) -> None:
+        result = industry_policy_check(
+            make_state(
+                uploaded_documents=[{"path": "manufacturing_invoice.pdf", "document_type": "invoice"}],
+                gl_coding_result={"gl_account": "5000", "cost_center": "plant"},
+            )
+        )
+        assert result["industry_policy_result"]["industry"] == "manufacturing"
+
+
 class TestApprovalRouting:
     def test_returns_approval_route(self) -> None:
         result = approval_routing(
@@ -284,9 +318,25 @@ class TestErpSyncPlanning:
                 gl_coding_result={"gl_account": "5400-postage", "cost_center": "operations", "allocation": []},
                 compliance_result={"compliance_status": "ready", "retention_class": "financial_record"},
                 payment_plan={"recommendation": "pay_by_discount_window", "target_payment_date": "2026-07-01"},
+                accounting_platform_profile={"selected_platform": "exact", "connector_contract": {}},
+                multi_company_result={"entity_code": "eu_entity"},
+                industry_policy_result={"industry": "generic"},
             )
         )
         assert result["erp_sync_plan"]["sync_status"] == "ready"
+
+
+class TestFinanceAgentPlanning:
+    def test_returns_finance_agent_plan(self) -> None:
+        result = finance_agent_planning(
+            make_state(
+                exception_result={"categories": []},
+                payment_plan={"payment_status": "scheduled"},
+                accounting_platform_profile={"selected_platform": "exact"},
+                multi_company_result={"accountant_collaboration_enabled": True},
+            )
+        )
+        assert result["finance_agent_plan"]["agent_plan_status"] == "ready"
 
 
 class TestAiGovernanceCheck:
