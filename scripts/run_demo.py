@@ -156,6 +156,21 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
             lines.append(f"- `{warning}`")
         lines.append("")
 
+    lines.extend(["## Invoice Capture", ""])
+    capture = result.get("invoice_capture_plan") or {}
+    if capture:
+        lines.append(f"- Status: `{capture.get('capture_status')}`")
+        lines.append(f"- Detected channels: `{', '.join(capture.get('detected_channels', []))}`")
+        lines.append(f"- Warnings count: `{capture.get('warnings_count')}`")
+        coverage = capture.get("coverage") or {}
+        lines.append(f"- Email capture: `{coverage.get('email')}`")
+        lines.append(f"- Supplier portal capture: `{coverage.get('supplier_portals')}`")
+        lines.append(f"- EDI capture: `{coverage.get('edi')}`")
+        lines.append(f"- Physical mail capture: `{coverage.get('physical_mail')}`")
+    else:
+        lines.append("- Invoice capture planning was not calculated.")
+    lines.append("")
+
     lines.extend(["## Risk Reasons", ""])
     risk_reasons = result.get("risk_reasons") or []
     if risk_reasons:
@@ -176,6 +191,19 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
             )
     else:
         lines.append("- No open exceptions.")
+    lines.append("")
+
+    lines.extend(["## Fraud Controls", ""])
+    fraud = result.get("fraud_result") or {}
+    if fraud:
+        lines.append(f"- Status: `{fraud.get('fraud_status')}`")
+        lines.append(f"- Signal count: `{fraud.get('signal_count')}`")
+        for signal in fraud.get("signals", []):
+            lines.append(f"- `{signal.get('signal')}`: `{signal.get('severity')}`")
+        for control in fraud.get("controls", []):
+            lines.append(f"- `{control.get('control')}`: `{control.get('status')}`")
+    else:
+        lines.append("- Fraud controls were not calculated.")
     lines.append("")
 
     lines.extend(["## Approval Route", ""])
@@ -222,6 +250,30 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append(f"- Cashflow bucket: `{payment_plan.get('cashflow_bucket')}`")
     else:
         lines.append("- Payment plan was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Payment Execution", ""])
+    payment_execution = result.get("payment_execution_plan") or {}
+    if payment_execution:
+        lines.append(f"- Status: `{payment_execution.get('payment_execution_status')}`")
+        lines.append(f"- One-click approval enabled: `{payment_execution.get('one_click_approval_enabled')}`")
+        lines.append(f"- Payment run ready: `{payment_execution.get('payment_run_ready')}`")
+        lines.append(f"- Sync target: `{payment_execution.get('sync_target')}`")
+        lines.append(f"- Target payment date: `{payment_execution.get('target_payment_date')}`")
+    else:
+        lines.append("- Payment execution planning was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Vendor Relationship", ""])
+    vendor_relationship = result.get("vendor_relationship_plan") or {}
+    if vendor_relationship:
+        lines.append(f"- Status: `{vendor_relationship.get('vendor_relationship_status')}`")
+        lines.append(f"- Next action: `{vendor_relationship.get('next_vendor_action')}`")
+        lines.append(f"- Late payment risk: `{vendor_relationship.get('late_payment_risk')}`")
+        reply_agent = vendor_relationship.get("supplier_reply_agent") or {}
+        lines.append(f"- Supplier reply agent: `{reply_agent.get('enabled')}`")
+    else:
+        lines.append("- Vendor relationship planning was not calculated.")
     lines.append("")
 
     lines.extend(["## ERP Sync Plan", ""])
@@ -413,6 +465,32 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append(f"- Cycle status: `{kpis.get('cycle_status')}`")
     else:
         lines.append("- KPI snapshot was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Real-Time AP Visibility", ""])
+    visibility = result.get("realtime_ap_visibility") or {}
+    if visibility:
+        volume = visibility.get("invoice_volume_capacity") or {}
+        lines.append(f"- Status: `{visibility.get('visibility_status')}`")
+        lines.append(f"- Cash flow visibility: `{visibility.get('cash_flow_visibility')}`")
+        lines.append(f"- Current batch invoice count: `{volume.get('current_batch_invoice_count')}`")
+        lines.append(f"- Scale signal: `{volume.get('scale_without_headcount_signal')}`")
+        lines.append(f"- Open exception count: `{visibility.get('open_exception_count')}`")
+        lines.append(f"- Payment run ready: `{visibility.get('payment_run_ready')}`")
+    else:
+        lines.append("- Real-time AP visibility was not calculated.")
+    lines.append("")
+
+    lines.extend(["## AP Agent Orchestration", ""])
+    orchestration = result.get("ap_agent_orchestration") or {}
+    if orchestration:
+        lines.append(f"- Status: `{orchestration.get('agent_orchestration_status')}`")
+        lines.append(f"- Autonomy level: `{orchestration.get('autonomy_level')}`")
+        lines.append(f"- Blocked agents: `{', '.join(orchestration.get('blocked_agents', [])) or 'none'}`")
+        for agent in orchestration.get("agents", []):
+            lines.append(f"- `{agent.get('agent')}`: `{agent.get('status')}` -> `{agent.get('handoff')}`")
+    else:
+        lines.append("- AP agent orchestration was not calculated.")
     lines.append("")
 
     lines.extend(["## AI Governance", ""])

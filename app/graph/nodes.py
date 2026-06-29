@@ -7,6 +7,8 @@ from typing import Any
 from langgraph.types import interrupt
 
 from app.graph.state import APGraphState
+from app.services.ap_agent_orchestration import build_ap_agent_orchestration
+from app.services.ap_visibility import build_realtime_ap_visibility
 from app.services.ai_costs import estimate_ai_cost_snapshot
 from app.services.ai_governance import evaluate_ai_governance
 from app.services.accounting_platforms import build_accounting_platform_profile
@@ -20,8 +22,10 @@ from app.services.einvoicing import build_einvoicing_compliance_plan
 from app.services.erp_integration import build_erp_sync_plan
 from app.services.exceptions import classify_exceptions
 from app.services.finance_agents import build_finance_agent_plan
+from app.services.fraud_detection import assess_fraud_controls
 from app.services.gl_coding import suggest_gl_coding
 from app.services.industry_policy import apply_industry_policy
+from app.services.invoice_capture import build_invoice_capture_plan
 from app.services.kpis import build_kpi_snapshot
 from app.services.ledger_visibility import build_ledger_visibility_plan
 from app.services.line_approvals import build_line_approval_plan
@@ -29,10 +33,12 @@ from app.services.multi_company import evaluate_multi_company_controls
 from app.services.netsuite_readiness import build_netsuite_ap_readiness
 from app.services.order_to_cash import build_order_to_cash_plan
 from app.services.parser import DoclingAdapter, LiteParseAdapter
+from app.services.payment_execution import build_payment_execution_plan
 from app.services.payment_planning import plan_payment
 from app.services.po_lifecycle import build_po_lifecycle_plan
 from app.services.risk import calculate_risk
 from app.services.spend_intelligence import build_spend_intelligence
+from app.services.vendor_relationship import build_vendor_relationship_plan
 
 
 def save_uploads(state: APGraphState) -> dict[str, Any]:
@@ -202,11 +208,39 @@ def classify_ap_exceptions(state: APGraphState) -> dict[str, Any]:
     }
 
 
+def invoice_capture_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "invoice_capture_plan": build_invoice_capture_plan(
+            uploaded_documents=state.get("uploaded_documents", []),
+            parser_route=state.get("parser_route", []),
+            parser_warnings=state.get("parser_warnings", []),
+        )
+    }
+
+
 def suggest_gl_coding_node(state: APGraphState) -> dict[str, Any]:
     return {
         "gl_coding_result": suggest_gl_coding(
             uploaded_documents=state.get("uploaded_documents", []),
             parsed_documents=state.get("parsed_documents", []),
+        )
+    }
+
+
+def fraud_detection_check(state: APGraphState) -> dict[str, Any]:
+    return {
+        "fraud_result": assess_fraud_controls(
+            uploaded_documents=state.get("uploaded_documents", []),
+            duplicate_result=state.get(
+                "duplicate_result",
+                {"duplicate_status": "clear", "duplicate_candidates": []},
+            ),
+            match_result=state.get(
+                "match_result",
+                {"match_status": "matched", "mismatch_reasons": []},
+            ),
+            business_rule_errors=state.get("business_rule_errors", []),
+            risk_level=state.get("risk_level", "low"),
         )
     }
 
@@ -350,6 +384,31 @@ def ledger_visibility_planning(state: APGraphState) -> dict[str, Any]:
     }
 
 
+def payment_execution_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "payment_execution_plan": build_payment_execution_plan(
+            payment_plan=state.get("payment_plan", {}),
+            approval_route=state.get("approval_route", {}),
+            fraud_result=state.get("fraud_result", {}),
+            ledger_visibility_plan=state.get("ledger_visibility_plan", {}),
+            erp_sync_plan=state.get("erp_sync_plan", {}),
+        )
+    }
+
+
+def vendor_relationship_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "vendor_relationship_plan": build_vendor_relationship_plan(
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exception_count": 0},
+            ),
+            payment_plan=state.get("payment_plan", {}),
+            payment_execution_plan=state.get("payment_execution_plan", {}),
+        )
+    }
+
+
 def netsuite_ap_readiness_check(state: APGraphState) -> dict[str, Any]:
     return {
         "netsuite_ap_readiness": build_netsuite_ap_readiness(
@@ -360,6 +419,35 @@ def netsuite_ap_readiness_check(state: APGraphState) -> dict[str, Any]:
             line_approval_plan=state.get("line_approval_plan", {}),
             ledger_visibility_plan=state.get("ledger_visibility_plan", {}),
             po_lifecycle_plan=state.get("po_lifecycle_plan", {}),
+        )
+    }
+
+
+def realtime_ap_visibility_snapshot(state: APGraphState) -> dict[str, Any]:
+    return {
+        "realtime_ap_visibility": build_realtime_ap_visibility(
+            uploaded_documents=state.get("uploaded_documents", []),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exception_count": 0},
+            ),
+            payment_plan=state.get("payment_plan", {}),
+            payment_execution_plan=state.get("payment_execution_plan", {}),
+            spend_intelligence=state.get("spend_intelligence", {}),
+            kpi_snapshot=state.get("kpi_snapshot"),
+        )
+    }
+
+
+def ap_agent_orchestration_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "ap_agent_orchestration": build_ap_agent_orchestration(
+            invoice_capture_plan=state.get("invoice_capture_plan", {}),
+            gl_coding_result=state.get("gl_coding_result", {}),
+            match_result=state.get("match_result", {}),
+            fraud_result=state.get("fraud_result", {}),
+            approval_route=state.get("approval_route", {}),
+            payment_execution_plan=state.get("payment_execution_plan", {}),
         )
     }
 
@@ -502,10 +590,16 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "match_result": state.get("match_result"),
             "duplicate_result": state.get("duplicate_result"),
             "exception_result": state.get("exception_result"),
+            "invoice_capture_plan": state.get("invoice_capture_plan"),
             "approval_route": state.get("approval_route"),
             "gl_coding_result": state.get("gl_coding_result"),
+            "fraud_result": state.get("fraud_result"),
             "compliance_result": state.get("compliance_result"),
             "payment_plan": state.get("payment_plan"),
+            "payment_execution_plan": state.get("payment_execution_plan"),
+            "vendor_relationship_plan": state.get("vendor_relationship_plan"),
+            "realtime_ap_visibility": state.get("realtime_ap_visibility"),
+            "ap_agent_orchestration": state.get("ap_agent_orchestration"),
             "erp_sync_plan": state.get("erp_sync_plan"),
             "ai_governance_result": state.get("ai_governance_result"),
             "automation_readiness": state.get("automation_readiness"),
@@ -547,10 +641,16 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "match_result": state.get("match_result"),
             "duplicate_result": state.get("duplicate_result"),
             "exception_result": state.get("exception_result"),
+            "invoice_capture_plan": state.get("invoice_capture_plan"),
             "approval_route": state.get("approval_route"),
             "gl_coding_result": state.get("gl_coding_result"),
+            "fraud_result": state.get("fraud_result"),
             "compliance_result": state.get("compliance_result"),
             "payment_plan": state.get("payment_plan"),
+            "payment_execution_plan": state.get("payment_execution_plan"),
+            "vendor_relationship_plan": state.get("vendor_relationship_plan"),
+            "realtime_ap_visibility": state.get("realtime_ap_visibility"),
+            "ap_agent_orchestration": state.get("ap_agent_orchestration"),
             "erp_sync_plan": state.get("erp_sync_plan"),
             "ai_governance_result": state.get("ai_governance_result"),
             "automation_readiness": state.get("automation_readiness"),
@@ -621,9 +721,15 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "approval": state.get("approval"),
             "approval_route": state.get("approval_route"),
             "exception_result": state.get("exception_result"),
+            "invoice_capture_plan": state.get("invoice_capture_plan"),
             "gl_coding_result": state.get("gl_coding_result"),
+            "fraud_result": state.get("fraud_result"),
             "compliance_result": state.get("compliance_result"),
             "payment_plan": state.get("payment_plan"),
+            "payment_execution_plan": state.get("payment_execution_plan"),
+            "vendor_relationship_plan": state.get("vendor_relationship_plan"),
+            "realtime_ap_visibility": state.get("realtime_ap_visibility"),
+            "ap_agent_orchestration": state.get("ap_agent_orchestration"),
             "erp_sync_plan": state.get("erp_sync_plan"),
             "kpi_snapshot": state.get("kpi_snapshot"),
             "ai_governance_result": state.get("ai_governance_result"),

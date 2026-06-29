@@ -1,8 +1,8 @@
 # Invoice-to-Pay Agent
 
-Controls-first finance operations automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, line-level approval planning, GL coding hints, NetSuite AP readiness checks, accounting-platform profiling, multi-company controls, industry policy checks, finance-agent planning, order-to-cash work queues, accrual close planning, spend intelligence, billing/revenue controls, e-invoicing compliance planning, cloud ERP sync planning, pre-approval ledger visibility, payment holds, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
+Controls-first finance operations automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, invoice capture planning, risk scoring, exception classification, fraud controls, approval routing, line-level approval planning, GL coding hints, NetSuite AP readiness checks, accounting-platform profiling, multi-company controls, industry policy checks, AP agent orchestration, finance-agent planning, order-to-cash work queues, accrual close planning, spend intelligence, billing/revenue controls, e-invoicing compliance planning, cloud ERP sync planning, pre-approval ledger visibility, payment execution, vendor relationship actions, real-time AP visibility, payment holds, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
 
-This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of enterprise finance operations: validation, duplicate risk, PO and delivery-note matching, line-level approvals, accrual evidence, spend leakage signals, tax reporting readiness, cash-operation follow-up, NetSuite-style ledger/payment controls, and auditability before anything gets posted.
+This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of enterprise finance operations: invoice capture, validation, duplicate risk, PO and delivery-note matching, fraud controls, line-level approvals, payment execution, supplier follow-up, real-time spend visibility, accrual evidence, spend leakage signals, tax reporting readiness, cash-operation follow-up, NetSuite-style ledger/payment controls, and auditability before anything gets posted.
 
 ## Table of Contents
 
@@ -29,6 +29,7 @@ Accounts payable teams do not lose time only on extraction. They lose time on ex
 This project models the decision path finance teams actually care about:
 
 - Was the invoice captured into a typed AP contract?
+- Which intake channel captured it: email, supplier portal, EDI, physical mail, or manual upload?
 - Is there a purchase order?
 - Is there proof of delivery?
 - Does the invoice match PO and delivery evidence?
@@ -39,6 +40,8 @@ This project models the decision path finance teams actually care about:
 - Are payment-critical fields missing or suspicious?
 - Can low-risk invoices move automatically?
 - Can medium/high-risk invoices pause for a human?
+- Can payment be released only after approval, matching, fraud checks, and ERP sync are ready?
+- Can finance see cash exposure before month-end close?
 - Can an auditor inspect the run after the fact?
 
 The answer is encoded as a graph, not hidden in a prompt.
@@ -49,8 +52,10 @@ The answer is encoded as a graph, not hidden in a prompt.
 - LangGraph workflow with in-memory checkpointing and a single approval interrupt.
 - Strict Pydantic v2 schemas for invoices, purchase orders, delivery notes, parsed documents, and audit records.
 - Parser routing service designed for LiteParse-first and Docling fallback decisions.
+- Invoice capture planning across email, supplier portal, EDI/XML, physical mail/scan, and manual upload channels.
 - Deterministic business validation, duplicate detection, invoice/PO/delivery matching, and risk scoring.
 - Exception queue classification for missing support, 3-way match failures, duplicate controls, vendor master-data problems, pricing mismatches, receiving issues, and parser warnings.
+- Fraud control checks for duplicate invoices, vendor mismatches, vendor-payment master-data gaps, urgent payment signals, and payment-instruction changes.
 - Approval routing that sends clean invoices to auto-post and routes duplicate, vendor-master, pricing, receiving, matching, and GL-coding exceptions to the right reviewer role with an SLA hint.
 - Line-level approval planning by GL account, cost center, department, and location, including same-level approver groups, approver-chain visibility, editable dimensions before final approval, and reapproval triggers.
 - Excel/manual line-split readiness for large vendor invoices that cannot arrive as XML.
@@ -66,6 +71,10 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Billing and revenue plan for contract/rate-card signals, invoice-posting readiness, payment analytics, and revenue-control status.
 - E-invoicing compliance plan for structured archive readiness, tax-reporting payload needs, cross-border signals, and connector requirements.
 - Cloud ERP sync plan that builds a posting payload with document references, GL coding, payment recommendation, retention class, and single-source-of-truth metadata.
+- Payment execution plan for one-click approval handoff, release controls, payment-run readiness, target payment dates, and ERP/accounting sync targets.
+- Vendor relationship plan that drafts safe supplier-status actions for received invoices, approval status, payment status, and exception reasons while blocking unaudited bank-detail changes.
+- Real-time AP visibility snapshot for cash-flow status, exception volume, payment-run readiness, spend opportunities, and scale-without-headcount signals.
+- AP agent orchestration plan for capture, coding, matching, fraud, approval, payment, and ERP sync handoffs.
 - PO lifecycle plan for asset-purchase PO creation, PO approval, receiving evidence, inbound-shipment review, and invoice matching.
 - Ledger/archive visibility plan that keeps draft vendor bills visible before final approval while blocking vendor payment lines until approval and exception resolution.
 - AI governance output with approved tool inventory, shadow-AI policy, adoption stage, guardrails, and low-confidence review signals.
@@ -94,7 +103,7 @@ Implemented:
 - Exception queue, approval route, and GL coding outputs in graph/API/demo results.
 - Cloud ERP sync plan, payment plan, compliance controls, and KPI snapshot outputs in graph/API/demo results.
 - AI governance, automation-readiness, and AI cost outputs in graph/API/demo results.
-- Accounting-platform profile, NetSuite AP readiness, line-level approvals, PO lifecycle, ledger/archive visibility, multi-company controls, industry policy, finance-agent plan, order-to-cash, accrual close, spend intelligence, billing/revenue, and e-invoicing outputs in graph/API/demo results.
+- Accounting-platform profile, invoice capture, fraud controls, payment execution, vendor relationship, real-time AP visibility, AP agent orchestration, NetSuite AP readiness, line-level approvals, PO lifecycle, ledger/archive visibility, multi-company controls, industry policy, finance-agent plan, order-to-cash, accrual close, spend intelligence, billing/revenue, and e-invoicing outputs in graph/API/demo results.
 - Test coverage across the main service and workflow boundaries.
 
 Known limitations:
@@ -120,11 +129,13 @@ Upload invoice / PO / delivery note
   -> duplicate_check
   -> match_invoice_po_delivery
   -> classify_ap_exceptions
+  -> invoice_capture_planning
   -> suggest_gl_coding
   -> accounting_platform_profile
   -> multi_company_controls
   -> industry_policy_check
   -> risk_score
+  -> fraud_detection_check
   -> approval_routing
   -> line_approval_planning
   -> compliance_check
@@ -132,13 +143,17 @@ Upload invoice / PO / delivery note
   -> po_lifecycle_planning
   -> erp_sync_planning
   -> ledger_visibility_planning
+  -> payment_execution_planning
+  -> vendor_relationship_planning
   -> netsuite_ap_readiness_check
   -> order_to_cash_planning
   -> accrual_close_planning
   -> spend_intelligence_analysis
+  -> realtime_ap_visibility_snapshot
   -> billing_revenue_planning
   -> einvoicing_compliance_planning
   -> finance_agent_planning
+  -> ap_agent_orchestration_planning
   -> ai_governance_check
   -> automation_readiness_check
   -> ai_cost_tracking
@@ -152,10 +167,12 @@ The graph shape is the product architecture:
 
 - Nodes before `approval_gate` gather evidence and calculate risk.
 - `classify_ap_exceptions` converts raw errors and mismatches into an AP-facing work queue.
+- `invoice_capture_planning` records intake-channel coverage for email, supplier portals, EDI/XML, physical mail/scans, and manual uploads.
 - `suggest_gl_coding` proposes a GL account, cost center, and allocation when deterministic rules match.
 - `accounting_platform_profile` chooses a connector-neutral ERP/accounting contract for Exact, NetSuite, Dynamics, SAP, QuickBooks, or generic cloud ERP.
 - `multi_company_controls` records entity, intercompany, consolidation, and accountant-collaboration context.
 - `industry_policy_check` applies VAT, valuation, and dimension controls by industry.
+- `fraud_detection_check` blocks or monitors duplicate, vendor mismatch, payment master-data, urgent payment, and bank-change signals.
 - `approval_routing` decides whether the run can auto-post or should go to AP manager, vendor-master, buyer/receiving, or finance review.
 - `line_approval_planning` prepares line-level routing by GL account, cost center, department, and location, with approver-chain visibility and editable dimension policy.
 - `compliance_check` records audit-readiness and role-based-access requirements before posting.
@@ -163,13 +180,17 @@ The graph shape is the product architecture:
 - `po_lifecycle_planning` records asset-purchase PO creation, approval, receiving, inbound-shipment review, and invoice matching status.
 - `erp_sync_planning` builds a cloud-ERP posting payload and sync readiness status.
 - `ledger_visibility_planning` records draft-ledger visibility, paid-status archive sync, editable-line sync, and payment holds before final approval.
+- `payment_execution_planning` records payment-run readiness, one-click approval handoff, fraud gating, and release controls.
+- `vendor_relationship_planning` prepares safe supplier-status actions and late-payment risk signals.
 - `netsuite_ap_readiness_check` summarizes NetSuite-specific due diligence for multi-currency, non-English OCR, line approvals, PO matching, paid archive status, and sandbox payment controls.
 - `order_to_cash_planning` creates SLA-managed work queues for invoice resolution, follow-up, and cash application.
 - `accrual_close_planning` prepares month-end accrual or reversal recommendations from invoice, receipt, exception, and GL evidence.
 - `spend_intelligence_analysis` surfaces supplier-spend opportunities such as contract leakage, duplicate spend, and software consolidation.
+- `realtime_ap_visibility_snapshot` exposes cash-flow status, exception count, payment readiness, spend opportunities, and volume-scaling signals.
 - `billing_revenue_planning` records contract/rate-card signals, payment analytics, and revenue-control readiness.
 - `einvoicing_compliance_planning` identifies structured archive, tax-reporting, and country-clearance connector requirements.
 - `finance_agent_planning` describes purchase, banking, debtor-management, close, spend-intelligence, and accountant-collaboration agent boundaries.
+- `ap_agent_orchestration_planning` models supervised handoffs across capture, coding, matching, fraud, approval, payment, and ERP sync agents.
 - `ai_governance_check` records approved tools, shadow-AI posture, and guardrail status.
 - `automation_readiness_check` decides whether the run is safe for audited automation, assistive review, or human-led review.
 - `ai_cost_tracking` estimates token usage so AI automation spend can be tracked explicitly.
@@ -223,6 +244,49 @@ Current exception categories include:
 - `extraction_quality` for parser warnings that deserve review.
 
 This mirrors the practical accounts-payable pattern: auto-process clean work and send only exceptions to humans with a clear reason and next action.
+
+### Invoice Capture
+
+Capture planning records how invoices enter the AP process:
+
+```text
+capture_status: ready | review_parser_warnings
+detected_channels: email | supplier_portal | edi | physical_mail | manual_upload
+connected_channels:
+  channel
+  status
+  agent
+coverage:
+  email
+  supplier_portals
+  edi
+  physical_mail
+  manual_upload
+warnings_count: int
+```
+
+Manual upload is runnable today. Email, supplier portal, EDI/XML, and physical-mail capture are modeled as planned connector boundaries so the graph can represent end-to-end AP intake without pretending those connectors are production-ready.
+
+### Fraud Controls
+
+Fraud controls are deterministic and block payment execution when critical signals appear:
+
+```text
+fraud_status: monitored | blocked
+signal_count: int
+signals:
+  duplicate_invoice
+  vendor_mismatch
+  vendor_payment_master_gap
+  payment_instruction_change
+  high_process_risk
+controls:
+  duplicate_detection
+  vendor_match
+  payment_instruction_change_review
+```
+
+This keeps fraud review separate from generic risk scoring. Payment-instruction changes and confirmed duplicates block payment release even if the invoice otherwise appears processable.
 
 ### Approval Routing
 
@@ -549,6 +613,48 @@ cashflow_bucket: next_10_days | scheduled | blocked
 
 This gives finance a basic view of upcoming liabilities instead of only a posted/not-posted result.
 
+### Payment Execution
+
+Payment execution turns approval, fraud, ledger, and ERP state into a release decision:
+
+```text
+payment_execution_status:
+  ready_for_payment_run
+  blocked_for_fraud_review
+  blocked_until_final_approval
+  blocked_until_exception_resolved
+one_click_approval_enabled: bool
+payment_run_ready: bool
+sync_target: str
+target_payment_date: date | null
+release_controls:
+  final_approval
+  no_open_exceptions
+  fraud_controls_clear
+  erp_sync_ready
+```
+
+The current implementation does not move money. It produces a payment-run readiness contract that a bank connector, treasury workflow, or ERP payment module can consume later.
+
+### Vendor Relationship Actions
+
+Supplier communication is treated as a controlled workflow:
+
+```text
+vendor_relationship_status: healthy | monitor | at_risk
+next_vendor_action:
+  send_payment_scheduled_update
+  send_exception_status_update
+  monitor_payment_status
+late_payment_risk: bool
+supplier_reply_agent:
+  enabled
+  allowed_topics
+  blocked_topics
+```
+
+The supplier reply agent is intentionally limited to status topics such as invoice received, approval status, payment status, and exception reason. Bank-detail changes and unaudited payment commitments stay blocked.
+
 ### KPI Snapshot
 
 Each completed run emits a compact AP automation KPI snapshot:
@@ -566,6 +672,43 @@ cycle_status
 ```
 
 The first version is per-run. It is intentionally shaped to roll up later into dashboards for invoice cycle time, touchless rate, exception rate, on-time payment rate, DPO, and discount-capture analysis.
+
+### Real-Time AP Visibility
+
+The real-time visibility snapshot gives finance a current view before month-end close:
+
+```text
+visibility_status: real_time_snapshot_ready
+cash_flow_visibility: scheduled | blocked
+invoice_volume_capacity:
+  current_batch_invoice_count
+  scale_without_headcount_signal
+open_exception_count: int
+payment_run_ready: bool
+spend_opportunity_count: int
+kpi_snapshot: dict
+```
+
+This is the operational answer to cash-flow blindness: clean batches can show payment readiness immediately, while exception-heavy batches make staffing and follow-up needs explicit.
+
+### AP Agent Orchestration
+
+The AP orchestration output models supervised agent handoffs:
+
+```text
+agent_orchestration_status: running | blocked
+autonomy_level: supervised_end_to_end
+agents:
+  capture_agent
+  coding_agent
+  matching_agent
+  fraud_agent
+  approval_agent
+  payment_agent
+blocked_agents: list[str]
+```
+
+This keeps the "AP runs itself" goal grounded in observable workflow state. Agents can move clean work forward, but blocked agents and handoffs remain inspectable.
 
 ### Compliance Controls
 
@@ -861,6 +1004,10 @@ Future eval work should measure:
 - GL coding/account-distribution accuracy.
 - Accounting platform detection and connector contract completeness.
 - NetSuite AP readiness requirements for non-English OCR, multi-currency subsidiaries, line approvals, paid archive status, and native PO matching.
+- Capture-channel classification for email, portals, EDI/XML, physical mail, and manual uploads.
+- Fraud-control precision for duplicates, vendor mismatch, vendor master-data gaps, and payment-instruction changes.
+- Payment execution readiness and vendor relationship action accuracy.
+- Real-time AP visibility accuracy for cash-flow status, exceptions, payment readiness, and volume-scaling signals.
 - Line-level approval routing accuracy for GL account, cost center, location, department, and same-level approver groups.
 - Draft-ledger visibility and payment-hold correctness before final approval.
 - Entity selection, intercompany review, and accountant-collaboration accuracy.
@@ -883,7 +1030,7 @@ app/
   api/          FastAPI routes and app wiring
   graph/        LangGraph state, nodes, workflow construction
   schemas/      Strict AP contracts for invoices, POs, delivery notes, parser output, audit
-  services/     parser routing, extraction, validation, matching, exceptions, approval routing, line approvals, ledger visibility, PO lifecycle, NetSuite readiness, GL coding, accounting platforms, multi-company controls, industry policy, finance agents, order-to-cash, accrual close, spend intelligence, billing/revenue, e-invoicing, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
+  services/     parser routing, extraction, capture planning, validation, matching, exceptions, fraud controls, approval routing, line approvals, payment execution, vendor relationship, real-time AP visibility, agent orchestration, ledger visibility, PO lifecycle, NetSuite readiness, GL coding, accounting platforms, multi-company controls, industry policy, finance agents, order-to-cash, accrual close, spend intelligence, billing/revenue, e-invoicing, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
   storage/      placeholder boundary for durable storage
   evals/        evaluation package boundary
 
@@ -897,7 +1044,7 @@ samples/
   eval_manifest.jsonl
 
 tests/
-  API, graph, schema, parser, risk, matching, duplicate, audit, NetSuite AP readiness, enterprise finance-ops, and eval smoke tests
+  API, graph, schema, parser, risk, matching, duplicate, audit, Mod-style AP agents, NetSuite AP readiness, enterprise finance-ops, and eval smoke tests
 ```
 
 ## Configuration
@@ -963,6 +1110,10 @@ Product track:
 - Native NetSuite sandbox adapter for vendor bill drafts, PO updates, paid-status sync, and line-level approval history.
 - Excel import parser for large invoice line splits and configurable line-distribution templates.
 - Approval-chain UI showing previous, current, and next approvers per invoice line.
+- Email inbox, supplier portal, EDI/XML, and scanned-mail capture connectors.
+- Payment execution adapter for ERP payment batches or treasury/bank workflow handoff.
+- Supplier reply workflow with approval/payment status templates and strict bank-change escalation.
+- Real-time AP dashboard for cash-flow exposure, late-payment risk, exception load, and volume capacity.
 - Durable order-to-cash queues with customer context, portal/email action history, and SLA reporting.
 - Accrual rollforward reports and month-end close package exports.
 - Contract/rate-card ingestion for spend leakage and billing validation.
