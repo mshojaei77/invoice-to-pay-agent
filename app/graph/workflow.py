@@ -4,8 +4,11 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
 
 from app.graph.nodes import (
+    ai_cost_tracking,
+    ai_governance_check,
     approval_routing,
     approval_gate,
+    automation_readiness_check,
     classify_ap_exceptions,
     compliance_check,
     duplicate_check,
@@ -47,6 +50,9 @@ def build_graph():
     builder.add_node("compliance_check", compliance_check)
     builder.add_node("payment_planning", payment_planning)
     builder.add_node("erp_sync_planning", erp_sync_planning)
+    builder.add_node("ai_governance_check", ai_governance_check)
+    builder.add_node("automation_readiness_check", automation_readiness_check)
+    builder.add_node("ai_cost_tracking", ai_cost_tracking)
     builder.add_node("approval_gate", approval_gate)
     builder.add_node("post_to_erp_mock", post_to_erp_mock)
     builder.add_node("kpi_snapshot", kpi_snapshot)
@@ -68,7 +74,10 @@ def build_graph():
     builder.add_edge("approval_routing", "compliance_check")
     builder.add_edge("compliance_check", "payment_planning")
     builder.add_edge("payment_planning", "erp_sync_planning")
-    builder.add_edge("erp_sync_planning", "approval_gate")
+    builder.add_edge("erp_sync_planning", "ai_governance_check")
+    builder.add_edge("ai_governance_check", "automation_readiness_check")
+    builder.add_edge("automation_readiness_check", "ai_cost_tracking")
+    builder.add_edge("ai_cost_tracking", "approval_gate")
     builder.add_edge("approval_gate", "post_to_erp_mock")
     builder.add_edge("post_to_erp_mock", "kpi_snapshot")
     builder.add_edge("kpi_snapshot", "write_audit_log")

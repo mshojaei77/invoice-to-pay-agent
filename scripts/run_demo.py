@@ -246,6 +246,42 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append("- KPI snapshot was not calculated.")
     lines.append("")
 
+    lines.extend(["## AI Governance", ""])
+    governance = result.get("ai_governance_result") or {}
+    if governance:
+        lines.append(f"- Status: `{governance.get('governance_status')}`")
+        lines.append(f"- Adoption stage: `{governance.get('adoption_stage')}`")
+        lines.append(f"- Shadow AI policy: `{governance.get('shadow_ai_policy')}`")
+        lines.append(f"- Unapproved tools: `{', '.join(governance.get('unapproved_tools', [])) or 'none'}`")
+        for guardrail in governance.get("guardrails", []):
+            lines.append(f"- `{guardrail.get('control')}`: `{guardrail.get('status')}`")
+    else:
+        lines.append("- AI governance was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Automation Readiness", ""])
+    readiness = result.get("automation_readiness") or {}
+    if readiness:
+        process_profile = readiness.get("process_profile") or {}
+        lines.append(f"- Recommended autonomy: `{readiness.get('recommended_autonomy_level')}`")
+        lines.append(f"- Human oversight required: `{readiness.get('requires_human_oversight')}`")
+        lines.append(f"- Error recoverability: `{process_profile.get('error_recoverability')}`")
+        lines.append(f"- Blocked actions: `{', '.join(readiness.get('blocked_actions', [])) or 'none'}`")
+    else:
+        lines.append("- Automation readiness was not calculated.")
+    lines.append("")
+
+    lines.extend(["## AI Cost Snapshot", ""])
+    ai_cost = result.get("ai_cost_snapshot") or {}
+    if ai_cost:
+        lines.append(f"- Budget category: `{ai_cost.get('budget_category')}`")
+        lines.append(f"- Estimated input tokens: `{ai_cost.get('estimated_input_tokens')}`")
+        lines.append(f"- Estimated cost USD: `{ai_cost.get('estimated_cost_usd')}`")
+        lines.append(f"- Cost policy: `{ai_cost.get('cost_policy')}`")
+    else:
+        lines.append("- AI cost snapshot was not calculated.")
+    lines.append("")
+
     return "\n".join(lines)
 
 

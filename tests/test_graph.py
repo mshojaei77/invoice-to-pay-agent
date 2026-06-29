@@ -40,6 +40,9 @@ def test_clean_auto_post_path(graph) -> None:
     assert result["payment_plan"]["payment_status"] == "scheduled"
     assert result["erp_sync_plan"]["sync_status"] == "ready"
     assert result["kpi_snapshot"]["touchless_rate"] == 1.0
+    assert result["ai_governance_result"]["governance_status"] == "ready"
+    assert result["automation_readiness"]["recommended_autonomy_level"] == "auto_process_with_audit"
+    assert result["ai_cost_snapshot"]["budget_category"] == "ai_automation_usage"
 
 
 def test_all_nodes_executed(graph) -> None:
@@ -73,6 +76,9 @@ def test_all_nodes_executed(graph) -> None:
     assert "compliance_result" in result
     assert "payment_plan" in result
     assert "erp_sync_plan" in result
+    assert "ai_governance_result" in result
+    assert "automation_readiness" in result
+    assert "ai_cost_snapshot" in result
     assert "approval" in result
     assert "erp_result" in result
     assert "kpi_snapshot" in result

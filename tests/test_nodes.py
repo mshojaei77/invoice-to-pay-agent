@@ -3,11 +3,14 @@ from unittest.mock import patch
 from app.graph.nodes import (
     approval_routing,
     approval_gate,
+    ai_cost_tracking,
+    ai_governance_check,
     classify_ap_exceptions,
     compliance_check,
     duplicate_check,
     erp_sync_planning,
     kpi_snapshot,
+    automation_readiness_check,
     match_invoice_po_delivery,
     normalize_ap_documents,
     parse_documents_fast_with_liteparse,
@@ -284,6 +287,43 @@ class TestErpSyncPlanning:
             )
         )
         assert result["erp_sync_plan"]["sync_status"] == "ready"
+
+
+class TestAiGovernanceCheck:
+    def test_returns_ai_governance_result(self) -> None:
+        result = ai_governance_check(
+            make_state(
+                parser_route=[{"parser": "liteparse"}],
+                parsed_documents=[{"confidence": 0.9}],
+                requires_human_approval=False,
+                approval_route={"route": "auto_post"},
+            )
+        )
+        assert result["ai_governance_result"]["governance_status"] == "ready"
+
+
+class TestAutomationReadinessCheck:
+    def test_returns_automation_readiness(self) -> None:
+        result = automation_readiness_check(
+            make_state(
+                risk_level="low",
+                exception_result={"exception_count": 0},
+                compliance_result={"compliance_status": "ready"},
+                ai_governance_result={"governance_status": "ready"},
+            )
+        )
+        assert result["automation_readiness"]["recommended_autonomy_level"] == "auto_process_with_audit"
+
+
+class TestAiCostTracking:
+    def test_returns_cost_snapshot(self) -> None:
+        result = ai_cost_tracking(
+            make_state(
+                parsed_documents=[{"text": "abcd" * 20}],
+                parser_route=[{"parser": "liteparse"}],
+            )
+        )
+        assert result["ai_cost_snapshot"]["estimated_input_tokens"] == 20
 
 
 class TestApprovalGate:

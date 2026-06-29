@@ -26,6 +26,9 @@ class APGraphState(TypedDict):
     gl_coding_result: NotRequired[dict[str, Any]]
     compliance_result: NotRequired[dict[str, Any]]
     payment_plan: NotRequired[dict[str, Any]]
+    ai_governance_result: NotRequired[dict[str, Any]]
+    automation_readiness: NotRequired[dict[str, Any]]
+    ai_cost_snapshot: NotRequired[dict[str, Any]]
 
     risk_level: NotRequired[str]
     risk_score: NotRequired[float]

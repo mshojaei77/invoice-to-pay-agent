@@ -7,8 +7,11 @@ from typing import Any
 from langgraph.types import interrupt
 
 from app.graph.state import APGraphState
+from app.services.ai_costs import estimate_ai_cost_snapshot
+from app.services.ai_governance import evaluate_ai_governance
 from app.services.audit import AUDIT_PATH, write_audit_event
 from app.services.approval_routing import route_approval
+from app.services.automation_readiness import assess_automation_readiness
 from app.services.compliance import evaluate_compliance
 from app.services.erp_integration import build_erp_sync_plan
 from app.services.exceptions import classify_exceptions
@@ -269,6 +272,40 @@ def erp_sync_planning(state: APGraphState) -> dict[str, Any]:
     }
 
 
+def ai_governance_check(state: APGraphState) -> dict[str, Any]:
+    return {
+        "ai_governance_result": evaluate_ai_governance(
+            parser_route=state.get("parser_route", []),
+            parsed_documents=state.get("parsed_documents", []),
+            requires_human_approval=state.get("requires_human_approval", False),
+            approval_route=state.get("approval_route", {}),
+        )
+    }
+
+
+def automation_readiness_check(state: APGraphState) -> dict[str, Any]:
+    return {
+        "automation_readiness": assess_automation_readiness(
+            risk_level=state.get("risk_level", "low"),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exception_count": 0},
+            ),
+            compliance_result=state.get("compliance_result", {}),
+            ai_governance_result=state.get("ai_governance_result", {}),
+        )
+    }
+
+
+def ai_cost_tracking(state: APGraphState) -> dict[str, Any]:
+    return {
+        "ai_cost_snapshot": estimate_ai_cost_snapshot(
+            parsed_documents=state.get("parsed_documents", []),
+            parser_route=state.get("parser_route", []),
+        )
+    }
+
+
 def approval_gate(state: APGraphState) -> dict[str, Any]:
     if not state.get("requires_human_approval", False):
         return {
@@ -294,6 +331,9 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "compliance_result": state.get("compliance_result"),
             "payment_plan": state.get("payment_plan"),
             "erp_sync_plan": state.get("erp_sync_plan"),
+            "ai_governance_result": state.get("ai_governance_result"),
+            "automation_readiness": state.get("automation_readiness"),
+            "ai_cost_snapshot": state.get("ai_cost_snapshot"),
         },
         output_summary={
             "status": "requires_approval",
@@ -323,6 +363,9 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "compliance_result": state.get("compliance_result"),
             "payment_plan": state.get("payment_plan"),
             "erp_sync_plan": state.get("erp_sync_plan"),
+            "ai_governance_result": state.get("ai_governance_result"),
+            "automation_readiness": state.get("automation_readiness"),
+            "ai_cost_snapshot": state.get("ai_cost_snapshot"),
         }
     )
 
@@ -381,6 +424,9 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "payment_plan": state.get("payment_plan"),
             "erp_sync_plan": state.get("erp_sync_plan"),
             "kpi_snapshot": state.get("kpi_snapshot"),
+            "ai_governance_result": state.get("ai_governance_result"),
+            "automation_readiness": state.get("automation_readiness"),
+            "ai_cost_snapshot": state.get("ai_cost_snapshot"),
             "erp_result": state.get("erp_result"),
         },
         output_summary={

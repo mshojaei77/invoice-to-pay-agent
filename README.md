@@ -1,6 +1,6 @@
 # Invoice-to-Pay Agent
 
-Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, cloud ERP sync planning, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
+Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, cloud ERP sync planning, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
 
 This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of invoice operations: validation, duplicate risk, PO and delivery-note matching, approval routing, and auditability before anything gets posted.
 
@@ -51,6 +51,9 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Approval routing that sends clean invoices to auto-post and routes duplicate, vendor-master, pricing, receiving, matching, and GL-coding exceptions to the right reviewer role with an SLA hint.
 - GL coding and allocation suggestions based on vendor history and invoice text/path keywords, with finance-review fallback when coding is uncertain.
 - Cloud ERP sync plan that builds a posting payload with document references, GL coding, payment recommendation, retention class, and single-source-of-truth metadata.
+- AI governance output with approved tool inventory, shadow-AI policy, adoption stage, guardrails, and low-confidence review signals.
+- Automation readiness assessment that separates safe workflow automation from human-led review and blocks autonomous GL posting when risk is not recoverable.
+- AI cost snapshot that estimates parser text tokens and records AI automation usage as a finance budget line item.
 - Payment planning that blocks exception invoices and schedules clean invoices into cashflow buckets.
 - KPI snapshot for touchless rate, exception rate, posted count, on-time-payment candidate, approval route, and cycle status.
 - Compliance readiness checks for centralized document archive, supporting evidence, segregation of duties, audit trail, retention class, and sensitive data classes.
@@ -73,6 +76,7 @@ Implemented:
 - Audit log helper behavior.
 - Exception queue, approval route, and GL coding outputs in graph/API/demo results.
 - Cloud ERP sync plan, payment plan, compliance controls, and KPI snapshot outputs in graph/API/demo results.
+- AI governance, automation-readiness, and AI cost outputs in graph/API/demo results.
 - Test coverage across the main service and workflow boundaries.
 
 Known limitations:
@@ -103,6 +107,9 @@ Upload invoice / PO / delivery note
   -> compliance_check
   -> payment_planning
   -> erp_sync_planning
+  -> ai_governance_check
+  -> automation_readiness_check
+  -> ai_cost_tracking
   -> approval_gate
   -> post_to_erp_mock
   -> kpi_snapshot
@@ -118,6 +125,9 @@ The graph shape is the product architecture:
 - `compliance_check` records audit-readiness and role-based-access requirements before posting.
 - `payment_planning` turns approved/blocked invoice state into a cashflow recommendation.
 - `erp_sync_planning` builds a cloud-ERP posting payload and sync readiness status.
+- `ai_governance_check` records approved tools, shadow-AI posture, and guardrail status.
+- `automation_readiness_check` decides whether the run is safe for audited automation, assistive review, or human-led review.
+- `ai_cost_tracking` estimates token usage so AI automation spend can be tracked explicitly.
 - `approval_gate` is the single human interrupt for medium/high-risk runs.
 - Nodes after approval perform the controlled post/reject outcome and calculate AP KPI telemetry.
 - Every run has a `run_id` so API state, approval, ERP result, and audit records can be correlated.
@@ -268,6 +278,50 @@ requires_role_based_access: bool
 ```
 
 Current controls cover centralized document archive, supporting evidence, segregation of duties for exceptions, and exception audit trail readiness.
+
+### AI Governance And Automation Readiness
+
+The workflow treats AI adoption as an operating-control and capital-allocation problem, not only a parser choice. Each run records:
+
+```text
+ai_governance_result:
+  governance_status: ready | review | blocked
+  adoption_stage: stage_3_workflow_automation
+  approved_tool_inventory
+  unapproved_tools
+  shadow_ai_policy: shut_down_or_formally_adopt
+  guardrails
+
+automation_readiness:
+  process_profile
+  recommended_autonomy_level: auto_process_with_audit | assistive_with_human_review | human_led_review
+  requires_human_oversight: bool
+  blocked_actions
+  next_case_study_metric: minutes_saved_per_invoice
+```
+
+The current guardrails enforce these principles:
+
+- Inventory every parser or automation component used by the run.
+- Treat unapproved AI tools as blocked until formally adopted or removed.
+- Keep medium/high-risk and exception cases under human review.
+- Block autonomous general-ledger posting when recoverability is low.
+- Use document routing, matching, exception review, and pre-post controls as safer starting points than autonomous ledger writes.
+
+### AI Cost Tracking
+
+Finance leaders need cost visibility before ROI debates become useful. Each run emits a compact AI cost snapshot:
+
+```text
+budget_category: ai_automation_usage
+estimated_input_tokens: int
+estimated_cost_usd: float
+cost_model: character_estimate
+parser_calls: int
+cost_policy: track_tokens_as_finance_line_item
+```
+
+The estimate is deliberately simple and deterministic. It creates the reporting hook needed to track token spend over time without introducing a paid model dependency into the prototype.
 
 ## Quick Start
 
@@ -470,6 +524,9 @@ The suite is designed to keep the prototype honest at the contract and workflow 
 - Payment and cashflow planning.
 - Cloud ERP sync payload planning.
 - AP KPI snapshots.
+- AI governance and approved-tool inventory.
+- Automation readiness and recoverability gating.
+- AI token/cost tracking.
 - Eval manifest smoke checks.
 
 ## Evaluation Data
@@ -499,6 +556,9 @@ Future eval work should measure:
 - Compliance-control false positive and false negative rates.
 - Payment recommendation and cashflow bucket accuracy.
 - Touchless rate, exception rate, and on-time payment rollups.
+- AI governance guardrail coverage and unapproved-tool detection.
+- Automation readiness accuracy for recoverable versus non-recoverable workflows.
+- AI usage/token spend trend accuracy.
 - ERP post/reject correctness.
 - Hallucinated-field rate.
 - Parser fallback rate and latency.
@@ -510,7 +570,7 @@ app/
   api/          FastAPI routes and app wiring
   graph/        LangGraph state, nodes, workflow construction
   schemas/      Strict AP contracts for invoices, POs, delivery notes, parser output, audit
-  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
+  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
   storage/      placeholder boundary for durable storage
   evals/        evaluation package boundary
 
@@ -597,6 +657,9 @@ AI engineering track:
 - Documented parser confidence and fallback metrics.
 - KPI rollup jobs for touchless rate, exception rate, on-time payment rate, DPO, and discount capture.
 - Predictive payment timing and anomaly detection experiments.
+- AI adoption case-study reports for minutes saved per workflow.
+- Token spend trend reports and budget-threshold alerts.
+- Shadow-AI discovery import and enterprise-tool approval workflow.
 
 Enterprise track:
 
