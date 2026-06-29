@@ -1,6 +1,8 @@
 # Invoice-to-Pay Agent
 
-Open-source AP automation prototype for the messy middle of invoice processing: extraction, PO/receipt matching, duplicate checks, approval routing, fraud controls, ERP-ready posting, and audit logs.
+Open-source AP automation prototype for the messy middle of invoice processing:
+extraction, PO/receipt matching, duplicate checks, approval routing, fraud
+controls, ERP-ready posting, and audit logs.
 
 [![CI](https://github.com/mshojaei77/invoice-to-pay-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/mshojaei77/invoice-to-pay-agent/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
@@ -12,9 +14,13 @@ Open-source AP automation prototype for the messy middle of invoice processing: 
 
 This is **not another "send invoice PDF to an LLM" demo**.
 
-Most AP teams do not lose time only on OCR. They lose time on missing POs, duplicate invoices, vendor mismatches, GL coding, approval chasing, payment holds, and audit reconstruction. This project models those controls as a typed, testable, human-in-the-loop LangGraph workflow.
+Most AP teams do not lose time only on OCR.
 
-![Demo terminal run](assets/demo-terminal.gif)
+They lose time on missing POs, duplicate invoices, vendor mismatches, GL coding,
+approval chasing, payment holds, and audit reconstruction.
+
+This project models those controls as a typed, testable, human-in-the-loop
+LangGraph workflow.
 
 ```text
 invoice + PO + delivery note
