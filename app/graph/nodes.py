@@ -10,10 +10,13 @@ from app.graph.state import APGraphState
 from app.services.ai_costs import estimate_ai_cost_snapshot
 from app.services.ai_governance import evaluate_ai_governance
 from app.services.accounting_platforms import build_accounting_platform_profile
+from app.services.accruals import build_accrual_close_plan
 from app.services.audit import AUDIT_PATH, write_audit_event
 from app.services.approval_routing import route_approval
 from app.services.automation_readiness import assess_automation_readiness
+from app.services.billing_revenue import build_billing_revenue_plan
 from app.services.compliance import evaluate_compliance
+from app.services.einvoicing import build_einvoicing_compliance_plan
 from app.services.erp_integration import build_erp_sync_plan
 from app.services.exceptions import classify_exceptions
 from app.services.finance_agents import build_finance_agent_plan
@@ -21,9 +24,11 @@ from app.services.gl_coding import suggest_gl_coding
 from app.services.industry_policy import apply_industry_policy
 from app.services.kpis import build_kpi_snapshot
 from app.services.multi_company import evaluate_multi_company_controls
+from app.services.order_to_cash import build_order_to_cash_plan
 from app.services.parser import DoclingAdapter, LiteParseAdapter
 from app.services.payment_planning import plan_payment
 from app.services.risk import calculate_risk
+from app.services.spend_intelligence import build_spend_intelligence
 
 
 def save_uploads(state: APGraphState) -> dict[str, Any]:
@@ -315,6 +320,76 @@ def finance_agent_planning(state: APGraphState) -> dict[str, Any]:
             payment_plan=state.get("payment_plan", {}),
             accounting_platform_profile=state.get("accounting_platform_profile", {}),
             multi_company_result=state.get("multi_company_result", {}),
+            order_to_cash_plan=state.get("order_to_cash_plan", {}),
+            accrual_close_plan=state.get("accrual_close_plan", {}),
+            spend_intelligence=state.get("spend_intelligence", {}),
+        )
+    }
+
+
+def order_to_cash_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "order_to_cash_plan": build_order_to_cash_plan(
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "categories": []},
+            ),
+            payment_plan=state.get("payment_plan", {}),
+            erp_sync_plan=state.get("erp_sync_plan", {}),
+            accounting_platform_profile=state.get("accounting_platform_profile", {}),
+        )
+    }
+
+
+def accrual_close_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "accrual_close_plan": build_accrual_close_plan(
+            uploaded_documents=state.get("uploaded_documents", []),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exceptions": []},
+            ),
+            gl_coding_result=state.get("gl_coding_result", {}),
+            payment_plan=state.get("payment_plan", {}),
+        )
+    }
+
+
+def spend_intelligence_analysis(state: APGraphState) -> dict[str, Any]:
+    return {
+        "spend_intelligence": build_spend_intelligence(
+            uploaded_documents=state.get("uploaded_documents", []),
+            gl_coding_result=state.get("gl_coding_result", {}),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exceptions": [], "categories": []},
+            ),
+            match_result=state.get(
+                "match_result",
+                {"match_status": "matched", "mismatch_reasons": []},
+            ),
+        )
+    }
+
+
+def billing_revenue_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "billing_revenue_plan": build_billing_revenue_plan(
+            uploaded_documents=state.get("uploaded_documents", []),
+            erp_sync_plan=state.get("erp_sync_plan", {}),
+            payment_plan=state.get("payment_plan", {}),
+            compliance_result=state.get("compliance_result", {}),
+        )
+    }
+
+
+def einvoicing_compliance_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "einvoicing_compliance_plan": build_einvoicing_compliance_plan(
+            uploaded_documents=state.get("uploaded_documents", []),
+            compliance_result=state.get("compliance_result", {}),
+            accounting_platform_profile=state.get("accounting_platform_profile", {}),
+            industry_policy_result=state.get("industry_policy_result", {}),
         )
     }
 
@@ -385,6 +460,11 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "multi_company_result": state.get("multi_company_result"),
             "industry_policy_result": state.get("industry_policy_result"),
             "finance_agent_plan": state.get("finance_agent_plan"),
+            "order_to_cash_plan": state.get("order_to_cash_plan"),
+            "accrual_close_plan": state.get("accrual_close_plan"),
+            "spend_intelligence": state.get("spend_intelligence"),
+            "billing_revenue_plan": state.get("billing_revenue_plan"),
+            "einvoicing_compliance_plan": state.get("einvoicing_compliance_plan"),
         },
         output_summary={
             "status": "requires_approval",
@@ -421,6 +501,11 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "multi_company_result": state.get("multi_company_result"),
             "industry_policy_result": state.get("industry_policy_result"),
             "finance_agent_plan": state.get("finance_agent_plan"),
+            "order_to_cash_plan": state.get("order_to_cash_plan"),
+            "accrual_close_plan": state.get("accrual_close_plan"),
+            "spend_intelligence": state.get("spend_intelligence"),
+            "billing_revenue_plan": state.get("billing_revenue_plan"),
+            "einvoicing_compliance_plan": state.get("einvoicing_compliance_plan"),
         }
     )
 
@@ -486,6 +571,11 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "multi_company_result": state.get("multi_company_result"),
             "industry_policy_result": state.get("industry_policy_result"),
             "finance_agent_plan": state.get("finance_agent_plan"),
+            "order_to_cash_plan": state.get("order_to_cash_plan"),
+            "accrual_close_plan": state.get("accrual_close_plan"),
+            "spend_intelligence": state.get("spend_intelligence"),
+            "billing_revenue_plan": state.get("billing_revenue_plan"),
+            "einvoicing_compliance_plan": state.get("einvoicing_compliance_plan"),
             "erp_result": state.get("erp_result"),
         },
         output_summary={

@@ -1,8 +1,8 @@
 # Invoice-to-Pay Agent
 
-Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, accounting-platform profiling, multi-company controls, industry policy checks, finance-agent planning, cloud ERP sync planning, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
+Controls-first finance operations automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, accounting-platform profiling, multi-company controls, industry policy checks, finance-agent planning, order-to-cash work queues, accrual close planning, spend intelligence, billing/revenue controls, e-invoicing compliance planning, cloud ERP sync planning, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
 
-This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of invoice operations: validation, duplicate risk, PO and delivery-note matching, approval routing, and auditability before anything gets posted.
+This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of enterprise finance operations: validation, duplicate risk, PO and delivery-note matching, approval routing, accrual evidence, spend leakage signals, tax reporting readiness, cash-operation follow-up, and auditability before anything gets posted.
 
 ## Table of Contents
 
@@ -54,6 +54,11 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Multi-company and accountant-collaboration controls for group reporting, entity selection, intercompany review, and accountant-facing workflows.
 - Industry policy checks for manufacturing, wholesale, construction, hospitality, professional services, and generic VAT/valuation requirements.
 - Finance-agent plan for purchase, banking, debtor-management boundary, and accountant-collaboration responsibilities.
+- Order-to-cash plan for SLA-managed invoice resolution, customer/vendor follow-up, and cash-application monitoring.
+- Accrual close plan that turns invoice, receipt, GL, and exception evidence into audit-ready month-end close recommendations.
+- Spend intelligence that mines supplier invoice context for contract leakage, duplicate spend, software-spend consolidation, and off-contract review signals.
+- Billing and revenue plan for contract/rate-card signals, invoice-posting readiness, payment analytics, and revenue-control status.
+- E-invoicing compliance plan for structured archive readiness, tax-reporting payload needs, cross-border signals, and connector requirements.
 - Cloud ERP sync plan that builds a posting payload with document references, GL coding, payment recommendation, retention class, and single-source-of-truth metadata.
 - AI governance output with approved tool inventory, shadow-AI policy, adoption stage, guardrails, and low-confidence review signals.
 - Automation readiness assessment that separates safe workflow automation from human-led review and blocks autonomous GL posting when risk is not recoverable.
@@ -81,7 +86,7 @@ Implemented:
 - Exception queue, approval route, and GL coding outputs in graph/API/demo results.
 - Cloud ERP sync plan, payment plan, compliance controls, and KPI snapshot outputs in graph/API/demo results.
 - AI governance, automation-readiness, and AI cost outputs in graph/API/demo results.
-- Accounting-platform profile, multi-company controls, industry policy, and finance-agent plan outputs in graph/API/demo results.
+- Accounting-platform profile, multi-company controls, industry policy, finance-agent plan, order-to-cash, accrual close, spend intelligence, billing/revenue, and e-invoicing outputs in graph/API/demo results.
 - Test coverage across the main service and workflow boundaries.
 
 Known limitations:
@@ -115,6 +120,11 @@ Upload invoice / PO / delivery note
   -> compliance_check
   -> payment_planning
   -> erp_sync_planning
+  -> order_to_cash_planning
+  -> accrual_close_planning
+  -> spend_intelligence_analysis
+  -> billing_revenue_planning
+  -> einvoicing_compliance_planning
   -> finance_agent_planning
   -> ai_governance_check
   -> automation_readiness_check
@@ -137,7 +147,12 @@ The graph shape is the product architecture:
 - `compliance_check` records audit-readiness and role-based-access requirements before posting.
 - `payment_planning` turns approved/blocked invoice state into a cashflow recommendation.
 - `erp_sync_planning` builds a cloud-ERP posting payload and sync readiness status.
-- `finance_agent_planning` describes purchase, banking, debtor-management, and accountant-collaboration agent boundaries.
+- `order_to_cash_planning` creates SLA-managed work queues for invoice resolution, follow-up, and cash application.
+- `accrual_close_planning` prepares month-end accrual or reversal recommendations from invoice, receipt, exception, and GL evidence.
+- `spend_intelligence_analysis` surfaces supplier-spend opportunities such as contract leakage, duplicate spend, and software consolidation.
+- `billing_revenue_planning` records contract/rate-card signals, payment analytics, and revenue-control readiness.
+- `einvoicing_compliance_planning` identifies structured archive, tax-reporting, and country-clearance connector requirements.
+- `finance_agent_planning` describes purchase, banking, debtor-management, close, spend-intelligence, and accountant-collaboration agent boundaries.
 - `ai_governance_check` records approved tools, shadow-AI posture, and guardrail status.
 - `automation_readiness_check` decides whether the run is safe for audited automation, assistive review, or human-led review.
 - `ai_cost_tracking` estimates token usage so AI automation spend can be tracked explicitly.
@@ -283,10 +298,101 @@ agents:
   purchase_agent
   banking_agent
   debtor_management_agent
+  close_agent
+  spend_intelligence_agent
   accountant_collaboration_agent
 ```
 
-Purchase and banking agents can assist AP workflow automation. Debtor management is explicitly marked as an AR boundary. Accountant collaboration is enabled only when the selected platform/profile supports that workflow.
+Purchase and banking agents assist AP workflow automation. Debtor management now tracks order-to-cash service mode without taking uncontrolled cash actions. Close and spend-intelligence agents expose month-end and procurement analytics work. Accountant collaboration is enabled only when the selected platform/profile supports that workflow.
+
+### Order-to-Cash Plan
+
+The order-to-cash output models continuous operations work that keeps cash moving:
+
+```text
+o2c_status: ready
+service_mode: continuous_cash_ops | exception_follow_up | sync_readiness_review
+sla_hours: int
+target_system: str
+managed_work_items:
+  invoice_resolution
+  customer_or_vendor_follow_up
+  cash_application
+```
+
+This mirrors enterprise finance workflows where the next action is often buried in exceptions, portals, email, or customer context. The output is deterministic and inspectable, so it can later drive a real queue or reviewer UI.
+
+### Accrual Close Plan
+
+The accrual close plan turns invoice and receipt evidence into month-end close recommendations:
+
+```text
+accrual_status: ready | review_required
+close_action: str
+confidence: float
+evidence_sources: list[str]
+journal_output:
+  gl_account
+  cost_center
+  cashflow_bucket
+  supporting_documents
+audit_ready: bool
+```
+
+This targets the month-end bottleneck: missing invoices, goods-received-not-invoiced support, and journal evidence that needs to be audit-ready instead of spreadsheet-only.
+
+### Spend Intelligence
+
+Spend intelligence mines supplier invoice context and control outputs for procurement signals:
+
+```text
+spend_status: monitored | opportunities_found
+category: str
+gl_account: str | null
+opportunity_count: int
+opportunities:
+  contract_leakage
+  duplicate_spend
+  software_spend_consolidation
+```
+
+The current implementation detects leakage and consolidation signals from deterministic evidence such as pricing exceptions, duplicates, and software/SaaS vendor hints. It is intentionally conservative and designed to be expanded with contracts, vendor master data, and rate-card history.
+
+### Billing And Revenue Plan
+
+The billing/revenue plan keeps revenue-adjacent controls visible when contract or rate-card signals appear:
+
+```text
+billing_status: ready | blocked
+billing_action: str
+contract_signal_detected: bool
+revenue_controls:
+  erp_sync_ready
+  retention_class
+  payment_status
+analytics:
+  cashflow_bucket
+  target_payment_date
+```
+
+This gives the project a path beyond AP capture into contract-based billing checks, invoice readiness, and payment analytics without weakening the existing AP controls.
+
+### E-Invoicing Compliance
+
+The e-invoicing plan flags structured archive and local tax-reporting readiness:
+
+```text
+einvoicing_status: ready | review_required
+jurisdiction_signal: domestic_or_unknown | cross_border_or_tax_specific
+target_platform: str
+vat_policy: str
+requirements:
+  structured_invoice_archive
+  tax_reporting_payload
+  country_clearance_adapter
+```
+
+The plan does not pretend to implement country clearance networks. It records when a real connector or local reporting payload would be required before production use.
 
 ### Cloud ERP Sync Plan
 
@@ -657,7 +763,7 @@ app/
   api/          FastAPI routes and app wiring
   graph/        LangGraph state, nodes, workflow construction
   schemas/      Strict AP contracts for invoices, POs, delivery notes, parser output, audit
-  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, accounting platforms, multi-company controls, industry policy, finance agents, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
+  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, accounting platforms, multi-company controls, industry policy, finance agents, order-to-cash, accrual close, spend intelligence, billing/revenue, e-invoicing, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
   storage/      placeholder boundary for durable storage
   evals/        evaluation package boundary
 
@@ -671,7 +777,7 @@ samples/
   eval_manifest.jsonl
 
 tests/
-  API, graph, schema, parser, risk, matching, duplicate, audit, and eval smoke tests
+  API, graph, schema, parser, risk, matching, duplicate, audit, enterprise finance-ops, and eval smoke tests
 ```
 
 ## Configuration
@@ -734,6 +840,10 @@ Product track:
 - Cloud ERP connector adapters for SAP, NetSuite, Microsoft Dynamics, and generic REST/CSV posting.
 - Payment run and reconciliation status sync.
 - Batch analytics for duplicate trends and approval delays.
+- Durable order-to-cash queues with customer context, portal/email action history, and SLA reporting.
+- Accrual rollforward reports and month-end close package exports.
+- Contract/rate-card ingestion for spend leakage and billing validation.
+- Country-specific e-invoicing clearance adapters and tax-reporting payload validation.
 
 AI engineering track:
 

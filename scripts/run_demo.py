@@ -279,6 +279,70 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append("- Finance agent plan was not calculated.")
     lines.append("")
 
+    lines.extend(["## Order-to-Cash Plan", ""])
+    o2c = result.get("order_to_cash_plan") or {}
+    if o2c:
+        lines.append(f"- Status: `{o2c.get('o2c_status')}`")
+        lines.append(f"- Service mode: `{o2c.get('service_mode')}`")
+        lines.append(f"- SLA hours: `{o2c.get('sla_hours')}`")
+        lines.append(f"- Target system: `{o2c.get('target_system')}`")
+        for item in o2c.get("managed_work_items", []):
+            lines.append(f"- `{item.get('queue')}`: `{item.get('status')}` via `{item.get('owner_agent')}`")
+    else:
+        lines.append("- Order-to-cash planning was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Accrual Close Plan", ""])
+    accruals = result.get("accrual_close_plan") or {}
+    if accruals:
+        lines.append(f"- Status: `{accruals.get('accrual_status')}`")
+        lines.append(f"- Close action: `{accruals.get('close_action')}`")
+        lines.append(f"- Confidence: `{accruals.get('confidence')}`")
+        lines.append(f"- Audit ready: `{accruals.get('audit_ready')}`")
+        journal = accruals.get("journal_output") or {}
+        lines.append(f"- Journal GL account: `{journal.get('gl_account')}`")
+        lines.append(f"- Journal cost center: `{journal.get('cost_center')}`")
+    else:
+        lines.append("- Accrual close planning was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Spend Intelligence", ""])
+    spend = result.get("spend_intelligence") or {}
+    if spend:
+        lines.append(f"- Status: `{spend.get('spend_status')}`")
+        lines.append(f"- Category: `{spend.get('category')}`")
+        lines.append(f"- Opportunity count: `{spend.get('opportunity_count')}`")
+        for item in spend.get("opportunities", []):
+            lines.append(f"- `{item.get('type')}` ({item.get('severity')}): {item.get('recommendation')}")
+    else:
+        lines.append("- Spend intelligence was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Billing Revenue Plan", ""])
+    billing = result.get("billing_revenue_plan") or {}
+    if billing:
+        lines.append(f"- Status: `{billing.get('billing_status')}`")
+        lines.append(f"- Action: `{billing.get('billing_action')}`")
+        lines.append(f"- Contract signal: `{billing.get('contract_signal_detected')}`")
+        analytics = billing.get("analytics") or {}
+        lines.append(f"- Cashflow bucket: `{analytics.get('cashflow_bucket')}`")
+    else:
+        lines.append("- Billing revenue planning was not calculated.")
+    lines.append("")
+
+    lines.extend(["## E-Invoicing Compliance", ""])
+    einvoicing = result.get("einvoicing_compliance_plan") or {}
+    if einvoicing:
+        lines.append(f"- Status: `{einvoicing.get('einvoicing_status')}`")
+        lines.append(f"- Jurisdiction signal: `{einvoicing.get('jurisdiction_signal')}`")
+        lines.append(f"- Target platform: `{einvoicing.get('target_platform')}`")
+        lines.append(f"- VAT policy: `{einvoicing.get('vat_policy')}`")
+        for requirement in einvoicing.get("requirements", []):
+            lines.append(f"- `{requirement.get('requirement')}`: `{requirement.get('status')}`")
+    else:
+        lines.append("- E-invoicing compliance planning was not calculated.")
+    lines.append("")
+
     lines.extend(["## KPI Snapshot", ""])
     kpis = result.get("kpi_snapshot") or {}
     if kpis:

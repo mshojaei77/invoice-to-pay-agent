@@ -7,12 +7,15 @@ from app.graph.nodes import (
     ai_cost_tracking,
     ai_governance_check,
     accounting_platform_profile_node,
+    accrual_close_planning,
     approval_routing,
     approval_gate,
     automation_readiness_check,
+    billing_revenue_planning,
     classify_ap_exceptions,
     compliance_check,
     duplicate_check,
+    einvoicing_compliance_planning,
     erp_sync_planning,
     finance_agent_planning,
     industry_policy_check,
@@ -28,6 +31,8 @@ from app.graph.nodes import (
     route_to_docling_if_needed,
     save_uploads,
     suggest_gl_coding_node,
+    order_to_cash_planning,
+    spend_intelligence_analysis,
     validate_business_rules,
     validate_schema,
     write_audit_log,
@@ -58,6 +63,11 @@ def build_graph():
     builder.add_node("payment_planning", payment_planning)
     builder.add_node("erp_sync_planning", erp_sync_planning)
     builder.add_node("finance_agent_planning", finance_agent_planning)
+    builder.add_node("order_to_cash_planning", order_to_cash_planning)
+    builder.add_node("accrual_close_planning", accrual_close_planning)
+    builder.add_node("spend_intelligence_analysis", spend_intelligence_analysis)
+    builder.add_node("billing_revenue_planning", billing_revenue_planning)
+    builder.add_node("einvoicing_compliance_planning", einvoicing_compliance_planning)
     builder.add_node("ai_governance_check", ai_governance_check)
     builder.add_node("automation_readiness_check", automation_readiness_check)
     builder.add_node("ai_cost_tracking", ai_cost_tracking)
@@ -85,7 +95,12 @@ def build_graph():
     builder.add_edge("approval_routing", "compliance_check")
     builder.add_edge("compliance_check", "payment_planning")
     builder.add_edge("payment_planning", "erp_sync_planning")
-    builder.add_edge("erp_sync_planning", "finance_agent_planning")
+    builder.add_edge("erp_sync_planning", "order_to_cash_planning")
+    builder.add_edge("order_to_cash_planning", "accrual_close_planning")
+    builder.add_edge("accrual_close_planning", "spend_intelligence_analysis")
+    builder.add_edge("spend_intelligence_analysis", "billing_revenue_planning")
+    builder.add_edge("billing_revenue_planning", "einvoicing_compliance_planning")
+    builder.add_edge("einvoicing_compliance_planning", "finance_agent_planning")
     builder.add_edge("finance_agent_planning", "ai_governance_check")
     builder.add_edge("ai_governance_check", "automation_readiness_check")
     builder.add_edge("automation_readiness_check", "ai_cost_tracking")
