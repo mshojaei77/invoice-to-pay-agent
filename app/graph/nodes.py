@@ -9,9 +9,13 @@ from langgraph.types import interrupt
 from app.graph.state import APGraphState
 from app.services.audit import AUDIT_PATH, write_audit_event
 from app.services.approval_routing import route_approval
+from app.services.compliance import evaluate_compliance
+from app.services.erp_integration import build_erp_sync_plan
 from app.services.exceptions import classify_exceptions
 from app.services.gl_coding import suggest_gl_coding
+from app.services.kpis import build_kpi_snapshot
 from app.services.parser import DoclingAdapter, LiteParseAdapter
+from app.services.payment_planning import plan_payment
 from app.services.risk import calculate_risk
 
 
@@ -226,6 +230,45 @@ def approval_routing(state: APGraphState) -> dict[str, Any]:
     }
 
 
+def compliance_check(state: APGraphState) -> dict[str, Any]:
+    return {
+        "compliance_result": evaluate_compliance(
+            uploaded_documents=state.get("uploaded_documents", []),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exceptions": []},
+            ),
+            approval_route=state.get("approval_route"),
+        )
+    }
+
+
+def payment_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "payment_plan": plan_payment(
+            risk_level=state.get("risk_level", "low"),
+            approval_route=state.get("approval_route", {}),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exceptions": []},
+            ),
+            invoice=state.get("invoice"),
+        )
+    }
+
+
+def erp_sync_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "erp_sync_plan": build_erp_sync_plan(
+            run_id=state["run_id"],
+            uploaded_documents=state.get("uploaded_documents", []),
+            gl_coding_result=state.get("gl_coding_result", {}),
+            compliance_result=state.get("compliance_result", {}),
+            payment_plan=state.get("payment_plan", {}),
+        )
+    }
+
+
 def approval_gate(state: APGraphState) -> dict[str, Any]:
     if not state.get("requires_human_approval", False):
         return {
@@ -248,6 +291,9 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "exception_result": state.get("exception_result"),
             "approval_route": state.get("approval_route"),
             "gl_coding_result": state.get("gl_coding_result"),
+            "compliance_result": state.get("compliance_result"),
+            "payment_plan": state.get("payment_plan"),
+            "erp_sync_plan": state.get("erp_sync_plan"),
         },
         output_summary={
             "status": "requires_approval",
@@ -274,6 +320,9 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "exception_result": state.get("exception_result"),
             "approval_route": state.get("approval_route"),
             "gl_coding_result": state.get("gl_coding_result"),
+            "compliance_result": state.get("compliance_result"),
+            "payment_plan": state.get("payment_plan"),
+            "erp_sync_plan": state.get("erp_sync_plan"),
         }
     )
 
@@ -296,7 +345,23 @@ def post_to_erp_mock(state: APGraphState) -> dict[str, Any]:
             "status": "posted",
             "erp_post_id": f"ERP-{state['run_id']}",
             "posted_at": datetime.now(timezone.utc).isoformat(),
+            "sync_status": (state.get("erp_sync_plan") or {}).get("sync_status", "ready"),
         }
+    }
+
+
+def kpi_snapshot(state: APGraphState) -> dict[str, Any]:
+    return {
+        "kpi_snapshot": build_kpi_snapshot(
+            requires_human_approval=state.get("requires_human_approval", False),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exception_count": 0},
+            ),
+            approval_route=state.get("approval_route", {}),
+            erp_result=state.get("erp_result"),
+            payment_plan=state.get("payment_plan", {}),
+        )
     }
 
 
@@ -312,6 +377,10 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "approval_route": state.get("approval_route"),
             "exception_result": state.get("exception_result"),
             "gl_coding_result": state.get("gl_coding_result"),
+            "compliance_result": state.get("compliance_result"),
+            "payment_plan": state.get("payment_plan"),
+            "erp_sync_plan": state.get("erp_sync_plan"),
+            "kpi_snapshot": state.get("kpi_snapshot"),
             "erp_result": state.get("erp_result"),
         },
         output_summary={

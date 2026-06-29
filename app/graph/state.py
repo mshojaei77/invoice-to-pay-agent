@@ -24,12 +24,16 @@ class APGraphState(TypedDict):
     match_result: NotRequired[dict[str, Any]]
     exception_result: NotRequired[dict[str, Any]]
     gl_coding_result: NotRequired[dict[str, Any]]
+    compliance_result: NotRequired[dict[str, Any]]
+    payment_plan: NotRequired[dict[str, Any]]
 
     risk_level: NotRequired[str]
     risk_score: NotRequired[float]
     risk_reasons: NotRequired[list[str]]
     requires_human_approval: NotRequired[bool]
     approval_route: NotRequired[dict[str, Any]]
+    erp_sync_plan: NotRequired[dict[str, Any]]
+    kpi_snapshot: NotRequired[dict[str, Any]]
 
     approval: NotRequired[dict[str, Any] | None]
 

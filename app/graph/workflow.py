@@ -7,10 +7,14 @@ from app.graph.nodes import (
     approval_routing,
     approval_gate,
     classify_ap_exceptions,
+    compliance_check,
     duplicate_check,
+    erp_sync_planning,
+    kpi_snapshot,
     match_invoice_po_delivery,
     normalize_ap_documents,
     parse_documents_fast_with_liteparse,
+    payment_planning,
     post_to_erp_mock,
     reconcile_parser_outputs,
     risk_score,
@@ -40,8 +44,12 @@ def build_graph():
     builder.add_node("suggest_gl_coding", suggest_gl_coding_node)
     builder.add_node("risk_score", risk_score)
     builder.add_node("approval_routing", approval_routing)
+    builder.add_node("compliance_check", compliance_check)
+    builder.add_node("payment_planning", payment_planning)
+    builder.add_node("erp_sync_planning", erp_sync_planning)
     builder.add_node("approval_gate", approval_gate)
     builder.add_node("post_to_erp_mock", post_to_erp_mock)
+    builder.add_node("kpi_snapshot", kpi_snapshot)
     builder.add_node("write_audit_log", write_audit_log)
 
     builder.add_edge(START, "save_uploads")
@@ -57,9 +65,13 @@ def build_graph():
     builder.add_edge("classify_ap_exceptions", "suggest_gl_coding")
     builder.add_edge("suggest_gl_coding", "risk_score")
     builder.add_edge("risk_score", "approval_routing")
-    builder.add_edge("approval_routing", "approval_gate")
+    builder.add_edge("approval_routing", "compliance_check")
+    builder.add_edge("compliance_check", "payment_planning")
+    builder.add_edge("payment_planning", "erp_sync_planning")
+    builder.add_edge("erp_sync_planning", "approval_gate")
     builder.add_edge("approval_gate", "post_to_erp_mock")
-    builder.add_edge("post_to_erp_mock", "write_audit_log")
+    builder.add_edge("post_to_erp_mock", "kpi_snapshot")
+    builder.add_edge("kpi_snapshot", "write_audit_log")
     builder.add_edge("write_audit_log", END)
 
     checkpointer = InMemorySaver()

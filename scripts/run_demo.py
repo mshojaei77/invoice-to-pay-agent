@@ -201,6 +201,51 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append("- GL coding was not calculated.")
     lines.append("")
 
+    lines.extend(["## Compliance Controls", ""])
+    compliance = result.get("compliance_result") or {}
+    if compliance:
+        lines.append(f"- Status: `{compliance.get('compliance_status')}`")
+        lines.append(f"- Retention class: `{compliance.get('retention_class')}`")
+        lines.append(f"- Sensitive data: `{', '.join(compliance.get('sensitive_data_classes', []))}`")
+        for control in compliance.get("controls", []):
+            lines.append(f"- `{control.get('control')}`: `{control.get('status')}`")
+    else:
+        lines.append("- Compliance controls were not calculated.")
+    lines.append("")
+
+    lines.extend(["## Payment Plan", ""])
+    payment_plan = result.get("payment_plan") or {}
+    if payment_plan:
+        lines.append(f"- Status: `{payment_plan.get('payment_status')}`")
+        lines.append(f"- Recommendation: `{payment_plan.get('recommendation')}`")
+        lines.append(f"- Target payment date: `{payment_plan.get('target_payment_date')}`")
+        lines.append(f"- Cashflow bucket: `{payment_plan.get('cashflow_bucket')}`")
+    else:
+        lines.append("- Payment plan was not calculated.")
+    lines.append("")
+
+    lines.extend(["## ERP Sync Plan", ""])
+    erp_sync = result.get("erp_sync_plan") or {}
+    if erp_sync:
+        lines.append(f"- Target system: `{erp_sync.get('target_system')}`")
+        lines.append(f"- Sync status: `{erp_sync.get('sync_status')}`")
+        lines.append(f"- Integration mode: `{erp_sync.get('integration_mode')}`")
+        lines.append(f"- Single source of truth: `{erp_sync.get('single_source_of_truth')}`")
+    else:
+        lines.append("- ERP sync plan was not calculated.")
+    lines.append("")
+
+    lines.extend(["## KPI Snapshot", ""])
+    kpis = result.get("kpi_snapshot") or {}
+    if kpis:
+        lines.append(f"- Touchless rate: `{kpis.get('touchless_rate')}`")
+        lines.append(f"- Exception rate: `{kpis.get('exception_rate')}`")
+        lines.append(f"- On-time payment candidate: `{kpis.get('on_time_payment_candidate')}`")
+        lines.append(f"- Cycle status: `{kpis.get('cycle_status')}`")
+    else:
+        lines.append("- KPI snapshot was not calculated.")
+    lines.append("")
+
     return "\n".join(lines)
 
 

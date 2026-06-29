@@ -4,10 +4,14 @@ from app.graph.nodes import (
     approval_routing,
     approval_gate,
     classify_ap_exceptions,
+    compliance_check,
     duplicate_check,
+    erp_sync_planning,
+    kpi_snapshot,
     match_invoice_po_delivery,
     normalize_ap_documents,
     parse_documents_fast_with_liteparse,
+    payment_planning,
     post_to_erp_mock,
     reconcile_parser_outputs,
     risk_score,
@@ -242,6 +246,46 @@ class TestApprovalRouting:
         assert result["approval_route"]["route"] == "buyer_receiving_review"
 
 
+class TestComplianceCheck:
+    def test_returns_compliance_result(self) -> None:
+        result = compliance_check(
+            make_state(
+                uploaded_documents=[
+                    {"path": "invoice.pdf", "document_type": "invoice"},
+                    {"path": "po.pdf", "document_type": "purchase_order"},
+                    {"path": "delivery.pdf", "document_type": "delivery_note"},
+                ],
+                exception_result={"exceptions": []},
+                approval_route={"approver_role": "system"},
+            )
+        )
+        assert result["compliance_result"]["compliance_status"] == "ready"
+
+
+class TestPaymentPlanning:
+    def test_returns_payment_plan(self) -> None:
+        result = payment_planning(
+            make_state(
+                risk_level="low",
+                approval_route={"route": "auto_post"},
+                exception_result={"exception_status": "clear"},
+            )
+        )
+        assert result["payment_plan"]["payment_status"] == "scheduled"
+
+
+class TestErpSyncPlanning:
+    def test_returns_sync_plan(self) -> None:
+        result = erp_sync_planning(
+            make_state(
+                gl_coding_result={"gl_account": "5400-postage", "cost_center": "operations", "allocation": []},
+                compliance_result={"compliance_status": "ready", "retention_class": "financial_record"},
+                payment_plan={"recommendation": "pay_by_discount_window", "target_payment_date": "2026-07-01"},
+            )
+        )
+        assert result["erp_sync_plan"]["sync_status"] == "ready"
+
+
 class TestApprovalGate:
     def test_auto_approves_when_not_required(self) -> None:
         result = approval_gate(make_state(requires_human_approval=False))
@@ -327,3 +371,17 @@ class TestWriteAuditLog:
         write_audit_event.assert_called_once()
         assert write_audit_event.call_args.kwargs["node_name"] == "write_audit_log"
         assert result == {"audit_events": [event]}
+
+
+class TestKpiSnapshot:
+    def test_returns_kpi_snapshot(self) -> None:
+        result = kpi_snapshot(
+            make_state(
+                requires_human_approval=False,
+                exception_result={"exception_count": 0},
+                approval_route={"route": "auto_post"},
+                erp_result={"status": "posted"},
+                payment_plan={"payment_status": "scheduled", "cashflow_bucket": "next_10_days"},
+            )
+        )
+        assert result["kpi_snapshot"]["touchless_rate"] == 1.0

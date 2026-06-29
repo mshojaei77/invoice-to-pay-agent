@@ -36,6 +36,10 @@ def test_clean_auto_post_path(graph) -> None:
     assert result["erp_result"]["status"] == "posted"
     assert result["duplicate_result"]["duplicate_status"] == "clear"
     assert result["match_result"]["match_status"] == "matched"
+    assert result["approval_route"]["route"] == "auto_post"
+    assert result["payment_plan"]["payment_status"] == "scheduled"
+    assert result["erp_sync_plan"]["sync_status"] == "ready"
+    assert result["kpi_snapshot"]["touchless_rate"] == 1.0
 
 
 def test_all_nodes_executed(graph) -> None:
@@ -65,8 +69,13 @@ def test_all_nodes_executed(graph) -> None:
     assert "risk_score" in result
     assert "risk_reasons" in result
     assert "requires_human_approval" in result
+    assert "approval_route" in result
+    assert "compliance_result" in result
+    assert "payment_plan" in result
+    assert "erp_sync_plan" in result
     assert "approval" in result
     assert "erp_result" in result
+    assert "kpi_snapshot" in result
 
 
 def test_human_approval_resume() -> None:

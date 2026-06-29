@@ -1,6 +1,6 @@
 # Invoice-to-Pay Agent
 
-Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, ERP mock posting, audit logs, and pytest-backed scenarios.
+Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, cloud ERP sync planning, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
 
 This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of invoice operations: validation, duplicate risk, PO and delivery-note matching, approval routing, and auditability before anything gets posted.
 
@@ -50,6 +50,10 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Exception queue classification for missing support, 3-way match failures, duplicate controls, vendor master-data problems, pricing mismatches, receiving issues, and parser warnings.
 - Approval routing that sends clean invoices to auto-post and routes duplicate, vendor-master, pricing, receiving, matching, and GL-coding exceptions to the right reviewer role with an SLA hint.
 - GL coding and allocation suggestions based on vendor history and invoice text/path keywords, with finance-review fallback when coding is uncertain.
+- Cloud ERP sync plan that builds a posting payload with document references, GL coding, payment recommendation, retention class, and single-source-of-truth metadata.
+- Payment planning that blocks exception invoices and schedules clean invoices into cashflow buckets.
+- KPI snapshot for touchless rate, exception rate, posted count, on-time-payment candidate, approval route, and cycle status.
+- Compliance readiness checks for centralized document archive, supporting evidence, segregation of duties, audit trail, retention class, and sensitive data classes.
 - Delivery quantity and delivery vendor checks as part of richer 3-way matching.
 - ERP mock service for controlled post/reject outcomes.
 - Demo scripts for command-line invoice-to-pay scenarios.
@@ -68,6 +72,7 @@ Implemented:
 - Approval and rejection resume flow.
 - Audit log helper behavior.
 - Exception queue, approval route, and GL coding outputs in graph/API/demo results.
+- Cloud ERP sync plan, payment plan, compliance controls, and KPI snapshot outputs in graph/API/demo results.
 - Test coverage across the main service and workflow boundaries.
 
 Known limitations:
@@ -95,8 +100,12 @@ Upload invoice / PO / delivery note
   -> suggest_gl_coding
   -> risk_score
   -> approval_routing
+  -> compliance_check
+  -> payment_planning
+  -> erp_sync_planning
   -> approval_gate
   -> post_to_erp_mock
+  -> kpi_snapshot
   -> write_audit_log
 ```
 
@@ -106,8 +115,11 @@ The graph shape is the product architecture:
 - `classify_ap_exceptions` converts raw errors and mismatches into an AP-facing work queue.
 - `suggest_gl_coding` proposes a GL account, cost center, and allocation when deterministic rules match.
 - `approval_routing` decides whether the run can auto-post or should go to AP manager, vendor-master, buyer/receiving, or finance review.
+- `compliance_check` records audit-readiness and role-based-access requirements before posting.
+- `payment_planning` turns approved/blocked invoice state into a cashflow recommendation.
+- `erp_sync_planning` builds a cloud-ERP posting payload and sync readiness status.
 - `approval_gate` is the single human interrupt for medium/high-risk runs.
-- Nodes after approval perform the controlled post or reject outcome.
+- Nodes after approval perform the controlled post/reject outcome and calculate AP KPI telemetry.
 - Every run has a `run_id` so API state, approval, ERP result, and audit records can be correlated.
 
 ### Risk Model
@@ -190,6 +202,72 @@ reason: vendor_history | description_keyword | no_vendor_or_description_rule
 ```
 
 Current rules are intentionally simple and transparent. They can be replaced later by vendor history, ERP master data, or account-distribution learning without changing the graph contract.
+
+### Cloud ERP Sync Plan
+
+The workflow now prepares a cloud-ERP-oriented sync plan before posting:
+
+```text
+target_system: cloud_erp
+integration_mode: mock_posting_payload
+sync_status: ready | blocked
+single_source_of_truth: bool
+posting_payload:
+  document_refs
+  gl_account
+  cost_center
+  allocation
+  payment_recommendation
+  target_payment_date
+  retention_class
+```
+
+This keeps the AP automation layer aligned with the ERP as the financial system of record. The current implementation is a mock payload, but the contract is shaped so a real SAP, NetSuite, Microsoft Dynamics, or other cloud ERP connector can replace it without changing upstream controls.
+
+### Payment And Cashflow Planning
+
+Clean invoices receive a payment recommendation and cashflow bucket. Exception invoices are blocked from payment planning until the exception is resolved:
+
+```text
+payment_status: scheduled | blocked
+recommendation: pay_by_discount_window | pay_on_terms | hold_for_exception_resolution
+target_payment_date: date | null
+cashflow_bucket: next_10_days | scheduled | blocked
+```
+
+This gives finance a basic view of upcoming liabilities instead of only a posted/not-posted result.
+
+### KPI Snapshot
+
+Each completed run emits a compact AP automation KPI snapshot:
+
+```text
+invoice_count
+posted_count
+touchless_rate
+exception_rate
+exception_count
+approval_route
+on_time_payment_candidate
+cashflow_bucket
+cycle_status
+```
+
+The first version is per-run. It is intentionally shaped to roll up later into dashboards for invoice cycle time, touchless rate, exception rate, on-time payment rate, DPO, and discount-capture analysis.
+
+### Compliance Controls
+
+Compliance output records whether the run is ready, needs review, or is blocked:
+
+```text
+compliance_status: ready | review | blocked
+controls: list[{control, status, message}]
+retention_class: financial_record
+sensitive_data_classes: supplier, tax, payment
+requires_role_based_access: bool
+```
+
+Current controls cover centralized document archive, supporting evidence, segregation of duties for exceptions, and exception audit trail readiness.
 
 ## Quick Start
 
@@ -388,6 +466,10 @@ The suite is designed to keep the prototype honest at the contract and workflow 
 - Exception classification.
 - Approval routing.
 - GL coding suggestions and review fallback.
+- Compliance controls.
+- Payment and cashflow planning.
+- Cloud ERP sync payload planning.
+- AP KPI snapshots.
 - Eval manifest smoke checks.
 
 ## Evaluation Data
@@ -414,6 +496,9 @@ Future eval work should measure:
 - Approval routing correctness.
 - Exception classification precision and reviewer routing accuracy.
 - GL coding/account-distribution accuracy.
+- Compliance-control false positive and false negative rates.
+- Payment recommendation and cashflow bucket accuracy.
+- Touchless rate, exception rate, and on-time payment rollups.
 - ERP post/reject correctness.
 - Hallucinated-field rate.
 - Parser fallback rate and latency.
@@ -425,7 +510,7 @@ app/
   api/          FastAPI routes and app wiring
   graph/        LangGraph state, nodes, workflow construction
   schemas/      Strict AP contracts for invoices, POs, delivery notes, parser output, audit
-  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, duplicate checks, risk, ERP mock, audit
+  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
   storage/      placeholder boundary for durable storage
   evals/        evaluation package boundary
 
@@ -499,6 +584,8 @@ Product track:
 - Exception queue and reviewer assignment.
 - Approval SLA tracking and out-of-office delegation.
 - GL coding history from prior invoices and vendor defaults.
+- Cloud ERP connector adapters for SAP, NetSuite, Microsoft Dynamics, and generic REST/CSV posting.
+- Payment run and reconciliation status sync.
 - Batch analytics for duplicate trends and approval delays.
 
 AI engineering track:
@@ -508,6 +595,8 @@ AI engineering track:
 - Langfuse/OpenTelemetry tracing.
 - Scenario benchmark script for clean, missing-support, parser-challenge, and rejection flows.
 - Documented parser confidence and fallback metrics.
+- KPI rollup jobs for touchless rate, exception rate, on-time payment rate, DPO, and discount capture.
+- Predictive payment timing and anomaly detection experiments.
 
 Enterprise track:
 
@@ -516,6 +605,7 @@ Enterprise track:
 - Audit export.
 - Cloud deployment guide.
 - Data retention and PII handling notes.
+- Encryption and secrets-management guidance for financial document storage.
 
 ## Contributing
 
