@@ -1,0 +1,1440 @@
+{
+  "pages": [
+    {
+      "page": 1,
+      "width": 612.0,
+      "height": 792.0,
+      "text": "    CANADA         POSTES                    Page 1 / 2                   Invoice date (Y-M-D)  2025-06-21\n                                                                          Customer number     1234567\nSample invoice\n                                                                          Invoice number     90000001620\n                                                                          Customer ref. 1\n                                                                          Customer ref. 2\n\n                                                                          Contact us\n                   CLIENT1, CLIENT2                                       General inquiries | Tracking\n                   SAMPLE BUSINESS NM                                     1-866-607-6301\n                   ADDRESS LINE1                                          Questions about your invoice / account\n                   BARRIE ON L4M 3C2                                      1-800-267-7651\n                                                                          cmg@canadapost.ca\n                                                                          canadapost.ca/billing\n    Summary            of   charges\n    Total amount of this invoice         $ 1,673.01\n    Your payment is due by  (Y-M-D)      2025-07-06\n                                           Subtotal    GST  HST(page2)    PST/QST                     Total\n    Parcels                                   97.98                                                   97.98\n    Commercial/Smartmail Marketing           216.90                                                   216.90\n    Specialized services                   1,240.00                           1,240.00\n    Shipments                                168.13                                                   168.13\n    Adjustments                              -50.00                                                   -50.00\n\n\n\n\n\n    Total                                1,673.01                         $ 1,673.01\n\n\n\n\n\n\n    Canada Post registration nos.: HST/GST 119321495; QST 1006393299\n\n                                                                                                  Return this slip with your payment\n\n                                                                    Customer number 1234567       Amount due        $ 1,673.01\n                                                                    Invoice number  90000001620   Due date (Y-M-D)  2025-07-06\n    15 days from date of invoice. Late payment fees at 18% per annum will be charged on           Amount paid\n    any invoice paid after due date.                                                              $\n\n    CANADA POST CORPORATION                                             CLIENT1, CLIENT2\n    PAYMENT PROCESSING                                                  SAMPLE BUSINESS NM\n    2701 RIVERSIDE DR                                                   ADDRESS LINE1\n    OTTAWA ON K1A 1L7                                                   BARRIE ON L4M 3C2\n\n\n    000000072766970900000016200000167301                            001",
+      "text_items": [
+        {
+          "text": "CANADA",
+          "x": 42.239998,
+          "y": 60.48,
+          "width": 42.239998,
+          "height": 6.24,
+          "font_name": "OCR",
+          "font_size": 6.24,
+          "confidence": 0.962
+        },
+        {
+          "text": "POSTES",
+          "x": 119.52,
+          "y": 60.48,
+          "width": 36.48,
+          "height": 6.24,
+          "font_name": "OCR",
+          "font_size": 6.24,
+          "confidence": 0.914
+        },
+        {
+          "text": "Page 1 / 2",
+          "x": 378.0,
+          "y": 53.775024,
+          "width": 35.72101,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Invoice date (Y-M-D)",
+          "x": 426.6,
+          "y": 53.775024,
+          "width": 73.39496,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "2025-06-21",
+          "x": 511.20004,
+          "y": 54.18878,
+          "width": 41.943024,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Customer number",
+          "x": 426.6,
+          "y": 66.73505,
+          "width": 66.159,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1234567",
+          "x": 511.2,
+          "y": 66.75177,
+          "width": 32.05121,
+          "height": 10.221741,
+          "font_name": "CBNGZZ+MyriadPro-Bold",
+          "font_size": 8.25,
+          "confidence": 1.0
+        },
+        {
+          "text": "Sample invoice",
+          "x": -11.591911,
+          "y": 78.46832,
+          "width": 632.33594,
+          "height": 632.33594,
+          "font_name": "Arial",
+          "font_size": 24.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Invoice number",
+          "x": 427.5,
+          "y": 79.33502,
+          "width": 56.772003,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "90000001620",
+          "x": 511.20004,
+          "y": 79.74878,
+          "width": 50.36624,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Customer ref. 1",
+          "x": 426.6,
+          "y": 93.375,
+          "width": 54.503998,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Customer ref. 2",
+          "x": 426.6,
+          "y": 105.61505,
+          "width": 54.503998,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Contact us",
+          "x": 426.6,
+          "y": 127.681946,
+          "width": 51.590057,
+          "height": 13.628967,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "CLIENT1, CLIENT2",
+          "x": 107.711,
+          "y": 147.08795,
+          "width": 58.56801,
+          "height": 9.616028,
+          "font_name": "SQYHWI+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "General inquiries | Tracking",
+          "x": 426.6,
+          "y": 143.831,
+          "width": 96.48898,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "SAMPLE BUSINESS NM",
+          "x": 107.711,
+          "y": 157.12897,
+          "width": 74.784,
+          "height": 9.616028,
+          "font_name": "SQYHWI+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1-866-607-6301",
+          "x": 426.6,
+          "y": 156.88995,
+          "width": 63.639008,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "ADDRESS LINE1",
+          "x": 107.711,
+          "y": 167.16998,
+          "width": 52.36801,
+          "height": 9.616028,
+          "font_name": "SQYHWI+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Questions about your invoice / account",
+          "x": 426.6,
+          "y": 172.08191,
+          "width": 141.87595,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "BARRIE ON L4M 3C2",
+          "x": 107.711,
+          "y": 177.211,
+          "width": 66.712006,
+          "height": 9.616028,
+          "font_name": "SQYHWI+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1-800-267-7651",
+          "x": 426.6,
+          "y": 186.35596,
+          "width": 63.639008,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "cmg@canadapost.ca",
+          "x": 426.6,
+          "y": 199.31805,
+          "width": 81.90903,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "canadapost.ca/billing",
+          "x": 426.6,
+          "y": 212.638,
+          "width": 86.69699,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Summary",
+          "x": 58.32,
+          "y": 229.21704,
+          "width": 72.658,
+          "height": 21.062988,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "of",
+          "x": 134.412,
+          "y": 229.21704,
+          "width": 15.861008,
+          "height": 21.062988,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "charges",
+          "x": 153.45203,
+          "y": 229.21704,
+          "width": 59.363983,
+          "height": 21.062988,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Total amount of this invoice",
+          "x": 58.32,
+          "y": 254.05096,
+          "width": 136.43298,
+          "height": 13.629028,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "$ 1,673.01",
+          "x": 242.999,
+          "y": 254.05096,
+          "width": 50.67697,
+          "height": 13.629028,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Your payment is due by",
+          "x": 58.500996,
+          "y": 269.88098,
+          "width": 93.52748,
+          "height": 11.418976,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "(Y-M-D)",
+          "x": 154.041,
+          "y": 272.261,
+          "width": 22.350998,
+          "height": 8.414001,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "2025-07-06",
+          "x": 244.41801,
+          "y": 269.77997,
+          "width": 47.179977,
+          "height": 12.02002,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Subtotal",
+          "x": 269.49103,
+          "y": 289.85297,
+          "width": 33.630005,
+          "height": 11.850006,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "GST",
+          "x": 345.91,
+          "y": 289.85297,
+          "width": 15.649994,
+          "height": 11.850006,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "HST(page",
+          "x": 377.177,
+          "y": 289.85297,
+          "width": 34.564026,
+          "height": 11.850006,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "2)",
+          "x": 413.54776,
+          "y": 291.48923,
+          "width": 6.212219,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "PST/QST",
+          "x": 457.88004,
+          "y": 289.85297,
+          "width": 33.939972,
+          "height": 11.850006,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Total",
+          "x": 538.905,
+          "y": 289.31296,
+          "width": 22.950012,
+          "height": 12.390015,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Parcels",
+          "x": 58.320004,
+          "y": 305.85776,
+          "width": 26.210255,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "97.98",
+          "x": 285.581,
+          "y": 306.30325,
+          "width": 17.53949,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "97.98",
+          "x": 544.316,
+          "y": 306.30325,
+          "width": 17.539429,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Commercial/Smartmail Marketing",
+          "x": 58.320004,
+          "y": 318.81775,
+          "width": 124.64923,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "216.90",
+          "x": 281.55502,
+          "y": 319.26324,
+          "width": 21.56549,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "216.90",
+          "x": 540.29,
+          "y": 319.26324,
+          "width": 21.56549,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Specialized services",
+          "x": 58.320004,
+          "y": 331.77774,
+          "width": 72.781494,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1,240.00",
+          "x": 276.093,
+          "y": 332.22324,
+          "width": 27.027008,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1,240.00",
+          "x": 534.828,
+          "y": 332.22324,
+          "width": 27.027039,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Shipments",
+          "x": 58.320004,
+          "y": 344.73776,
+          "width": 39.377247,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "168.13",
+          "x": 281.55502,
+          "y": 345.18326,
+          "width": 21.56549,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "168.13",
+          "x": 540.29,
+          "y": 345.18326,
+          "width": 21.56549,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Adjustments",
+          "x": 58.320004,
+          "y": 357.69772,
+          "width": 47.041508,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "-50.00",
+          "x": 283.12204,
+          "y": 358.14322,
+          "width": 19.998016,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "-50.00",
+          "x": 541.857,
+          "y": 358.14322,
+          "width": 19.998047,
+          "height": 9.776245,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Total",
+          "x": 58.320004,
+          "y": 437.28073,
+          "width": 18.93375,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1,673.01",
+          "x": 271.358,
+          "y": 435.86075,
+          "width": 31.762482,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "$ 1,673.01",
+          "x": 523.953,
+          "y": 435.86273,
+          "width": 38.007812,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Canada Post registration nos.: HST/GST 119321495; QST 1006393299",
+          "x": 59.017,
+          "y": 525.745,
+          "width": 189.7631,
+          "height": 8.295044,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Return this slip with your payment",
+          "x": 426.6,
+          "y": 551.85,
+          "width": 82.18796,
+          "height": 7.1100464,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Customer number",
+          "x": 267.84003,
+          "y": 577.03,
+          "width": 73.50998,
+          "height": 11.849976,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1234567",
+          "x": 348.48,
+          "y": 576.008,
+          "width": 38.849976,
+          "height": 12.390015,
+          "font_name": "JLQZZF+MyriadPro-Bold",
+          "font_size": 10.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Amount due",
+          "x": 426.6,
+          "y": 577.03,
+          "width": 50.910034,
+          "height": 11.849976,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "$ 1,673.01",
+          "x": 501.11996,
+          "y": 576.49,
+          "width": 46.070038,
+          "height": 12.390015,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Invoice number",
+          "x": 267.84003,
+          "y": 590.85,
+          "width": 63.079987,
+          "height": 11.850037,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "90000001620",
+          "x": 348.48,
+          "y": 589.83203,
+          "width": 61.049988,
+          "height": 12.389954,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 10.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Due date (Y-M-D)",
+          "x": 426.6,
+          "y": 590.85,
+          "width": 69.47003,
+          "height": 11.850037,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "2025-07-06",
+          "x": 501.11996,
+          "y": 590.31396,
+          "width": 50.839996,
+          "height": 12.390015,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "15 days from date of invoice. Late payment fees at 18% per annum will be charged on",
+          "x": 69.12,
+          "y": 615.19,
+          "width": 341.72,
+          "height": 11.849976,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Amount paid",
+          "x": 426.6,
+          "y": 614.11,
+          "width": 52.900024,
+          "height": 11.849976,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "any invoice paid after due date.",
+          "x": 69.12,
+          "y": 627.19,
+          "width": 124.83997,
+          "height": 11.850037,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "$",
+          "x": 426.6,
+          "y": 625.256,
+          "width": 8.783997,
+          "height": 21.330017,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "CANADA POST CORPORATION",
+          "x": 68.4,
+          "y": 664.381,
+          "width": 101.088005,
+          "height": 9.616028,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "CLIENT1, CLIENT2",
+          "x": 348.48,
+          "y": 664.048,
+          "width": 58.567993,
+          "height": 9.616028,
+          "font_name": "DBIIII+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "PAYMENT PROCESSING",
+          "x": 68.4,
+          "y": 674.461,
+          "width": 77.663994,
+          "height": 9.616028,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "SAMPLE BUSINESS NM",
+          "x": 348.48,
+          "y": 674.089,
+          "width": 74.784,
+          "height": 9.616028,
+          "font_name": "DBIIII+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "2701 RIVERSIDE DR",
+          "x": 68.4,
+          "y": 684.541,
+          "width": 63.480003,
+          "height": 9.615967,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "ADDRESS LINE1",
+          "x": 348.48,
+          "y": 684.13,
+          "width": 52.36801,
+          "height": 9.615967,
+          "font_name": "DBIIII+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "OTTAWA ON K1A 1L7",
+          "x": 68.4,
+          "y": 694.805,
+          "width": 71.208,
+          "height": 9.616028,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "BARRIE ON L4M 3C2",
+          "x": 348.48,
+          "y": 694.171,
+          "width": 66.712006,
+          "height": 9.615967,
+          "font_name": "DBIIII+MyriadPro-Regular",
+          "font_size": 8.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "000000072766970900000016200000167301",
+          "x": 27.00003,
+          "y": 733.95,
+          "width": 259.19995,
+          "height": 10.619995,
+          "font_name": "OCRAStd",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "001",
+          "x": 293.39996,
+          "y": 733.95,
+          "width": 21.600006,
+          "height": 10.619995,
+          "font_name": "OCRAStd",
+          "font_size": 1.0,
+          "confidence": 1.0
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "width": 612.0,
+      "height": 792.0,
+      "text": "    CANADA     POSTES    Page 2 / 2     Invoice date (Y-M-D)  2025-06-21\n    POST       CANADA                   Customer number      1234567\n                                        Invoice number     90000001620\n                                        Customer ref. 1\nSample invoice\n                                        Customer ref. 2\n    HST details\n\n\n\n                                                                               Total HST\n\n    How to pay your invoice                                             Additional information\n    Use one of the following methods of payment:                        •  Invoice discrepancies must be communicated to Canada Post\n    •  preauthorized bank payment;                                         within 90 days of the invoice date, after which the invoice will\n    •  preauthorized credit card payment, with Canada Post approval;       be deemed accepted by you.\n    •  online payment under Manage My Account;                          •  Canada Post reserves the right to charge additional fees;\n    •  cheque or money order payable to Canada Post Corporation;           you can request the list of them from the Credit\n       to ensure payment is applied to your account, provide the           Management Group.\n       invoice remittance slip with your customer number on the         •  Past due invoices are subject to a late payment fee, which is\n       cheque or money order.                                              calculated at a rate of 1.5% per month (18% per year);\n                                                                           Canada Post may amend this rate at any time.\n                                                                        •  All invoices and their payments are in Canadian currency unless\n                                                                        •  otherwise specified.\n                                                                           Refer to Customer Guides for details on terms and conditions\n                                                                           *VE = Volumetric Equivalent of Actual Weight.\n                                                                           Dimensions are presented in centimetres(cm).\n\n\n\n    HAVE A GREAT SUMMER!!\n\n\n\n\n\n\n\n\n\n    Sign up to receive your invoices electronically\n    Name                                                                   Telephone number\n\n    Email\n\n    Select all that apply\n            PDF - Email notification with a link to your invoice details\n            Data - Email notification with invoice details in TXT format\n\n            No printed invoices\n            (prime or billing contact only)    Signature\n\n    Customer number 1234567\n    Company name ~~ CLIENT1, CLIENT2",
+      "text_items": [
+        {
+          "text": "CANADA",
+          "x": 42.239998,
+          "y": 40.8,
+          "width": 42.239998,
+          "height": 5.7599998,
+          "font_name": "OCR",
+          "font_size": 5.7599998,
+          "confidence": 0.965
+        },
+        {
+          "text": "POSTES",
+          "x": 119.52,
+          "y": 40.8,
+          "width": 36.48,
+          "height": 5.7599998,
+          "font_name": "OCR",
+          "font_size": 5.7599998,
+          "confidence": 0.911
+        },
+        {
+          "text": "Page 2 / 2",
+          "x": 378.0,
+          "y": 34.335022,
+          "width": 35.72101,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Invoice date (Y-M-D)",
+          "x": 426.6,
+          "y": 34.335022,
+          "width": 73.39496,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "2025-06-21",
+          "x": 511.20004,
+          "y": 34.028748,
+          "width": 41.943024,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "POST",
+          "x": 42.719997,
+          "y": 55.68,
+          "width": 24.0,
+          "height": 5.7599998,
+          "font_name": "OCR",
+          "font_size": 5.7599998,
+          "confidence": 0.952
+        },
+        {
+          "text": "CANADA",
+          "x": 119.52,
+          "y": 55.68,
+          "width": 41.76,
+          "height": 5.7599998,
+          "font_name": "OCR",
+          "font_size": 5.7599998,
+          "confidence": 0.946
+        },
+        {
+          "text": "Customer number",
+          "x": 426.6,
+          "y": 47.295044,
+          "width": 66.159,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1234567",
+          "x": 511.2,
+          "y": 46.951782,
+          "width": 32.05121,
+          "height": 10.221741,
+          "font_name": "PSRKRT+MyriadPro-Bold",
+          "font_size": 8.25,
+          "confidence": 1.0
+        },
+        {
+          "text": "Invoice number",
+          "x": 427.5,
+          "y": 59.89496,
+          "width": 56.772003,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "90000001620",
+          "x": 511.20004,
+          "y": 61.028748,
+          "width": 50.36624,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Customer ref. 1",
+          "x": 426.6,
+          "y": 73.93494,
+          "width": 54.503998,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Sample invoice",
+          "x": -11.591911,
+          "y": 78.50391,
+          "width": 632.3004,
+          "height": 632.30035,
+          "font_name": "Arial",
+          "font_size": 24.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Customer ref. 2",
+          "x": 426.6,
+          "y": 86.17505,
+          "width": 54.503998,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "HST details",
+          "x": 35.450005,
+          "y": 97.82495,
+          "width": 54.791008,
+          "height": 13.629028,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Total HST",
+          "x": 470.5,
+          "y": 159.39478,
+          "width": 35.260498,
+          "height": 10.221741,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "How to pay your invoice",
+          "x": 45.907,
+          "y": 191.406,
+          "width": 107.09001,
+          "height": 12.390015,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Additional information",
+          "x": 314.25702,
+          "y": 191.42896,
+          "width": 102.81,
+          "height": 12.390015,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Use one of the following methods of payment:",
+          "x": 45.983,
+          "y": 206.91101,
+          "width": 167.54399,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 315.846,
+          "y": 206.68799,
+          "width": 2.5379944,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Invoice discrepancies must be communicated to Canada Post",
+          "x": 324.26404,
+          "y": 206.83704,
+          "width": 221.211,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 46.415,
+          "y": 224.60498,
+          "width": 2.538002,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "preauthorized bank payment;",
+          "x": 54.695,
+          "y": 224.956,
+          "width": 111.31202,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "within 90 days of the invoice date, after which the invoice will",
+          "x": 324.26404,
+          "y": 218.88806,
+          "width": 220.3559,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 46.415,
+          "y": 236.29596,
+          "width": 2.538002,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "preauthorized credit card payment, with Canada Post approval;",
+          "x": 54.695,
+          "y": 237.00702,
+          "width": 232.09201,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "be deemed accepted by you.",
+          "x": 324.26404,
+          "y": 230.93903,
+          "width": 104.984985,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 46.415,
+          "y": 248.4729,
+          "width": 2.538002,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "online payment under Manage My Account;",
+          "x": 54.695,
+          "y": 249.05798,
+          "width": 163.77301,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 315.846,
+          "y": 241.617,
+          "width": 2.5379944,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Canada Post reserves the right to charge additional fees;",
+          "x": 324.26404,
+          "y": 242.98999,
+          "width": 200.961,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 46.415,
+          "y": 260.61395,
+          "width": 2.538002,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "cheque or money order payable to Canada Post Corporation;",
+          "x": 54.695,
+          "y": 261.109,
+          "width": 221.508,
+          "height": 10.818054,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "you can request the list of them from the Credit",
+          "x": 324.26404,
+          "y": 255.04102,
+          "width": 170.60403,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "to ensure payment is applied to your account, provide the",
+          "x": 54.695,
+          "y": 273.313,
+          "width": 208.51196,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Management Group.",
+          "x": 324.26404,
+          "y": 267.09204,
+          "width": 74.94299,
+          "height": 10.664978,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "invoice remittance slip with your customer number on the",
+          "x": 54.695,
+          "y": 285.36398,
+          "width": 209.646,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 315.846,
+          "y": 277.92297,
+          "width": 2.5379944,
+          "height": 10.818024,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Past due invoices are subject to a late payment fee, which is",
+          "x": 324.26404,
+          "y": 279.143,
+          "width": 214.01996,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "cheque or money order.",
+          "x": 54.695,
+          "y": 297.41498,
+          "width": 86.814,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "calculated at a rate of 1.5% per month (18% per year);",
+          "x": 324.26404,
+          "y": 291.19403,
+          "width": 190.89905,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Canada Post may amend this rate at any time.",
+          "x": 324.26404,
+          "y": 303.245,
+          "width": 163.70999,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 315.846,
+          "y": 313.87802,
+          "width": 2.5379944,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "All invoices and their payments are in Canadian currency unless",
+          "x": 324.26404,
+          "y": 315.296,
+          "width": 227.50195,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "•",
+          "x": 315.846,
+          "y": 335.613,
+          "width": 2.5379944,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "otherwise specified.",
+          "x": 324.26404,
+          "y": 327.347,
+          "width": 71.13599,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Refer to Customer Guides for details on terms and conditions",
+          "x": 324.26404,
+          "y": 339.39795,
+          "width": 218.77197,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "*VE = Volumetric Equivalent of Actual Weight.",
+          "x": 324.26102,
+          "y": 357.71698,
+          "width": 164.04294,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Dimensions are presented in centimetres(cm).",
+          "x": 324.26102,
+          "y": 369.76797,
+          "width": 165.22198,
+          "height": 10.665009,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "HAVE A GREAT SUMMER!!",
+          "x": 47.679,
+          "y": 420.43,
+          "width": 101.07999,
+          "height": 11.850006,
+          "font_name": "MyriadPro-Light",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Sign up to receive your invoices electronically",
+          "x": 35.788002,
+          "y": 554.336,
+          "width": 304.14,
+          "height": 18.58496,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Name",
+          "x": 35.788,
+          "y": 578.603,
+          "width": 22.274998,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Telephone number",
+          "x": 388.058,
+          "y": 578.603,
+          "width": 72.117004,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Email",
+          "x": 35.789032,
+          "y": 601.28296,
+          "width": 20.501999,
+          "height": 10.818054,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Select all that apply",
+          "x": 45.361,
+          "y": 624.946,
+          "width": 78.68701,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "PDF - Email notification with a link to your invoice details",
+          "x": 64.41801,
+          "y": 640.188,
+          "width": 212.93097,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Data - Email notification with invoice details in TXT format",
+          "x": 64.41801,
+          "y": 658.539,
+          "width": 219.24002,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "No printed invoices",
+          "x": 64.41801,
+          "y": 681.489,
+          "width": 77.88601,
+          "height": 11.151001,
+          "font_name": "MyriadPro-Bold",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "(prime or billing contact only)",
+          "x": 64.41801,
+          "y": 692.622,
+          "width": 111.01502,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Signature",
+          "x": 271.058,
+          "y": 692.716,
+          "width": 36.296967,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Customer number",
+          "x": 35.789,
+          "y": 726.642,
+          "width": 68.562,
+          "height": 10.817993,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "1234567",
+          "x": 109.56,
+          "y": 725.441,
+          "width": 34.964996,
+          "height": 11.151001,
+          "font_name": "SPHVAT+MyriadPro-Bold",
+          "font_size": 9.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Company name ~~ CLIENT1, CLIENT2",
+          "x": 35.789,
+          "y": 740.434,
+          "width": 144.853,
+          "height": 13.645996,
+          "font_name": "MyriadPro-Regular",
+          "font_size": 1.0,
+          "confidence": 1.0
+        }
+      ]
+    }
+  ]
+}

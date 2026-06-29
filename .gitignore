@@ -32,7 +32,6 @@ coverage.xml
 !.env.example
 
 # App data
-data/
 *.sqlite3
 *.db
 *.db-shm

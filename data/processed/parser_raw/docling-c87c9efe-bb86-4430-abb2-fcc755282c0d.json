@@ -1,0 +1,4218 @@
+{
+  "source": "samples\\purchase_order_001_polychemtex.pdf",
+  "document": {
+    "schema_name": "DoclingDocument",
+    "version": "1.10.0",
+    "name": "purchase_order_001_polychemtex",
+    "origin": {
+      "mimetype": "application/pdf",
+      "binary_hash": 12614528807559862037,
+      "filename": "purchase_order_001_polychemtex.pdf"
+    },
+    "furniture": {
+      "self_ref": "#/furniture",
+      "children": [],
+      "content_layer": "furniture",
+      "name": "_root_",
+      "label": "unspecified"
+    },
+    "body": {
+      "self_ref": "#/body",
+      "children": [
+        {
+          "$ref": "#/texts/0"
+        },
+        {
+          "$ref": "#/texts/1"
+        },
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/3"
+        },
+        {
+          "$ref": "#/groups/0"
+        },
+        {
+          "$ref": "#/tables/0"
+        },
+        {
+          "$ref": "#/tables/1"
+        },
+        {
+          "$ref": "#/texts/11"
+        },
+        {
+          "$ref": "#/tables/2"
+        },
+        {
+          "$ref": "#/pictures/0"
+        },
+        {
+          "$ref": "#/texts/14"
+        },
+        {
+          "$ref": "#/texts/15"
+        },
+        {
+          "$ref": "#/texts/16"
+        },
+        {
+          "$ref": "#/texts/17"
+        },
+        {
+          "$ref": "#/texts/18"
+        },
+        {
+          "$ref": "#/pictures/1"
+        }
+      ],
+      "content_layer": "body",
+      "name": "_root_",
+      "label": "unspecified"
+    },
+    "groups": [
+      {
+        "self_ref": "#/groups/0",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [
+          {
+            "$ref": "#/texts/4"
+          },
+          {
+            "$ref": "#/texts/5"
+          },
+          {
+            "$ref": "#/texts/6"
+          },
+          {
+            "$ref": "#/texts/7"
+          },
+          {
+            "$ref": "#/texts/8"
+          },
+          {
+            "$ref": "#/texts/9"
+          },
+          {
+            "$ref": "#/texts/10"
+          }
+        ],
+        "content_layer": "body",
+        "name": "group",
+        "label": "key_value_area"
+      }
+    ],
+    "texts": [
+      {
+        "self_ref": "#/texts/0",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 47.99962348,
+              "t": 767.735174,
+              "r": 128.98638075999997,
+              "b": 703.056386,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              64
+            ]
+          }
+        ],
+        "orig": "Polychemtex Inc. 1 Main Street Townsville DH9 OTB Phone 496 0123",
+        "text": "Polychemtex Inc. 1 Main Street Townsville DH9 OTB Phone 496 0123"
+      },
+      {
+        "self_ref": "#/texts/1",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "section_header",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 48.0,
+              "t": 643.4153,
+              "r": 90.15179180000001,
+              "b": 632.4353,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              6
+            ]
+          }
+        ],
+        "orig": "VENDOR",
+        "text": "VENDOR",
+        "level": 1
+      },
+      {
+        "self_ref": "#/texts/2",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 48.0,
+              "t": 576.276992,
+              "r": 123.02042111999998,
+              "b": 565.2969919999999,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              14
+            ]
+          }
+        ],
+        "orig": "Phone 496 0123",
+        "text": "Phone 496 0123"
+      },
+      {
+        "self_ref": "#/texts/3",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "section_header",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 308.88,
+              "t": 763.5053,
+              "r": 553.7463212700002,
+              "b": 731.5253,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              14
+            ]
+          }
+        ],
+        "orig": "PURCHASE ORDER",
+        "text": "PURCHASE ORDER",
+        "level": 1
+      },
+      {
+        "self_ref": "#/texts/4",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 329.34,
+              "t": 725.0153,
+              "r": 423.42128960000014,
+              "b": 714.9953,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              17
+            ]
+          }
+        ],
+        "orig": "PURCHASE ORDER NO",
+        "text": "PURCHASE ORDER NO"
+      },
+      {
+        "self_ref": "#/texts/5",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 431.87980159999995,
+              "t": 725.0153,
+              "r": 464.57302719999984,
+              "b": 714.9953,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              6
+            ]
+          }
+        ],
+        "orig": "576759",
+        "text": "576759"
+      },
+      {
+        "self_ref": "#/texts/6",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 344.81972799999994,
+              "t": 706.774892,
+              "r": 423.4092703999998,
+              "b": 696.754892,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              13
+            ]
+          }
+        ],
+        "orig": "VENDOR NUMBER",
+        "text": "VENDOR NUMBER"
+      },
+      {
+        "self_ref": "#/texts/7",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 431.87980159999995,
+              "t": 706.774892,
+              "r": 464.57302719999984,
+              "b": 696.754892,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              6
+            ]
+          }
+        ],
+        "orig": "730001",
+        "text": "730001"
+      },
+      {
+        "self_ref": "#/texts/8",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 354.17967999999996,
+              "t": 688.594604,
+              "r": 423.4122751999997,
+              "b": 678.574604,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              12
+            ]
+          }
+        ],
+        "orig": "CHANGE ORDER",
+        "text": "CHANGE ORDER"
+      },
+      {
+        "self_ref": "#/texts/9",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 369.17964159999997,
+              "t": 670.414316,
+              "r": 423.4062655999998,
+              "b": 660.394316,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              10
+            ]
+          }
+        ],
+        "orig": "PRINTED ON",
+        "text": "PRINTED ON"
+      },
+      {
+        "self_ref": "#/texts/10",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 431.87980159999995,
+              "t": 670.414316,
+              "r": 477.3544447999997,
+              "b": 660.394316,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              9
+            ]
+          }
+        ],
+        "orig": "6/14/2026",
+        "text": "6/14/2026"
+      },
+      {
+        "self_ref": "#/texts/11",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 182.93835388000002,
+              "t": 497.555402,
+              "r": 207.02540563999995,
+              "b": 486.575402,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              4
+            ]
+          }
+        ],
+        "orig": "PAID",
+        "text": "PAID"
+      },
+      {
+        "self_ref": "#/texts/12",
+        "parent": {
+          "$ref": "#/pictures/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 152.0,
+              "t": 256.0,
+              "r": 244.0,
+              "b": 250.33333333333337,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              6
+            ]
+          }
+        ],
+        "orig": "SAMPLE",
+        "text": "SAMPLE"
+      },
+      {
+        "self_ref": "#/texts/13",
+        "parent": {
+          "$ref": "#/pictures/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 105.33333333333334,
+              "t": 219.0,
+              "r": 304.0,
+              "b": 206.66666666666663,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              14
+            ]
+          }
+        ],
+        "orig": "PURCHASE ORDER",
+        "text": "PURCHASE ORDER"
+      },
+      {
+        "self_ref": "#/texts/14",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 84.72,
+              "t": 95.61530000000005,
+              "r": 149.8689664800001,
+              "b": 84.63530000000003,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              11
+            ]
+          }
+        ],
+        "orig": "APPROVED BY",
+        "text": "APPROVED BY"
+      },
+      {
+        "self_ref": "#/texts/15",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 259.62,
+              "t": 95.61530000000005,
+              "r": 290.23533864,
+              "b": 84.63530000000003,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              5
+            ]
+          }
+        ],
+        "orig": "BUYER",
+        "text": "BUYER"
+      },
+      {
+        "self_ref": "#/texts/16",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 242.94237759999996,
+              "t": 75.68796199999997,
+              "r": 309.64793599999973,
+              "b": 64.50564199999997,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              14
+            ]
+          },
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 370.74,
+              "t": 95.61530000000005,
+              "r": 411.74484160000003,
+              "b": 84.63530000000003,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              15,
+              22
+            ]
+          }
+        ],
+        "orig": "Jennifer Smith TAXABLE",
+        "text": "Jennifer Smith TAXABLE"
+      },
+      {
+        "self_ref": "#/texts/17",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 379.7649439999998,
+              "t": 75.68796199999997,
+              "r": 402.5613599999998,
+              "b": 64.50564199999997,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              3
+            ]
+          }
+        ],
+        "orig": "YES",
+        "text": "YES"
+      },
+      {
+        "self_ref": "#/texts/18",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 452.4,
+              "t": 95.61530000000005,
+              "r": 530.02273588,
+              "b": 84.63530000000003,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              13
+            ]
+          }
+        ],
+        "orig": "RESALE NUMBER",
+        "text": "RESALE NUMBER"
+      },
+      {
+        "self_ref": "#/texts/19",
+        "parent": {
+          "$ref": "#/pictures/1"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 466.0,
+              "t": 23.33333333333337,
+              "r": 505.3333333333333,
+              "b": 12.333333333333371,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              6
+            ]
+          }
+        ],
+        "orig": "055619",
+        "text": "055619"
+      },
+      {
+        "self_ref": "#/texts/20",
+        "parent": {
+          "$ref": "#/pictures/1"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 508.0,
+              "t": 23.0,
+              "r": 548.0,
+              "b": 12.333333333333371,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              6
+            ]
+          }
+        ],
+        "orig": "479860",
+        "text": "479860"
+      }
+    ],
+    "pictures": [
+      {
+        "self_ref": "#/pictures/0",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [
+          {
+            "$ref": "#/texts/12"
+          },
+          {
+            "$ref": "#/texts/13"
+          }
+        ],
+        "content_layer": "body",
+        "label": "picture",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 76.18162536621094,
+              "t": 297.422119140625,
+              "r": 327.4092102050781,
+              "b": 163.53253173828125,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "annotations": []
+      },
+      {
+        "self_ref": "#/pictures/1",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [
+          {
+            "$ref": "#/texts/19"
+          },
+          {
+            "$ref": "#/texts/20"
+          }
+        ],
+        "content_layer": "body",
+        "label": "picture",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 452.644287109375,
+              "t": 61.20916748046875,
+              "r": 553.2555541992188,
+              "b": 13.55316162109375,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "annotations": []
+      }
+    ],
+    "tables": [
+      {
+        "self_ref": "#/tables/0",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "table",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 46.82148361206055,
+              "t": 639.2387847900391,
+              "r": 444.379150390625,
+              "b": 569.0098571777344,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "data": {
+          "table_cells": [
+            {
+              "bbox": {
+                "l": 48.0,
+                "t": 212.02422,
+                "r": 123.93798127999999,
+                "b": 223.00422000000003,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Polychemtex Inc.",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 48.0,
+                "t": 225.46374000000003,
+                "r": 108.69726311999996,
+                "b": 236.44374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "1 Main Street",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 48.0,
+                "t": 238.90326000000005,
+                "r": 95.09629959999995,
+                "b": 249.88326000000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Townsville",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 48.0,
+                "t": 252.28348800000003,
+                "r": 88.23764716,
+                "b": 263.26348800000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "DH9 OTB",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 231.12,
+                "t": 202.24469999999997,
+                "r": 267.37350435999997,
+                "b": 213.22469999999998,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "SHIP TO",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 231.12,
+                "t": 215.68421999999998,
+                "r": 273.80081572000006,
+                "b": 226.66422,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "ACME Inc",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 231.12,
+                "t": 230.62470599999995,
+                "r": 281.90629632000014,
+                "b": 241.60470599999996,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "44 Shore St",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 231.12,
+                "t": 245.5651919999999,
+                "r": 268.6631373599999,
+                "b": 256.54519199999993,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "Macduff",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 231.12,
+                "t": 260.5056779999999,
+                "r": 268.1472841600001,
+                "b": 271.4856779999999,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "AB4 1TX",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 394.14,
+                "t": 202.24469999999997,
+                "r": 427.84716516000015,
+                "b": 213.22469999999998,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "BILL TO",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 394.14,
+                "t": 215.68421999999998,
+                "r": 436.8208157200001,
+                "b": 226.66422,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "ACME Inc",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 394.14,
+                "t": 230.62470599999995,
+                "r": 444.92629632000023,
+                "b": 241.60470599999996,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "44 Shore St",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 394.14,
+                "t": 245.5651919999999,
+                "r": 431.6897227199998,
+                "b": 256.54519199999993,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "Macduff",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 394.14,
+                "t": 260.4452879999999,
+                "r": 431.16728416000007,
+                "b": 271.4252879999999,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "AB4 1TX",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            }
+          ],
+          "num_rows": 5,
+          "num_cols": 3,
+          "orientation": "rot_0",
+          "grid": [
+            [
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 231.12,
+                  "t": 202.24469999999997,
+                  "r": 267.37350435999997,
+                  "b": 213.22469999999998,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "SHIP TO",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 394.14,
+                  "t": 202.24469999999997,
+                  "r": 427.84716516000015,
+                  "b": 213.22469999999998,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "BILL TO",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 48.0,
+                  "t": 212.02422,
+                  "r": 123.93798127999999,
+                  "b": 223.00422000000003,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Polychemtex Inc.",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 231.12,
+                  "t": 215.68421999999998,
+                  "r": 273.80081572000006,
+                  "b": 226.66422,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "ACME Inc",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 394.14,
+                  "t": 215.68421999999998,
+                  "r": 436.8208157200001,
+                  "b": 226.66422,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "ACME Inc",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 48.0,
+                  "t": 225.46374000000003,
+                  "r": 108.69726311999996,
+                  "b": 236.44374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "1 Main Street",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 231.12,
+                  "t": 230.62470599999995,
+                  "r": 281.90629632000014,
+                  "b": 241.60470599999996,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "44 Shore St",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 394.14,
+                  "t": 230.62470599999995,
+                  "r": 444.92629632000023,
+                  "b": 241.60470599999996,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "44 Shore St",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 48.0,
+                  "t": 238.90326000000005,
+                  "r": 95.09629959999995,
+                  "b": 249.88326000000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Townsville",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 231.12,
+                  "t": 245.5651919999999,
+                  "r": 268.6631373599999,
+                  "b": 256.54519199999993,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "Macduff",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 394.14,
+                  "t": 245.5651919999999,
+                  "r": 431.6897227199998,
+                  "b": 256.54519199999993,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "Macduff",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 48.0,
+                  "t": 252.28348800000003,
+                  "r": 88.23764716,
+                  "b": 263.26348800000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "DH9 OTB",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 231.12,
+                  "t": 260.5056779999999,
+                  "r": 268.1472841600001,
+                  "b": 271.4856779999999,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "AB4 1TX",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 394.14,
+                  "t": 260.4452879999999,
+                  "r": 431.16728416000007,
+                  "b": 271.4252879999999,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "AB4 1TX",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ]
+          ]
+        },
+        "annotations": []
+      },
+      {
+        "self_ref": "#/tables/1",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "table",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 41.148277282714844,
+              "t": 540.9268493652344,
+              "r": 552.8267211914062,
+              "b": 489.9102478027344,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "data": {
+          "table_cells": [
+            {
+              "bbox": {
+                "l": 61.38,
+                "t": 304.12469999999996,
+                "r": 93.49899583999999,
+                "b": 328.54470000000003,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "ORDER DATE",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 184.44,
+                "t": 310.8447,
+                "r": 203.09193464000003,
+                "b": 321.8247,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "FOB",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 300.96,
+                "t": 310.8447,
+                "r": 340.54130628000013,
+                "b": 321.8247,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "SHIP VIA",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 385.98,
+                "t": 310.8447,
+                "r": 417.7894839200001,
+                "b": 321.8247,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "TERMS",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 443.22,
+                "t": 310.8447,
+                "r": 487.49118016000006,
+                "b": 321.8247,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "CONFIRM",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 501.4799,
+                "t": 310.8447,
+                "r": 544.3890082000003,
+                "b": 321.8247,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "ACK. REQ",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 53.698468760000026,
+                "t": 337.724838,
+                "r": 101.27330452000004,
+                "b": 348.704838,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "6/14/2026",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 121.19840876000004,
+                "t": 331.00507799999997,
+                "r": 266.27937735999996,
+                "b": 341.985078,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "FREIGHT/CARRIAGE/INSURANCE",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 295.85861936000003,
+                "t": 337.724838,
+                "r": 345.58577028,
+                "b": 348.704838,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "STANDARD",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 373.21245304000007,
+                "t": 337.724838,
+                "r": 430.63679224000015,
+                "b": 348.704838,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "10 DAYS NET",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 458.1877433600002,
+                "t": 337.724838,
+                "r": 472.5559013200002,
+                "b": 348.704838,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "NO",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 515.7668385200002,
+                "t": 337.724838,
+                "r": 530.1349964800003,
+                "b": 348.704838,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "NO",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            }
+          ],
+          "num_rows": 2,
+          "num_cols": 6,
+          "orientation": "rot_0",
+          "grid": [
+            [
+              {
+                "bbox": {
+                  "l": 61.38,
+                  "t": 304.12469999999996,
+                  "r": 93.49899583999999,
+                  "b": 328.54470000000003,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "ORDER DATE",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 184.44,
+                  "t": 310.8447,
+                  "r": 203.09193464000003,
+                  "b": 321.8247,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "FOB",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 300.96,
+                  "t": 310.8447,
+                  "r": 340.54130628000013,
+                  "b": 321.8247,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "SHIP VIA",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 385.98,
+                  "t": 310.8447,
+                  "r": 417.7894839200001,
+                  "b": 321.8247,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "TERMS",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 443.22,
+                  "t": 310.8447,
+                  "r": 487.49118016000006,
+                  "b": 321.8247,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "CONFIRM",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 501.4799,
+                  "t": 310.8447,
+                  "r": 544.3890082000003,
+                  "b": 321.8247,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "ACK. REQ",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 53.698468760000026,
+                  "t": 337.724838,
+                  "r": 101.27330452000004,
+                  "b": 348.704838,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "6/14/2026",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 121.19840876000004,
+                  "t": 331.00507799999997,
+                  "r": 266.27937735999996,
+                  "b": 341.985078,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "FREIGHT/CARRIAGE/INSURANCE",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 295.85861936000003,
+                  "t": 337.724838,
+                  "r": 345.58577028,
+                  "b": 348.704838,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "STANDARD",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 373.21245304000007,
+                  "t": 337.724838,
+                  "r": 430.63679224000015,
+                  "b": 348.704838,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "10 DAYS NET",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 458.1877433600002,
+                  "t": 337.724838,
+                  "r": 472.5559013200002,
+                  "b": 348.704838,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "NO",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 515.7668385200002,
+                  "t": 337.724838,
+                  "r": 530.1349964800003,
+                  "b": 348.704838,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "NO",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ]
+          ]
+        },
+        "annotations": []
+      },
+      {
+        "self_ref": "#/tables/2",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "table",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 40.9155387878418,
+              "t": 473.8267517089844,
+              "r": 552.67529296875,
+              "b": 366.4422912597656,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "data": {
+          "table_cells": [
+            {
+              "bbox": {
+                "l": 48.12,
+                "t": 371.2647,
+                "r": 71.45851583999999,
+                "b": 395.6847,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "PO ITEM",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 86.4,
+                "t": 371.2647,
+                "r": 117.707899,
+                "b": 382.2447,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "ITEM #",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 170.1,
+                "t": 371.2647,
+                "r": 231.398726,
+                "b": 382.2447,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "DESCRIPTION",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 283.56,
+                "t": 371.2647,
+                "r": 343.6064100400003,
+                "b": 382.2447,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "SCHED. DATE",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 358.5,
+                "t": 371.2647,
+                "r": 388.6993634,
+                "b": 395.6847,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "SCHED . QTY",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 401.1,
+                "t": 371.2647,
+                "r": 423.93583336000006,
+                "b": 382.2447,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "UNIT",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 441.18,
+                "t": 371.2647,
+                "r": 467.29534264000006,
+                "b": 395.6847,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 6,
+              "end_col_offset_idx": 7,
+              "text": "UNIT PRICE",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 490.98,
+                "t": 371.2647,
+                "r": 539.6633713600003,
+                "b": 395.6847,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 7,
+              "end_col_offset_idx": 8,
+              "text": "EXTENDED PRICE",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 47.99847452,
+                "t": 398.14422,
+                "r": 53.56310372,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "1",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 83.09734576,
+                "t": 398.14422,
+                "r": 114.80146392,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "M0061",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 132.45791164,
+                "t": 398.14422,
+                "r": 168.06056291999988,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "Catalyst",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 289.85899124,
+                "t": 398.14422,
+                "r": 337.43382699999995,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "6/14/2026",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 368.03819004,
+                "t": 398.14422,
+                "r": 379.18391184000006,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "10",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 405.77998576000005,
+                "t": 398.14422,
+                "r": 419.19216896000006,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "Ea.",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 447.5882412800001,
+                "t": 398.14422,
+                "r": 472.6784628800002,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 6,
+              "end_col_offset_idx": 7,
+              "text": "59.99",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 510.85379480000023,
+                "t": 398.14422,
+                "r": 541.5251090000004,
+                "b": 409.12422000000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 7,
+              "end_col_offset_idx": 8,
+              "text": "599.90",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 47.997376960000054,
+                "t": 411.58374000000003,
+                "r": 53.56200616000005,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "2",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 83.10063844000005,
+                "t": 411.58374000000003,
+                "r": 114.82231756000002,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "M0062",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 132.47876528,
+                "t": 411.58374000000003,
+                "r": 156.55045120000003,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "Resin",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 289.8578936800001,
+                "t": 411.58374000000003,
+                "r": 337.44150992000004,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "6/14/2026",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 368.03709248000007,
+                "t": 411.58374000000003,
+                "r": 379.1828142800001,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "10",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 405.7788882000001,
+                "t": 411.58374000000003,
+                "r": 419.1910714000001,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "Ea.",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 447.58714372000014,
+                "t": 411.58374000000003,
+                "r": 472.67736532000026,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 6,
+              "end_col_offset_idx": 7,
+              "text": "59.99",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 510.8526972400003,
+                "t": 411.58374000000003,
+                "r": 541.5240114400004,
+                "b": 422.56374000000005,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 7,
+              "end_col_offset_idx": 8,
+              "text": "599.90",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 47.996279400000105,
+                "t": 424.963968,
+                "r": 53.560908600000104,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "3",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 83.09405308000011,
+                "t": 424.963968,
+                "r": 114.79378100000008,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "M2001",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 132.45022872000007,
+                "t": 424.963968,
+                "r": 205.5257735200002,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "Deionized water",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 289.8567961200001,
+                "t": 424.963968,
+                "r": 337.43163188000005,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "6/14/2026",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 370.85562656000013,
+                "t": 424.963968,
+                "r": 376.42025576000015,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "5",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 405.77559552000014,
+                "t": 424.963968,
+                "r": 419.18777872000015,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "Ea.",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 453.16384608000016,
+                "t": 424.963968,
+                "r": 472.67297508000024,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 6,
+              "end_col_offset_idx": 7,
+              "text": "1.99",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 522.0082970800003,
+                "t": 424.963968,
+                "r": 541.5174260800004,
+                "b": 435.94396800000004,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 7,
+              "end_col_offset_idx": 8,
+              "text": "9.95",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 47.99518184000016,
+                "t": 438.40348800000004,
+                "r": 53.559811040000156,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "4",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 83.09295552000016,
+                "t": 438.40348800000004,
+                "r": 114.79268344000013,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "M2002",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 132.44913116000012,
+                "t": 438.40348800000004,
+                "r": 226.85246188000028,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "Potassium Hydroxide",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 289.8556985600002,
+                "t": 438.40348800000004,
+                "r": 337.4305343200001,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "6/14/2026",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 370.8545290000002,
+                "t": 438.40348800000004,
+                "r": 376.4191582000002,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "1",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 405.7744979600002,
+                "t": 438.40348800000004,
+                "r": 419.1866811600002,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "Ea.",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 447.58275348000024,
+                "t": 438.40348800000004,
+                "r": 472.67297508000036,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 6,
+              "end_col_offset_idx": 7,
+              "text": "17.99",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 516.4283020400004,
+                "t": 438.40348800000004,
+                "r": 541.5185236400006,
+                "b": 449.38348800000006,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 7,
+              "end_col_offset_idx": 8,
+              "text": "17.99",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 47.99408428000021,
+                "t": 451.84300800000005,
+                "r": 53.55871348000021,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "5",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 83.09624820000022,
+                "t": 451.84300800000005,
+                "r": 114.81353708000023,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "M2004",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 132.46998480000022,
+                "t": 451.84300800000005,
+                "r": 156.33203676000022,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "EDTA",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 289.85460100000023,
+                "t": 451.84300800000005,
+                "r": 337.42943676000016,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "6/14/2026",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 368.0337998000002,
+                "t": 451.84300800000005,
+                "r": 379.17952160000027,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "10",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 405.77559552000025,
+                "t": 451.84300800000005,
+                "r": 419.18777872000027,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "Ea.",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 453.16384608000027,
+                "t": 451.84300800000005,
+                "r": 472.67297508000036,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 6,
+              "end_col_offset_idx": 7,
+              "text": "1.49",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 516.4283020400004,
+                "t": 451.84300800000005,
+                "r": 541.5185236400006,
+                "b": 462.8230080000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 7,
+              "end_col_offset_idx": 8,
+              "text": "14.90",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 47.99298672000026,
+                "t": 465.28252800000007,
+                "r": 53.55761592000026,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "6",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 83.09185796000025,
+                "t": 465.28252800000007,
+                "r": 114.79597612000026,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "M0060",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 132.45242384000025,
+                "t": 465.28252800000007,
+                "r": 169.55434208000014,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "Polymer",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 289.8535034400003,
+                "t": 465.28252800000007,
+                "r": 337.4283392000002,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "6/14/2026",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 370.8523338800003,
+                "t": 465.28252800000007,
+                "r": 376.4169630800003,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "1",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 405.7723028400003,
+                "t": 465.28252800000007,
+                "r": 419.1844860400003,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "Ea.",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 447.58055836000034,
+                "t": 465.28252800000007,
+                "r": 472.67077996000046,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 6,
+              "end_col_offset_idx": 7,
+              "text": "29.99",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 516.4261069200005,
+                "t": 465.28252800000007,
+                "r": 541.5163285200007,
+                "b": 476.2625280000001,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 7,
+              "end_col_offset_idx": 8,
+              "text": "29.99",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            }
+          ],
+          "num_rows": 7,
+          "num_cols": 8,
+          "orientation": "rot_0",
+          "grid": [
+            [
+              {
+                "bbox": {
+                  "l": 48.12,
+                  "t": 371.2647,
+                  "r": 71.45851583999999,
+                  "b": 395.6847,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "PO ITEM",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 86.4,
+                  "t": 371.2647,
+                  "r": 117.707899,
+                  "b": 382.2447,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "ITEM #",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 170.1,
+                  "t": 371.2647,
+                  "r": 231.398726,
+                  "b": 382.2447,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "DESCRIPTION",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 283.56,
+                  "t": 371.2647,
+                  "r": 343.6064100400003,
+                  "b": 382.2447,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "SCHED. DATE",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 358.5,
+                  "t": 371.2647,
+                  "r": 388.6993634,
+                  "b": 395.6847,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "SCHED . QTY",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 401.1,
+                  "t": 371.2647,
+                  "r": 423.93583336000006,
+                  "b": 382.2447,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "UNIT",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 441.18,
+                  "t": 371.2647,
+                  "r": 467.29534264000006,
+                  "b": 395.6847,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 6,
+                "end_col_offset_idx": 7,
+                "text": "UNIT PRICE",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 490.98,
+                  "t": 371.2647,
+                  "r": 539.6633713600003,
+                  "b": 395.6847,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 7,
+                "end_col_offset_idx": 8,
+                "text": "EXTENDED PRICE",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 47.99847452,
+                  "t": 398.14422,
+                  "r": 53.56310372,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "1",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 83.09734576,
+                  "t": 398.14422,
+                  "r": 114.80146392,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "M0061",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 132.45791164,
+                  "t": 398.14422,
+                  "r": 168.06056291999988,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "Catalyst",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 289.85899124,
+                  "t": 398.14422,
+                  "r": 337.43382699999995,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "6/14/2026",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 368.03819004,
+                  "t": 398.14422,
+                  "r": 379.18391184000006,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "10",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 405.77998576000005,
+                  "t": 398.14422,
+                  "r": 419.19216896000006,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "Ea.",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 447.5882412800001,
+                  "t": 398.14422,
+                  "r": 472.6784628800002,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 6,
+                "end_col_offset_idx": 7,
+                "text": "59.99",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 510.85379480000023,
+                  "t": 398.14422,
+                  "r": 541.5251090000004,
+                  "b": 409.12422000000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 7,
+                "end_col_offset_idx": 8,
+                "text": "599.90",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 47.997376960000054,
+                  "t": 411.58374000000003,
+                  "r": 53.56200616000005,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "2",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 83.10063844000005,
+                  "t": 411.58374000000003,
+                  "r": 114.82231756000002,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "M0062",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 132.47876528,
+                  "t": 411.58374000000003,
+                  "r": 156.55045120000003,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "Resin",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 289.8578936800001,
+                  "t": 411.58374000000003,
+                  "r": 337.44150992000004,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "6/14/2026",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 368.03709248000007,
+                  "t": 411.58374000000003,
+                  "r": 379.1828142800001,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "10",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 405.7788882000001,
+                  "t": 411.58374000000003,
+                  "r": 419.1910714000001,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "Ea.",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 447.58714372000014,
+                  "t": 411.58374000000003,
+                  "r": 472.67736532000026,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 6,
+                "end_col_offset_idx": 7,
+                "text": "59.99",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 510.8526972400003,
+                  "t": 411.58374000000003,
+                  "r": 541.5240114400004,
+                  "b": 422.56374000000005,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 7,
+                "end_col_offset_idx": 8,
+                "text": "599.90",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 47.996279400000105,
+                  "t": 424.963968,
+                  "r": 53.560908600000104,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "3",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 83.09405308000011,
+                  "t": 424.963968,
+                  "r": 114.79378100000008,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "M2001",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 132.45022872000007,
+                  "t": 424.963968,
+                  "r": 205.5257735200002,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "Deionized water",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 289.8567961200001,
+                  "t": 424.963968,
+                  "r": 337.43163188000005,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "6/14/2026",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 370.85562656000013,
+                  "t": 424.963968,
+                  "r": 376.42025576000015,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "5",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 405.77559552000014,
+                  "t": 424.963968,
+                  "r": 419.18777872000015,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "Ea.",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 453.16384608000016,
+                  "t": 424.963968,
+                  "r": 472.67297508000024,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 6,
+                "end_col_offset_idx": 7,
+                "text": "1.99",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 522.0082970800003,
+                  "t": 424.963968,
+                  "r": 541.5174260800004,
+                  "b": 435.94396800000004,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 7,
+                "end_col_offset_idx": 8,
+                "text": "9.95",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 47.99518184000016,
+                  "t": 438.40348800000004,
+                  "r": 53.559811040000156,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "4",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 83.09295552000016,
+                  "t": 438.40348800000004,
+                  "r": 114.79268344000013,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "M2002",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 132.44913116000012,
+                  "t": 438.40348800000004,
+                  "r": 226.85246188000028,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "Potassium Hydroxide",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 289.8556985600002,
+                  "t": 438.40348800000004,
+                  "r": 337.4305343200001,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "6/14/2026",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 370.8545290000002,
+                  "t": 438.40348800000004,
+                  "r": 376.4191582000002,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "1",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 405.7744979600002,
+                  "t": 438.40348800000004,
+                  "r": 419.1866811600002,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "Ea.",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 447.58275348000024,
+                  "t": 438.40348800000004,
+                  "r": 472.67297508000036,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 6,
+                "end_col_offset_idx": 7,
+                "text": "17.99",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 516.4283020400004,
+                  "t": 438.40348800000004,
+                  "r": 541.5185236400006,
+                  "b": 449.38348800000006,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 7,
+                "end_col_offset_idx": 8,
+                "text": "17.99",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 47.99408428000021,
+                  "t": 451.84300800000005,
+                  "r": 53.55871348000021,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "5",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 83.09624820000022,
+                  "t": 451.84300800000005,
+                  "r": 114.81353708000023,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "M2004",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 132.46998480000022,
+                  "t": 451.84300800000005,
+                  "r": 156.33203676000022,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "EDTA",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 289.85460100000023,
+                  "t": 451.84300800000005,
+                  "r": 337.42943676000016,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "6/14/2026",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 368.0337998000002,
+                  "t": 451.84300800000005,
+                  "r": 379.17952160000027,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "10",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 405.77559552000025,
+                  "t": 451.84300800000005,
+                  "r": 419.18777872000027,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "Ea.",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 453.16384608000027,
+                  "t": 451.84300800000005,
+                  "r": 472.67297508000036,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 6,
+                "end_col_offset_idx": 7,
+                "text": "1.49",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 516.4283020400004,
+                  "t": 451.84300800000005,
+                  "r": 541.5185236400006,
+                  "b": 462.8230080000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 7,
+                "end_col_offset_idx": 8,
+                "text": "14.90",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 47.99298672000026,
+                  "t": 465.28252800000007,
+                  "r": 53.55761592000026,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "6",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 83.09185796000025,
+                  "t": 465.28252800000007,
+                  "r": 114.79597612000026,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "M0060",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 132.45242384000025,
+                  "t": 465.28252800000007,
+                  "r": 169.55434208000014,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "Polymer",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 289.8535034400003,
+                  "t": 465.28252800000007,
+                  "r": 337.4283392000002,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "6/14/2026",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 370.8523338800003,
+                  "t": 465.28252800000007,
+                  "r": 376.4169630800003,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "1",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 405.7723028400003,
+                  "t": 465.28252800000007,
+                  "r": 419.1844860400003,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "Ea.",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 447.58055836000034,
+                  "t": 465.28252800000007,
+                  "r": 472.67077996000046,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 6,
+                "end_col_offset_idx": 7,
+                "text": "29.99",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 516.4261069200005,
+                  "t": 465.28252800000007,
+                  "r": 541.5163285200007,
+                  "b": 476.2625280000001,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 7,
+                "end_col_offset_idx": 8,
+                "text": "29.99",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ]
+          ]
+        },
+        "annotations": []
+      }
+    ],
+    "key_value_items": [],
+    "form_items": [],
+    "pages": {
+      "1": {
+        "size": {
+          "width": 595.219970703125,
+          "height": 842.0
+        },
+        "page_no": 1
+      }
+    }
+  },
+  "markdown": "Polychemtex Inc. 1 Main Street Townsville DH9 OTB Phone 496 0123\n\n## VENDOR\n\nPhone 496 0123\n\n## PURCHASE ORDER\n\nPURCHASE ORDER NO\n\n576759\n\nVENDOR NUMBER\n\n730001\n\nCHANGE ORDER\n\nPRINTED ON\n\n6/14/2026\n\n|                  | SHIP TO     | BILL TO     |\n|------------------|-------------|-------------|\n| Polychemtex Inc. | ACME Inc    | ACME Inc    |\n| 1 Main Street    | 44 Shore St | 44 Shore St |\n| Townsville       | Macduff     | Macduff     |\n| DH9 OTB          | AB4 1TX     | AB4 1TX     |\n\n| ORDER DATE   | FOB                        | SHIP VIA   | TERMS       | CONFIRM   | ACK. REQ   |\n|--------------|----------------------------|------------|-------------|-----------|------------|\n| 6/14/2026    | FREIGHT/CARRIAGE/INSURANCE | STANDARD   | 10 DAYS NET | NO        | NO         |\n\nPAID\n\n|   PO ITEM | ITEM #   | DESCRIPTION         | SCHED. DATE   |   SCHED . QTY | UNIT   |   UNIT PRICE |   EXTENDED PRICE |\n|-----------|----------|---------------------|---------------|---------------|--------|--------------|------------------|\n|         1 | M0061    | Catalyst            | 6/14/2026     |            10 | Ea.    |        59.99 |           599.90 |\n|         2 | M0062    | Resin               | 6/14/2026     |            10 | Ea.    |        59.99 |           599.90 |\n|         3 | M2001    | Deionized water     | 6/14/2026     |             5 | Ea.    |         1.99 |             9.95 |\n|         4 | M2002    | Potassium Hydroxide | 6/14/2026     |             1 | Ea.    |        17.99 |            17.99 |\n|         5 | M2004    | EDTA                | 6/14/2026     |            10 | Ea.    |         1.49 |            14.90 |\n|         6 | M0060    | Polymer             | 6/14/2026     |             1 | Ea.    |        29.99 |            29.99 |\n\n<!-- image -->\n\nAPPROVED BY\n\nBUYER\n\nJennifer Smith TAXABLE\n\nYES\n\nRESALE NUMBER\n\n<!-- image -->"
+}

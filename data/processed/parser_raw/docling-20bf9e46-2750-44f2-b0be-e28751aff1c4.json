@@ -1,0 +1,2327 @@
+{
+  "source": "samples\\invoice_001_canada_post_sample.pdf",
+  "document": {
+    "schema_name": "DoclingDocument",
+    "version": "1.10.0",
+    "name": "invoice_001_canada_post_sample",
+    "origin": {
+      "mimetype": "application/pdf",
+      "binary_hash": 8425551936932679104,
+      "filename": "invoice_001_canada_post_sample.pdf"
+    },
+    "furniture": {
+      "self_ref": "#/furniture",
+      "children": [],
+      "content_layer": "furniture",
+      "name": "_root_",
+      "label": "unspecified"
+    },
+    "body": {
+      "self_ref": "#/body",
+      "children": [
+        {
+          "$ref": "#/pictures/0"
+        },
+        {
+          "$ref": "#/groups/0"
+        },
+        {
+          "$ref": "#/texts/11"
+        },
+        {
+          "$ref": "#/groups/1"
+        },
+        {
+          "$ref": "#/tables/0"
+        },
+        {
+          "$ref": "#/pictures/1"
+        },
+        {
+          "$ref": "#/pictures/2"
+        },
+        {
+          "$ref": "#/texts/12"
+        },
+        {
+          "$ref": "#/groups/2"
+        },
+        {
+          "$ref": "#/texts/13"
+        },
+        {
+          "$ref": "#/pictures/3"
+        },
+        {
+          "$ref": "#/texts/14"
+        },
+        {
+          "$ref": "#/groups/3"
+        },
+        {
+          "$ref": "#/groups/4"
+        },
+        {
+          "$ref": "#/texts/15"
+        },
+        {
+          "$ref": "#/groups/5"
+        },
+        {
+          "$ref": "#/groups/6"
+        },
+        {
+          "$ref": "#/texts/22"
+        }
+      ],
+      "content_layer": "body",
+      "name": "_root_",
+      "label": "unspecified"
+    },
+    "groups": [
+      {
+        "self_ref": "#/groups/0",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [
+          {
+            "$ref": "#/texts/4"
+          },
+          {
+            "$ref": "#/texts/5"
+          },
+          {
+            "$ref": "#/texts/6"
+          },
+          {
+            "$ref": "#/texts/7"
+          },
+          {
+            "$ref": "#/texts/8"
+          },
+          {
+            "$ref": "#/texts/9"
+          },
+          {
+            "$ref": "#/texts/10"
+          }
+        ],
+        "content_layer": "body",
+        "name": "group",
+        "label": "key_value_area"
+      },
+      {
+        "self_ref": "#/groups/1",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "name": "group",
+        "label": "key_value_area"
+      },
+      {
+        "self_ref": "#/groups/2",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "name": "group",
+        "label": "key_value_area"
+      },
+      {
+        "self_ref": "#/groups/3",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "name": "group",
+        "label": "form_area"
+      },
+      {
+        "self_ref": "#/groups/4",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "name": "group",
+        "label": "form_area"
+      },
+      {
+        "self_ref": "#/groups/5",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [
+          {
+            "$ref": "#/texts/16"
+          },
+          {
+            "$ref": "#/texts/17"
+          },
+          {
+            "$ref": "#/texts/18"
+          },
+          {
+            "$ref": "#/texts/19"
+          }
+        ],
+        "content_layer": "body",
+        "name": "group",
+        "label": "key_value_area"
+      },
+      {
+        "self_ref": "#/groups/6",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [
+          {
+            "$ref": "#/texts/20"
+          },
+          {
+            "$ref": "#/texts/21"
+          }
+        ],
+        "content_layer": "body",
+        "name": "group",
+        "label": "key_value_area"
+      }
+    ],
+    "texts": [
+      {
+        "self_ref": "#/texts/0",
+        "parent": {
+          "$ref": "#/pictures/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 41.0,
+              "t": 732.6666666666666,
+              "r": 85.66666666666666,
+              "b": 724.3333333333334,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              11
+            ]
+          }
+        ],
+        "orig": "C A N A D A",
+        "text": "C A N A D A"
+      },
+      {
+        "self_ref": "#/texts/1",
+        "parent": {
+          "$ref": "#/pictures/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 117.66666666666667,
+              "t": 733.0,
+              "r": 157.66666666666666,
+              "b": 724.3333333333334,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              10
+            ]
+          }
+        ],
+        "orig": "PO S T E S",
+        "text": "PO S T E S"
+      },
+      {
+        "self_ref": "#/texts/2",
+        "parent": {
+          "$ref": "#/pictures/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 41.0,
+              "t": 717.6666666666666,
+              "r": 68.0,
+              "b": 709.3333333333334,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              7
+            ]
+          }
+        ],
+        "orig": "P O S T",
+        "text": "P O S T"
+      },
+      {
+        "self_ref": "#/texts/3",
+        "parent": {
+          "$ref": "#/pictures/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 118.0,
+              "t": 717.3333333333334,
+              "r": 162.66666666666666,
+              "b": 709.3333333333334,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              11
+            ]
+          }
+        ],
+        "orig": "C A N A D A",
+        "text": "C A N A D A"
+      },
+      {
+        "self_ref": "#/texts/4",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 378.0,
+              "t": 735.876,
+              "r": 413.721,
+              "b": 728.1880748663101,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              10
+            ]
+          }
+        ],
+        "orig": "Page 1 / 2",
+        "text": "Page 1 / 2"
+      },
+      {
+        "self_ref": "#/texts/5",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 426.6,
+              "t": 735.876,
+              "r": 499.99500000000006,
+              "b": 728.1880748663101,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              20
+            ]
+          }
+        ],
+        "orig": "Invoice date (Y-M-D)",
+        "text": "Invoice date (Y-M-D)"
+      },
+      {
+        "self_ref": "#/texts/6",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 426.6,
+              "t": 722.9159999999999,
+              "r": 492.759,
+              "b": 715.2280748663101,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              15
+            ]
+          }
+        ],
+        "orig": "Customer number",
+        "text": "Customer number"
+      },
+      {
+        "self_ref": "#/texts/7",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 427.5,
+              "t": 710.3159999999999,
+              "r": 484.272,
+              "b": 702.62807486631,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              14
+            ]
+          }
+        ],
+        "orig": "Invoice number",
+        "text": "Invoice number"
+      },
+      {
+        "self_ref": "#/texts/8",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 426.6,
+              "t": 696.276,
+              "r": 481.104,
+              "b": 688.5880748663101,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              15
+            ]
+          }
+        ],
+        "orig": "Customer ref. 1",
+        "text": "Customer ref. 1"
+      },
+      {
+        "self_ref": "#/texts/9",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 426.6,
+              "t": 684.036,
+              "r": 481.104,
+              "b": 676.3480748663101,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              15
+            ]
+          }
+        ],
+        "orig": "Customer ref. 2",
+        "text": "Customer ref. 2"
+      },
+      {
+        "self_ref": "#/texts/10",
+        "parent": {
+          "$ref": "#/groups/0"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 511.2,
+              "t": 735.2125000000001,
+              "r": 561.5662500000001,
+              "b": 702.6864135490395,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              30
+            ]
+          }
+        ],
+        "orig": "90000001620 2025-06-21 1234567",
+        "text": "90000001620 2025-06-21 1234567"
+      },
+      {
+        "self_ref": "#/texts/11",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "section_header",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 426.6,
+              "t": 660.853,
+              "r": 478.19,
+              "b": 651.5648847320525,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              10
+            ]
+          }
+        ],
+        "orig": "Contact us",
+        "text": "Contact us",
+        "level": 1
+      },
+      {
+        "self_ref": "#/texts/12",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 13.560363683500015,
+              "t": 645.82,
+              "r": 569.7213928534001,
+              "b": 88.16303361344535,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              772
+            ]
+          }
+        ],
+        "orig": "General inquiries | Tracking 1-866-607-6301 Questions about your invoice / account 1-800-267-7651 cmg@canadapost.ca canadapost.ca/billing Summary of charges Total amount of this invoice $ 1,673.01 CLIENT1, CLIENT2 SAMPLE BUSINESS NM ADDRESS LINE1 BARRIE ON L4M 3C2 Canada Post registration nos.: HST/GST 119321495; QST 1006393299 Return this slip with your payment Customer number Invoice number 1234567 90000001620 15 days from date of invoice. Late payment fees at 18% per annum will be charged on any invoice paid after due date. $ 2025-07-06 $ 1,673.01 Amount due Due date (Y-M-D) Total 1,673.01 Amount paid CLIENT1, CLIENT2 SAMPLE BUSINESS NM ADDRESS LINE1 BARRIE ON L4M 3C2 OTTAWA ON K1A 1L7 2701 RIVERSIDE DR PAYMENT PROCESSING CANADA POST CORPORATION Sample invoic",
+        "text": "General inquiries | Tracking 1-866-607-6301 Questions about your invoice / account 1-800-267-7651 cmg@canadapost.ca canadapost.ca/billing Summary of charges Total amount of this invoice $ 1,673.01 CLIENT1, CLIENT2 SAMPLE BUSINESS NM ADDRESS LINE1 BARRIE ON L4M 3C2 Canada Post registration nos.: HST/GST 119321495; QST 1006393299 Return this slip with your payment Customer number Invoice number 1234567 90000001620 15 days from date of invoice. Late payment fees at 18% per annum will be charged on any invoice paid after due date. $ 2025-07-06 $ 1,673.01 Amount due Due date (Y-M-D) Total 1,673.01 Amount paid CLIENT1, CLIENT2 SAMPLE BUSINESS NM ADDRESS LINE1 BARRIE ON L4M 3C2 OTTAWA ON K1A 1L7 2701 RIVERSIDE DR PAYMENT PROCESSING CANADA POST CORPORATION Sample invoic"
+      },
+      {
+        "self_ref": "#/texts/13",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "furniture",
+        "label": "page_footer",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 27.0,
+              "t": 57.60000000000002,
+              "r": 314.9999999999998,
+              "b": 47.560680437424026,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              40
+            ]
+          }
+        ],
+        "orig": "000000072766970900000016200000167301 001",
+        "text": "000000072766970900000016200000167301 001"
+      },
+      {
+        "self_ref": "#/texts/14",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "section_header",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 35.45,
+              "t": 690.71,
+              "r": 90.241,
+              "b": 681.4218847320526,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              11
+            ]
+          }
+        ],
+        "orig": "HST details",
+        "text": "HST details",
+        "level": 1
+      },
+      {
+        "self_ref": "#/texts/15",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 13.560363683500015,
+              "t": 645.1812558829,
+              "r": 569.6858122105001,
+              "b": 89.05580735590001,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              1437
+            ]
+          }
+        ],
+        "orig": "Total HST How to pay your invoice Use one of the following methods of payment: preauthorized bank payment; preauthorized credit card payment, with Canada Post approval; online payment under Manage My Account; cheque or money order payable to Canada Post Corporation; to ensure payment is applied to your account, provide the invoice remittance slip with your customer number on the cheque or money order. \u00b7 \u00b7 \u00b7 \u00b7 Additional information Invoice discrepancies must be communicated to Canada Post within 90 days of the invoice date, after which the invoice will be deemed accepted by you. Canada Post reserves the right to charge additional fees; you can request the list of them from the Credit Management Group. Past due invoices are subject to a late payment fee, which is calculated at a rate of 1.5% per month (18% per year); Canada Post may amend this rate at any time. All invoices and their payments are in Canadian currency unless otherwise specified. Refer to Customer Guides for details on terms and conditions \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 *VE = Volumetric Equivalent of Actual Weight. Dimensions are presented in centimetres(cm). HAVE A GREAT SUMMER!! Sign up to receive your invoices electronically Name Telephone number Email Select all that apply Signature No printed invoices (prime or billing contact only) PDF - Email notification with a link to your invoice details Data - Email notification with invoice details in TXT format Sample invoic",
+        "text": "Total HST How to pay your invoice Use one of the following methods of payment: preauthorized bank payment; preauthorized credit card payment, with Canada Post approval; online payment under Manage My Account; cheque or money order payable to Canada Post Corporation; to ensure payment is applied to your account, provide the invoice remittance slip with your customer number on the cheque or money order. \u00b7 \u00b7 \u00b7 \u00b7 Additional information Invoice discrepancies must be communicated to Canada Post within 90 days of the invoice date, after which the invoice will be deemed accepted by you. Canada Post reserves the right to charge additional fees; you can request the list of them from the Credit Management Group. Past due invoices are subject to a late payment fee, which is calculated at a rate of 1.5% per month (18% per year); Canada Post may amend this rate at any time. All invoices and their payments are in Canadian currency unless otherwise specified. Refer to Customer Guides for details on terms and conditions \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 *VE = Volumetric Equivalent of Actual Weight. Dimensions are presented in centimetres(cm). HAVE A GREAT SUMMER!! Sign up to receive your invoices electronically Name Telephone number Email Select all that apply Signature No printed invoices (prime or billing contact only) PDF - Email notification with a link to your invoice details Data - Email notification with invoice details in TXT format Sample invoic"
+      },
+      {
+        "self_ref": "#/texts/16",
+        "parent": {
+          "$ref": "#/groups/5"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 35.789,
+              "t": 62.855999999999995,
+              "r": 104.351,
+              "b": 55.19703781512601,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              15
+            ]
+          }
+        ],
+        "orig": "Customer number",
+        "text": "Customer number"
+      },
+      {
+        "self_ref": "#/texts/17",
+        "parent": {
+          "$ref": "#/groups/5"
+        },
+        "children": [],
+        "content_layer": "furniture",
+        "label": "page_footer",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 35.789,
+              "t": 47.861999999999966,
+              "r": 95.40500000000002,
+              "b": 40.203037815126095,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              12
+            ]
+          }
+        ],
+        "orig": "Company name",
+        "text": "Company name"
+      },
+      {
+        "self_ref": "#/texts/18",
+        "parent": {
+          "$ref": "#/groups/5"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 109.56,
+              "t": 63.724000000000046,
+              "r": 144.525,
+              "b": 56.12463296258852,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              10
+            ]
+          }
+        ],
+        "orig": "12 3 45 67",
+        "text": "12 3 45 67"
+      },
+      {
+        "self_ref": "#/texts/19",
+        "parent": {
+          "$ref": "#/groups/5"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 109.56,
+              "t": 48.730999999999995,
+              "r": 180.642,
+              "b": 41.13163296258847,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              16
+            ]
+          }
+        ],
+        "orig": "CLIENT1, CLIENT2",
+        "text": "CLIENT1, CLIENT2"
+      },
+      {
+        "self_ref": "#/texts/20",
+        "parent": {
+          "$ref": "#/groups/6"
+        },
+        "children": [],
+        "content_layer": "furniture",
+        "label": "page_header",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 378.0,
+              "t": 755.316,
+              "r": 413.721,
+              "b": 747.6280748663102,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              10
+            ]
+          }
+        ],
+        "orig": "Page 2 / 2",
+        "text": "Page 2 / 2"
+      },
+      {
+        "self_ref": "#/texts/21",
+        "parent": {
+          "$ref": "#/groups/6"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "text",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 426.6,
+              "t": 755.316,
+              "r": 499.99500000000006,
+              "b": 695.7880748663101,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              83
+            ]
+          }
+        ],
+        "orig": "Invoice date (Y-M-D) Customer number Invoice number Customer ref. 1 Customer ref. 2",
+        "text": "Invoice date (Y-M-D) Customer number Invoice number Customer ref. 1 Customer ref. 2"
+      },
+      {
+        "self_ref": "#/texts/22",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "section_header",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 511.2,
+              "t": 755.3725000000001,
+              "r": 561.5662500000001,
+              "b": 721.4064135490395,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              30
+            ]
+          }
+        ],
+        "orig": "1234567 90000001620 2025-06-21",
+        "text": "1234567 90000001620 2025-06-21",
+        "level": 1
+      }
+    ],
+    "pictures": [
+      {
+        "self_ref": "#/pictures/0",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [
+          {
+            "$ref": "#/texts/0"
+          },
+          {
+            "$ref": "#/texts/1"
+          },
+          {
+            "$ref": "#/texts/2"
+          },
+          {
+            "$ref": "#/texts/3"
+          }
+        ],
+        "content_layer": "body",
+        "label": "picture",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 35.21504211425781,
+              "t": 737.6008567810059,
+              "r": 168.21780395507812,
+              "b": 704.524169921875,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "annotations": []
+      },
+      {
+        "self_ref": "#/pictures/1",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "picture",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 57.383445739746094,
+              "t": 329.0021667480469,
+              "r": 131.91775512695312,
+              "b": 275.39593505859375,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "annotations": []
+      },
+      {
+        "self_ref": "#/pictures/2",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "picture",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 57.7616081237793,
+              "t": 226.884033203125,
+              "r": 147.89337158203125,
+              "b": 204.6865234375,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "annotations": []
+      },
+      {
+        "self_ref": "#/pictures/3",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "picture",
+        "prov": [
+          {
+            "page_no": 2,
+            "bbox": {
+              "l": 34.92178726196289,
+              "t": 757.6001281738281,
+              "r": 168.19664001464844,
+              "b": 725.0331420898438,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "annotations": []
+      }
+    ],
+    "tables": [
+      {
+        "self_ref": "#/tables/0",
+        "parent": {
+          "$ref": "#/body"
+        },
+        "children": [],
+        "content_layer": "body",
+        "label": "table",
+        "prov": [
+          {
+            "page_no": 1,
+            "bbox": {
+              "l": 57.0931510925293,
+              "t": 529.8371276855469,
+              "r": 577.1604614257812,
+              "b": 343.1859436035156,
+              "coord_origin": "BOTTOMLEFT"
+            },
+            "charspan": [
+              0,
+              0
+            ]
+          }
+        ],
+        "captions": [],
+        "references": [],
+        "footnotes": [],
+        "data": {
+          "table_cells": [
+            {
+              "bbox": {
+                "l": 58.501,
+                "t": 272.52199999999993,
+                "r": 176.39200000000002,
+                "b": 280.6064600840336,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Your payment is due by (Y-M-D)",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 244.418,
+                "t": 272.55999999999995,
+                "r": 291.59799999999996,
+                "b": 281.0699579831932,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 0,
+              "end_row_offset_idx": 1,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "2025-07-06",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 269.491,
+                "t": 292.46299999999997,
+                "r": 303.1209999999999,
+                "b": 301.00513903743314,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "Subtotal",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 345.91,
+                "t": 292.46299999999997,
+                "r": 361.44,
+                "b": 301.00513903743314,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 2,
+              "end_col_offset_idx": 3,
+              "text": "GST",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 377.177,
+                "t": 292.46299999999997,
+                "r": 419.76,
+                "b": 301.00513903743314,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 3,
+              "end_col_offset_idx": 4,
+              "text": "HST(page 2)",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 457.88,
+                "t": 292.46299999999997,
+                "r": 491.6999999999999,
+                "b": 301.00513903743314,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 4,
+              "end_col_offset_idx": 5,
+              "text": "PST/QST",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 538.905,
+                "t": 292.46299999999997,
+                "r": 561.8549999999999,
+                "b": 300.90674115267944,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 1,
+              "end_row_offset_idx": 2,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "Total",
+              "column_header": true,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 58.32,
+                "t": 308.4565,
+                "r": 84.53025,
+                "b": 315.4225864509606,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Parcels",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 285.581,
+                "t": 308.4565,
+                "r": 303.12050000000005,
+                "b": 315.50376470588236,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "97.98",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 544.316,
+                "t": 308.4565,
+                "r": 561.8554999999999,
+                "b": 315.50376470588236,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 2,
+              "end_row_offset_idx": 3,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "97.98",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 58.32,
+                "t": 321.4165,
+                "r": 182.96925,
+                "b": 328.38258645096056,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Commercial/Smartmail Marketing",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 281.555,
+                "t": 321.4165,
+                "r": 303.12050000000005,
+                "b": 328.46376470588234,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "216.90",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 540.29,
+                "t": 321.4165,
+                "r": 561.8554999999998,
+                "b": 328.46376470588234,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 3,
+              "end_row_offset_idx": 4,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "216.90",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 58.32,
+                "t": 334.3765,
+                "r": 131.10149999999996,
+                "b": 341.3425864509606,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Specialized services",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 276.093,
+                "t": 334.3765,
+                "r": 303.12000000000006,
+                "b": 341.4237647058824,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "1,240.00",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 534.828,
+                "t": 334.3765,
+                "r": 561.8549999999998,
+                "b": 341.4237647058824,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 4,
+              "end_row_offset_idx": 5,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "1,240.00",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 58.32,
+                "t": 347.3365,
+                "r": 97.69725,
+                "b": 354.3025864509606,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Shipments",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 281.555,
+                "t": 347.3365,
+                "r": 303.12050000000005,
+                "b": 354.38376470588236,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "168.13",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 540.29,
+                "t": 347.3365,
+                "r": 561.8554999999998,
+                "b": 354.38376470588236,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 5,
+              "end_row_offset_idx": 6,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "168.13",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 58.32,
+                "t": 360.29650000000004,
+                "r": 105.36149999999999,
+                "b": 367.2625864509606,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Adjustments",
+              "column_header": false,
+              "row_header": true,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 283.122,
+                "t": 360.29650000000004,
+                "r": 303.12000000000006,
+                "b": 367.3437647058824,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "-50.00",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 541.857,
+                "t": 360.29650000000004,
+                "r": 561.8549999999998,
+                "b": 367.3437647058824,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 6,
+              "end_row_offset_idx": 7,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "-50.00",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 58.32,
+                "t": 439.8795,
+                "r": 77.25374999999998,
+                "b": 446.8455864509606,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 7,
+              "end_row_offset_idx": 8,
+              "start_col_offset_idx": 0,
+              "end_col_offset_idx": 1,
+              "text": "Total",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 271.358,
+                "t": 438.4595,
+                "r": 303.12050000000005,
+                "b": 445.42558645096057,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 7,
+              "end_row_offset_idx": 8,
+              "start_col_offset_idx": 1,
+              "end_col_offset_idx": 2,
+              "text": "1,673.01",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            },
+            {
+              "bbox": {
+                "l": 523.953,
+                "t": 438.4615,
+                "r": 561.9607500000001,
+                "b": 445.4275864509606,
+                "coord_origin": "TOPLEFT"
+              },
+              "row_span": 1,
+              "col_span": 1,
+              "start_row_offset_idx": 7,
+              "end_row_offset_idx": 8,
+              "start_col_offset_idx": 5,
+              "end_col_offset_idx": 6,
+              "text": "$ 1,673.01",
+              "column_header": false,
+              "row_header": false,
+              "row_section": false,
+              "fillable": false
+            }
+          ],
+          "num_rows": 8,
+          "num_cols": 6,
+          "orientation": "rot_0",
+          "grid": [
+            [
+              {
+                "bbox": {
+                  "l": 58.501,
+                  "t": 272.52199999999993,
+                  "r": 176.39200000000002,
+                  "b": 280.6064600840336,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Your payment is due by (Y-M-D)",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 244.418,
+                  "t": 272.55999999999995,
+                  "r": 291.59799999999996,
+                  "b": 281.0699579831932,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "2025-07-06",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 0,
+                "end_row_offset_idx": 1,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 269.491,
+                  "t": 292.46299999999997,
+                  "r": 303.1209999999999,
+                  "b": 301.00513903743314,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "Subtotal",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 345.91,
+                  "t": 292.46299999999997,
+                  "r": 361.44,
+                  "b": 301.00513903743314,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "GST",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 377.177,
+                  "t": 292.46299999999997,
+                  "r": 419.76,
+                  "b": 301.00513903743314,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "HST(page 2)",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 457.88,
+                  "t": 292.46299999999997,
+                  "r": 491.6999999999999,
+                  "b": 301.00513903743314,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "PST/QST",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 538.905,
+                  "t": 292.46299999999997,
+                  "r": 561.8549999999999,
+                  "b": 300.90674115267944,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 1,
+                "end_row_offset_idx": 2,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "Total",
+                "column_header": true,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 58.32,
+                  "t": 308.4565,
+                  "r": 84.53025,
+                  "b": 315.4225864509606,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Parcels",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 285.581,
+                  "t": 308.4565,
+                  "r": 303.12050000000005,
+                  "b": 315.50376470588236,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "97.98",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 544.316,
+                  "t": 308.4565,
+                  "r": 561.8554999999999,
+                  "b": 315.50376470588236,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 2,
+                "end_row_offset_idx": 3,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "97.98",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 58.32,
+                  "t": 321.4165,
+                  "r": 182.96925,
+                  "b": 328.38258645096056,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Commercial/Smartmail Marketing",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 281.555,
+                  "t": 321.4165,
+                  "r": 303.12050000000005,
+                  "b": 328.46376470588234,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "216.90",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 540.29,
+                  "t": 321.4165,
+                  "r": 561.8554999999998,
+                  "b": 328.46376470588234,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 3,
+                "end_row_offset_idx": 4,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "216.90",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 58.32,
+                  "t": 334.3765,
+                  "r": 131.10149999999996,
+                  "b": 341.3425864509606,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Specialized services",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 276.093,
+                  "t": 334.3765,
+                  "r": 303.12000000000006,
+                  "b": 341.4237647058824,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "1,240.00",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 534.828,
+                  "t": 334.3765,
+                  "r": 561.8549999999998,
+                  "b": 341.4237647058824,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 4,
+                "end_row_offset_idx": 5,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "1,240.00",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 58.32,
+                  "t": 347.3365,
+                  "r": 97.69725,
+                  "b": 354.3025864509606,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Shipments",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 281.555,
+                  "t": 347.3365,
+                  "r": 303.12050000000005,
+                  "b": 354.38376470588236,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "168.13",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 540.29,
+                  "t": 347.3365,
+                  "r": 561.8554999999998,
+                  "b": 354.38376470588236,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 5,
+                "end_row_offset_idx": 6,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "168.13",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 58.32,
+                  "t": 360.29650000000004,
+                  "r": 105.36149999999999,
+                  "b": 367.2625864509606,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Adjustments",
+                "column_header": false,
+                "row_header": true,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 283.122,
+                  "t": 360.29650000000004,
+                  "r": 303.12000000000006,
+                  "b": 367.3437647058824,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "-50.00",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 541.857,
+                  "t": 360.29650000000004,
+                  "r": 561.8549999999998,
+                  "b": 367.3437647058824,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 6,
+                "end_row_offset_idx": 7,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "-50.00",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ],
+            [
+              {
+                "bbox": {
+                  "l": 58.32,
+                  "t": 439.8795,
+                  "r": 77.25374999999998,
+                  "b": 446.8455864509606,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 7,
+                "end_row_offset_idx": 8,
+                "start_col_offset_idx": 0,
+                "end_col_offset_idx": 1,
+                "text": "Total",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 271.358,
+                  "t": 438.4595,
+                  "r": 303.12050000000005,
+                  "b": 445.42558645096057,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 7,
+                "end_row_offset_idx": 8,
+                "start_col_offset_idx": 1,
+                "end_col_offset_idx": 2,
+                "text": "1,673.01",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 7,
+                "end_row_offset_idx": 8,
+                "start_col_offset_idx": 2,
+                "end_col_offset_idx": 3,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 7,
+                "end_row_offset_idx": 8,
+                "start_col_offset_idx": 3,
+                "end_col_offset_idx": 4,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 7,
+                "end_row_offset_idx": 8,
+                "start_col_offset_idx": 4,
+                "end_col_offset_idx": 5,
+                "text": "",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              },
+              {
+                "bbox": {
+                  "l": 523.953,
+                  "t": 438.4615,
+                  "r": 561.9607500000001,
+                  "b": 445.4275864509606,
+                  "coord_origin": "TOPLEFT"
+                },
+                "row_span": 1,
+                "col_span": 1,
+                "start_row_offset_idx": 7,
+                "end_row_offset_idx": 8,
+                "start_col_offset_idx": 5,
+                "end_col_offset_idx": 6,
+                "text": "$ 1,673.01",
+                "column_header": false,
+                "row_header": false,
+                "row_section": false,
+                "fillable": false
+              }
+            ]
+          ]
+        },
+        "annotations": []
+      }
+    ],
+    "key_value_items": [],
+    "form_items": [],
+    "pages": {
+      "1": {
+        "size": {
+          "width": 612.0,
+          "height": 792.0
+        },
+        "page_no": 1
+      },
+      "2": {
+        "size": {
+          "width": 612.0,
+          "height": 792.0
+        },
+        "page_no": 2
+      }
+    }
+  },
+  "markdown": "<!-- image -->\n\nPage 1 / 2\n\nInvoice date (Y-M-D)\n\nCustomer number\n\nInvoice number\n\nCustomer ref. 1\n\nCustomer ref. 2\n\n90000001620 2025-06-21 1234567\n\n## Contact us\n\n| Your payment is due by (Y-M-D)   | 2025-07-06   |     |             |         |            |\n|----------------------------------|--------------|-----|-------------|---------|------------|\n|                                  | Subtotal     | GST | HST(page 2) | PST/QST | Total      |\n| Parcels                          | 97.98        |     |             |         | 97.98      |\n| Commercial/Smartmail Marketing   | 216.90       |     |             |         | 216.90     |\n| Specialized services             | 1,240.00     |     |             |         | 1,240.00   |\n| Shipments                        | 168.13       |     |             |         | 168.13     |\n| Adjustments                      | -50.00       |     |             |         | -50.00     |\n| Total                            | 1,673.01     |     |             |         | $ 1,673.01 |\n\n<!-- image -->\n\n<!-- image -->\n\nGeneral inquiries | Tracking 1-866-607-6301 Questions about your invoice / account 1-800-267-7651 cmg@canadapost.ca canadapost.ca/billing Summary of charges Total amount of this invoice $ 1,673.01 CLIENT1, CLIENT2 SAMPLE BUSINESS NM ADDRESS LINE1 BARRIE ON L4M 3C2 Canada Post registration nos.: HST/GST 119321495; QST 1006393299 Return this slip with your payment Customer number Invoice number 1234567 90000001620 15 days from date of invoice. Late payment fees at 18% per annum will be charged on any invoice paid after due date. $ 2025-07-06 $ 1,673.01 Amount due Due date (Y-M-D) Total 1,673.01 Amount paid CLIENT1, CLIENT2 SAMPLE BUSINESS NM ADDRESS LINE1 BARRIE ON L4M 3C2 OTTAWA ON K1A 1L7 2701 RIVERSIDE DR PAYMENT PROCESSING CANADA POST CORPORATION Sample invoic\n\n<!-- image -->\n\n## HST details\n\nTotal HST How to pay your invoice Use one of the following methods of payment: preauthorized bank payment; preauthorized credit card payment, with Canada Post approval; online payment under Manage My Account; cheque or money order payable to Canada Post Corporation; to ensure payment is applied to your account, provide the invoice remittance slip with your customer number on the cheque or money order. \u00b7 \u00b7 \u00b7 \u00b7 Additional information Invoice discrepancies must be communicated to Canada Post within 90 days of the invoice date, after which the invoice will be deemed accepted by you. Canada Post reserves the right to charge additional fees; you can request the list of them from the Credit Management Group. Past due invoices are subject to a late payment fee, which is calculated at a rate of 1.5% per month (18% per year); Canada Post may amend this rate at any time. All invoices and their payments are in Canadian currency unless otherwise specified. Refer to Customer Guides for details on terms and conditions \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 *VE = Volumetric Equivalent of Actual Weight. Dimensions are presented in centimetres(cm). HAVE A GREAT SUMMER!! Sign up to receive your invoices electronically Name Telephone number Email Select all that apply Signature No printed invoices (prime or billing contact only) PDF - Email notification with a link to your invoice details Data - Email notification with invoice details in TXT format Sample invoic\n\nCustomer number\n\n12 3 45 67\n\nCLIENT1, CLIENT2\n\nInvoice date (Y-M-D) Customer number Invoice number Customer ref. 1 Customer ref. 2\n\n## 1234567 90000001620 2025-06-21"
+}

@@ -1,0 +1,1192 @@
+{
+  "pages": [
+    {
+      "page": 1,
+      "width": 842.0,
+      "height": 595.0,
+      "text": "   © 2006                       IBIA Standard Bunker Delivery Note / Receipt                                              Product Details\n                                Date                  Port     |                                                          Grade/ISO Designation\n   Nomination No.  |            |                 Company Name                                                            Density @ 15°C (kg/m³)\n   Supplier Details                               Vessel Name                                                             Calculated from Components     YES / NO\n   Company Name                                   IMO Number                                                              Shore Tank measurement         YES / NO\n   Address 1                                      Flag                                                                    Bunker Tanker measurement      YES / NO\n   Address 2                                      Shore Tank                                                              Viscosity (mm²/s) @ 50°C\n   Address 3                                      Bunker Barge                                                            Flash Point (°C)\n   Address 4                                      Pipeline                                                                Sulphur % (m/m)\n   Telephone                                      Road Tank Wagon                                                         Water Content % (m/m)\n\n                                   Opening Gauges                                                   Closing Gauges\n       Tank Gauge                                 Volume                Tank Gauge                                 Volume\n     (corrected for         Observed  Observed  Correction  Standard  (corrected for     Observed      Observed  Correction  Standard\nTank No.  trim)     Volume in litres Temperature  Factor  Volume @15°C     trim)     Volume in litres Temperature  Factor  Volume @15°C\n    1\n    2\n    3\n    4\n    5\n    6\n    7\n    8\n                                Total Standard Volume (A)                                                                      Total Standard Volume (B)\n                                                                                                                          Total Volume transferred = A-B\n      Event Log                                                                                                   Standard Volume @ 15°C (m³) (A-B)/1000\n      ALONGSIDE                 CONNECTED         START PUMPING      FINISH PUMPING      DISCONNECTED        Density @ 15°C (kg/m³)\n    Date  |        Time     Date    |     Time    Date  |     Time    Date  |    Time    Date  |        Time  Delivered MASS Tonnes\n                                                                                                               (kg/1000) in vacuo\n                                                                                                            Weight Correction Factor\n                            Receiving Vessel      Bunker Tanker      MARPOL      Surveyor                     Delivered MASS Tonnes\n                                                                                                                (kg/1000) in air\n    Seal Numbers\n\n   Remarks                                        I, the undersigned declare that the fuel oil supplied is in conformity  Stamp of vessel/signature of vessel\n                                                  with regulation 14(1) or (4)(a) and regulation 18(1) of MARPOL Annex VI officer\n\n\n                                                  signed\n\n\n                                                  Name (Print)\n\n\n\n\n\n\n\n\n\n\nDeliv ered   Received\nBy           By",
+      "text_items": [
+        {
+          "text": "© 2006",
+          "x": 16.56,
+          "y": 16.901733,
+          "width": 32.48442,
+          "height": 9.455078,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "IBIA Standard Bunker Delivery Note / Receipt",
+          "x": 193.2,
+          "y": 20.453735,
+          "width": 343.27435,
+          "height": 15.083008,
+          "font_name": "Arial,Bold",
+          "font_size": 16.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Product Details",
+          "x": 582.24,
+          "y": 27.023987,
+          "width": 88.27203,
+          "height": 11.2560425,
+          "font_name": "Arial,Bold",
+          "font_size": 12.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Date",
+          "x": 254.64,
+          "y": 42.341736,
+          "width": 21.684372,
+          "height": 9.455078,
+          "font_name": "Arial,Bold",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Port",
+          "x": 373.68,
+          "y": 42.341736,
+          "width": 20.156616,
+          "height": 9.455078,
+          "font_name": "Arial,Bold",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "|",
+          "x": 400.31998,
+          "y": 41.76,
+          "width": 1.92,
+          "height": 10.559999,
+          "font_name": "OCR",
+          "font_size": 10.559999,
+          "confidence": 0.888
+        },
+        {
+          "text": "Grade/ISO Designation",
+          "x": 582.0,
+          "y": 42.331665,
+          "width": 104.00433,
+          "height": 9.465149,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Nomination No.",
+          "x": 16.56,
+          "y": 55.541748,
+          "width": 74.79212,
+          "height": 9.455078,
+          "font_name": "Arial,Bold",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "|",
+          "x": 102.72,
+          "y": 54.719997,
+          "width": 1.92,
+          "height": 11.04,
+          "font_name": "OCR",
+          "font_size": 11.04,
+          "confidence": 0.829
+        },
+        {
+          "text": "|",
+          "x": 236.64,
+          "y": 54.719997,
+          "width": 1.92,
+          "height": 11.04,
+          "font_name": "OCR",
+          "font_size": 11.04,
+          "confidence": 0.959
+        },
+        {
+          "text": "Company Name",
+          "x": 284.4,
+          "y": 55.541748,
+          "width": 72.80435,
+          "height": 9.455078,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Density @ 15°C (kg/m³)",
+          "x": 582.0,
+          "y": 55.531677,
+          "width": 106.79639,
+          "height": 9.465149,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Supplier Details",
+          "x": 16.8,
+          "y": 69.50397,
+          "width": 90.912,
+          "height": 11.2560425,
+          "font_name": "Arial,Bold",
+          "font_size": 12.0,
+          "confidence": 1.0
+        },
+        {
+          "text": "Vessel Name",
+          "x": 284.4,
+          "y": 70.90173,
+          "width": 59.6044,
+          "height": 9.455078,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Calculated from Components",
+          "x": 582.0,
+          "y": 70.90173,
+          "width": 130.79962,
+          "height": 9.455078,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "YES / NO",
+          "x": 751.92,
+          "y": 70.89166,
+          "width": 43.909912,
+          "height": 9.465149,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Company Name",
+          "x": 16.56,
+          "y": 84.82178,
+          "width": 72.80437,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "IMO Number",
+          "x": 284.4,
+          "y": 84.811676,
+          "width": 57.97763,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Shore Tank measurement",
+          "x": 582.0,
+          "y": 84.82178,
+          "width": 116.07196,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "YES / NO",
+          "x": 751.92,
+          "y": 84.811676,
+          "width": 43.909912,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Address 1",
+          "x": 16.56,
+          "y": 98.02176,
+          "width": 44.72448,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Flag",
+          "x": 284.4,
+          "y": 98.02176,
+          "width": 19.764435,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Bunker Tanker measurement",
+          "x": 582.0,
+          "y": 98.02176,
+          "width": 129.992,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "YES / NO",
+          "x": 751.92,
+          "y": 98.01166,
+          "width": 43.909912,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Address 2",
+          "x": 16.56,
+          "y": 111.22177,
+          "width": 44.72448,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Shore Tank",
+          "x": 284.4,
+          "y": 111.22177,
+          "width": 51.840088,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Viscosity (mm²/s) @ 50°C",
+          "x": 582.0,
+          "y": 111.21167,
+          "width": 115.99762,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Address 3",
+          "x": 16.56,
+          "y": 124.42178,
+          "width": 44.72448,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Bunker Barge",
+          "x": 284.4,
+          "y": 124.42178,
+          "width": 61.284576,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Flash Point (°C)",
+          "x": 582.0,
+          "y": 124.42178,
+          "width": 71.276794,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Address 4",
+          "x": 16.56,
+          "y": 137.62177,
+          "width": 44.72448,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Pipeline",
+          "x": 284.4,
+          "y": 137.62177,
+          "width": 36.084595,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Sulphur % (m/m)",
+          "x": 582.0,
+          "y": 137.62177,
+          "width": 76.07672,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Telephone",
+          "x": 16.56,
+          "y": 150.82178,
+          "width": 47.364326,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Road Tank Wagon",
+          "x": 284.4,
+          "y": 150.82178,
+          "width": 84.084564,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Water Content % (m/m)",
+          "x": 582.0,
+          "y": 150.82178,
+          "width": 106.79669,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Opening Gauges",
+          "x": 222.72,
+          "y": 177.21167,
+          "width": 75.84009,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Closing Gauges",
+          "x": 597.12,
+          "y": 177.22177,
+          "width": 71.28003,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Tank Gauge",
+          "x": 84.0,
+          "y": 191.14178,
+          "width": 55.28447,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Volume",
+          "x": 317.76,
+          "y": 191.14178,
+          "width": 34.404633,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Tank Gauge",
+          "x": 456.0,
+          "y": 191.14178,
+          "width": 55.284515,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Volume",
+          "x": 689.76,
+          "y": 191.14178,
+          "width": 34.404602,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "(corrected for",
+          "x": 81.6,
+          "y": 203.62177,
+          "width": 60.13781,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Observed",
+          "x": 164.4,
+          "y": 203.61166,
+          "width": 43.76442,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Observed",
+          "x": 238.56,
+          "y": 203.61166,
+          "width": 43.764435,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Correction",
+          "x": 311.76,
+          "y": 203.62177,
+          "width": 46.404175,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Standard",
+          "x": 389.04,
+          "y": 203.62177,
+          "width": 40.64438,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "(corrected for",
+          "x": 453.6,
+          "y": 203.62177,
+          "width": 60.137787,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Observed",
+          "x": 536.4,
+          "y": 203.61166,
+          "width": 43.764465,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Observed",
+          "x": 610.56,
+          "y": 203.61166,
+          "width": 43.764465,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Correction",
+          "x": 683.76,
+          "y": 203.62177,
+          "width": 46.404175,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Standard",
+          "x": 761.04,
+          "y": 203.62177,
+          "width": 40.64441,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Tank No.",
+          "x": 24.24,
+          "y": 216.10178,
+          "width": 40.712196,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "trim)",
+          "x": 101.28,
+          "y": 216.10178,
+          "width": 20.636642,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Volume in litres",
+          "x": 151.44,
+          "y": 216.10178,
+          "width": 69.59979,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Temperature",
+          "x": 231.6,
+          "y": 216.10178,
+          "width": 57.684784,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Factor",
+          "x": 320.64,
+          "y": 216.10178,
+          "width": 28.697693,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Volume @15°C",
+          "x": 374.4,
+          "y": 216.09167,
+          "width": 69.91788,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "trim)",
+          "x": 473.28,
+          "y": 216.10178,
+          "width": 20.636627,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Volume in litres",
+          "x": 523.44,
+          "y": 216.10178,
+          "width": 69.59979,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Temperature",
+          "x": 603.6,
+          "y": 216.10178,
+          "width": 57.684753,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Factor",
+          "x": 692.64,
+          "y": 216.10178,
+          "width": 28.697693,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Volume @15°C",
+          "x": 746.4,
+          "y": 216.09167,
+          "width": 69.917786,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "1",
+          "x": 42.0,
+          "y": 229.30179,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "2",
+          "x": 42.0,
+          "y": 242.50177,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "3",
+          "x": 42.0,
+          "y": 255.70178,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "4",
+          "x": 42.0,
+          "y": 268.90176,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "5",
+          "x": 42.0,
+          "y": 282.10178,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "6",
+          "x": 42.0,
+          "y": 295.3018,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "7",
+          "x": 42.0,
+          "y": 308.50177,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "8",
+          "x": 42.0,
+          "y": 321.70178,
+          "width": 5.6044807,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Total Standard Volume (A)",
+          "x": 245.28,
+          "y": 334.18176,
+          "width": 119.51654,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Total Standard Volume (B)",
+          "x": 617.28,
+          "y": 334.18176,
+          "width": 119.51648,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Total Volume transferred = A-B",
+          "x": 592.32,
+          "y": 347.38177,
+          "width": 139.67316,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Event Log",
+          "x": 51.84,
+          "y": 360.58176,
+          "width": 45.684444,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Standard Volume @ 15°C (m³) (A-B)/1000",
+          "x": 545.28,
+          "y": 360.57166,
+          "width": 189.20435,
+          "height": 9.465149,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "ALONGSIDE",
+          "x": 51.36,
+          "y": 374.6263,
+          "width": 46.314484,
+          "height": 7.436859,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "CONNECTED",
+          "x": 168.24,
+          "y": 374.6263,
+          "width": 50.598465,
+          "height": 7.436859,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "START PUMPING",
+          "x": 279.84,
+          "y": 374.63422,
+          "width": 65.43396,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "FINISH PUMPING",
+          "x": 399.12,
+          "y": 374.63422,
+          "width": 64.95398,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "DISCONNECTED",
+          "x": 518.88,
+          "y": 374.6263,
+          "width": 63.798706,
+          "height": 7.436859,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "Density @ 15°C (kg/m³)",
+          "x": 623.76,
+          "y": 373.05167,
+          "width": 106.79639,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Date",
+          "x": 36.72,
+          "y": 387.83423,
+          "width": 16.403519,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "|",
+          "x": 72.96,
+          "y": 385.44,
+          "width": 1.92,
+          "height": 11.04,
+          "font_name": "OCR",
+          "font_size": 11.04,
+          "confidence": 0.753
+        },
+        {
+          "text": "Time",
+          "x": 95.76,
+          "y": 387.83423,
+          "width": 17.603516,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "Date",
+          "x": 155.76,
+          "y": 387.83423,
+          "width": 16.403519,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "|",
+          "x": 192.0,
+          "y": 385.44,
+          "width": 1.92,
+          "height": 11.04,
+          "font_name": "OCR",
+          "font_size": 11.04,
+          "confidence": 0.753
+        },
+        {
+          "text": "Time",
+          "x": 214.8,
+          "y": 387.83423,
+          "width": 17.603516,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "Date",
+          "x": 274.8,
+          "y": 387.83423,
+          "width": 16.403534,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "|",
+          "x": 311.03998,
+          "y": 385.44,
+          "width": 1.92,
+          "height": 11.04,
+          "font_name": "OCR",
+          "font_size": 11.04,
+          "confidence": 0.788
+        },
+        {
+          "text": "Time",
+          "x": 333.84,
+          "y": 387.83423,
+          "width": 17.603546,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "Date",
+          "x": 393.84,
+          "y": 387.83423,
+          "width": 16.403534,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "|",
+          "x": 430.08,
+          "y": 385.44,
+          "width": 1.92,
+          "height": 11.04,
+          "font_name": "OCR",
+          "font_size": 11.04,
+          "confidence": 0.788
+        },
+        {
+          "text": "Time",
+          "x": 452.88,
+          "y": 387.83423,
+          "width": 17.603546,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "Date",
+          "x": 512.88,
+          "y": 387.83423,
+          "width": 16.403503,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "|",
+          "x": 549.12,
+          "y": 385.44,
+          "width": 1.92,
+          "height": 11.04,
+          "font_name": "OCR",
+          "font_size": 11.04,
+          "confidence": 0.788
+        },
+        {
+          "text": "Time",
+          "x": 571.92,
+          "y": 387.83423,
+          "width": 17.603516,
+          "height": 7.428955,
+          "font_name": "Arial",
+          "font_size": 7.92,
+          "confidence": 1.0
+        },
+        {
+          "text": "Delivered MASS Tonnes",
+          "x": 619.2,
+          "y": 386.50177,
+          "width": 116.00464,
+          "height": 9.455017,
+          "font_name": "Arial,Bold",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "(kg/1000) in vacuo",
+          "x": 633.6,
+          "y": 399.46176,
+          "width": 87.26868,
+          "height": 9.455048,
+          "font_name": "Arial,Bold",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Weight Correction Factor",
+          "x": 620.88,
+          "y": 412.66174,
+          "width": 112.69769,
+          "height": 9.455078,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Receiving Vessel",
+          "x": 155.04,
+          "y": 425.86176,
+          "width": 77.118,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Bunker Tanker",
+          "x": 279.84,
+          "y": 425.86176,
+          "width": 65.89801,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "MARPOL",
+          "x": 410.4,
+          "y": 425.85168,
+          "width": 42.564606,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Surveyor",
+          "x": 530.4,
+          "y": 425.86176,
+          "width": 40.697693,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Delivered MASS Tonnes",
+          "x": 619.2,
+          "y": 426.10175,
+          "width": 116.00464,
+          "height": 9.455078,
+          "font_name": "Arial,Bold",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "(kg/1000) in air",
+          "x": 642.0,
+          "y": 439.06177,
+          "width": 70.77222,
+          "height": 9.455017,
+          "font_name": "Arial,Bold",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Seal Numbers",
+          "x": 42.72,
+          "y": 452.26178,
+          "width": 63.83988,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Remarks",
+          "x": 16.56,
+          "y": 478.90176,
+          "width": 40.32,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "I, the undersigned declare that the fuel oil supplied is in conformity",
+          "x": 269.52,
+          "y": 478.90176,
+          "width": 295.92032,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Stamp of vessel/signature of vessel",
+          "x": 626.64,
+          "y": 478.90176,
+          "width": 158.9577,
+          "height": 9.455048,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "with regulation 14(1) or (4)(a) and regulation 18(1) of MARPOL Annex VI",
+          "x": 269.52,
+          "y": 491.37167,
+          "width": 323.42545,
+          "height": 9.465118,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "officer",
+          "x": 626.64,
+          "y": 491.38177,
+          "width": 28.218018,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "signed",
+          "x": 269.52,
+          "y": 528.8218,
+          "width": 29.364685,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Name (Print)",
+          "x": 269.52,
+          "y": 566.0218,
+          "width": 57.356415,
+          "height": 9.455017,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Deliv ered",
+          "x": 257.38177,
+          "y": 116.7955,
+          "width": 9.455017,
+          "height": 42.084503,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "Received",
+          "x": 257.38177,
+          "y": 64.475525,
+          "width": 9.455017,
+          "height": 41.60446,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "By",
+          "x": 269.8618,
+          "y": 147.12,
+          "width": 9.455017,
+          "height": 11.76001,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        },
+        {
+          "text": "By",
+          "x": 269.8618,
+          "y": 94.31998,
+          "width": 9.455017,
+          "height": 11.76001,
+          "font_name": "Arial",
+          "font_size": 10.08,
+          "confidence": 1.0
+        }
+      ]
+    }
+  ]
+}
