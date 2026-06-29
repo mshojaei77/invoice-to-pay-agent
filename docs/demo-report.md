@@ -6,28 +6,26 @@ This is the short, shareable version of what the project demonstrates. It is wri
 
 | Control | Result |
 | --- | --- |
-| Invoice captured | Typed invoice contract created |
-| PO support | Matched |
-| Delivery evidence | Matched |
-| Duplicate risk | Low |
-| Vendor/payment risk | No blocking signal |
-| Approval route | Auto-post candidate |
-| Payment status | Ready after ERP handoff |
-| ERP status | Mock posted |
-| Audit trail | Run ID, parser route, controls, ERP result, and KPI snapshot recorded |
+| Invoice status | Ready to post |
+| Risk | Low |
+| PO match | Passed |
+| Delivery match | Passed |
+| Duplicate check | Clear |
+| Fraud controls | Clear |
+| Approval route | Auto-post |
+| Payment status | Scheduled |
+| ERP action | Mock posted |
+| Audit trail | Available |
 
 ## Exception Scenario
 
 | Control | Result |
 | --- | --- |
-| Invoice captured | Typed invoice contract created |
-| PO support | Missing |
-| Delivery evidence | Missing |
-| Duplicate risk | Needs review if vendor/invoice number overlaps |
-| Vendor/payment risk | Payment blocked until support is complete |
-| Approval route | Buyer or AP manager review |
-| Payment status | Held |
-| ERP status | Not posted |
+| Invoice status | Blocked |
+| Reason | Missing PO + missing delivery evidence |
+| Next reviewer | AP manager or buyer/receiving owner |
+| Payment status | Hold |
+| ERP action | Not posted |
 | Audit trail | Exception reason, approval requirement, and decision state recorded |
 
 ## What This Shows

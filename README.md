@@ -1,36 +1,100 @@
 # Invoice-to-Pay Agent
 
-Open-source AP automation prototype for invoice capture, PO/receipt matching, exception routing, fraud controls, approval gates, and ERP-ready audit logs.
+Open-source AP automation prototype for the messy middle of invoice processing: extraction, PO/receipt matching, duplicate checks, approval routing, fraud controls, ERP-ready posting, and audit logs.
 
-Built for engineers who want to understand how production finance agents should work: controlled, typed, auditable, testable, and human-in-the-loop when risk is high.
+[![CI](https://github.com/mshojaei77/invoice-to-pay-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/mshojaei77/invoice-to-pay-agent/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![FastAPI](https://img.shields.io/badge/FastAPI-ready-009688)
+![LangGraph](https://img.shields.io/badge/LangGraph-agentic-purple)
+![Pydantic](https://img.shields.io/badge/Pydantic-v2-e92063)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ed)
 
-## Why Not Just OCR?
+This is **not another "send invoice PDF to an LLM" demo**.
 
-AP teams do not lose most time on text extraction. They lose it on missing POs, duplicate invoices, vendor mismatches, approval chasing, GL coding, payment holds, and audit reconstruction.
+Most AP teams do not lose time only on OCR. They lose time on missing POs, duplicate invoices, vendor mismatches, GL coding, approval chasing, payment holds, and audit reconstruction. This project models those controls as a typed, testable, human-in-the-loop LangGraph workflow.
 
-This project models those controls as a graph, not as hidden prompt behavior:
+![Demo terminal run](assets/demo-terminal.gif)
 
 ```text
-invoice / PO / delivery note
+invoice + PO + delivery note
   -> parse
   -> validate
   -> duplicate check
-  -> PO + delivery matching
+  -> 2-way / 3-way match
   -> exception classification
   -> fraud controls
   -> approval routing
-  -> payment readiness
   -> ERP mock posting
   -> audit log
 ```
+
+## Demo
+
+```bash
+uv sync
+uv run pytest
+uv run python scripts/run_demo.py \
+  --invoice samples/invoice_001_canada_post_sample.pdf \
+  --po samples/purchase_order_001_polychemtex.pdf \
+  --delivery-note samples/delivery_note_001_bunker_receipt.pdf \
+  --parser liteparse
+```
+
+Expected result:
+
+```text
+final_status=completed
+risk_level=low
+erp_status=posted
+```
+
+Run an exception case:
+
+```bash
+uv run python scripts/run_demo.py --invoice samples/invoice_002_tax_sample_local_supply.pdf
+```
+
+Expected result:
+
+```text
+final_status=requires_approval
+erp_status=not_posted
+```
+
+## Try The Review UI
+
+```bash
+uv run streamlit run app/ui/streamlit_app.py
+```
+
+The local UI lets reviewers upload invoice support, run the graph, inspect risk/matching/approval/payment controls, and download the generated audit report.
+
+## Why This Repo Is Different
+
+| Typical invoice OCR demo | This project |
+| --- | --- |
+| Extracts fields from one PDF | Models invoice-to-payment workflow |
+| Hidden LLM decision-making | Typed, inspectable graph nodes |
+| No approval logic | Human approval interrupt |
+| No PO/receipt control | 2-way and 3-way matching |
+| No audit trail | Run-level audit log |
+| No eval story | Scenario tests and eval manifest |
+| Demo only | FastAPI service + CLI + Streamlit UI + tests |
+
+## Visual Overview
+
+![Architecture diagram](assets/architecture.svg)
 
 See [docs/demo-report.md](docs/demo-report.md) for a compact AP-manager-friendly output sample.
 
 ## Table of Contents
 
-- [Why Not Just OCR?](#why-not-just-ocr)
+- [Demo](#demo)
+- [Try The Review UI](#try-the-review-ui)
+- [Why This Repo Is Different](#why-this-repo-is-different)
 - [Why This Exists](#why-this-exists)
-- [Features](#features)
+- [Full Capability Map](#full-capability-map)
 - [Current Status](#current-status)
 - [Audience](#audience)
 - [Architecture](#architecture)
@@ -71,7 +135,7 @@ This project models the decision path finance teams actually care about:
 
 The answer is encoded as a graph, not hidden in a prompt.
 
-## Features
+## Full Capability Map
 
 - FastAPI service with health, run creation, run lookup, approval, rejection, and audit endpoints.
 - LangGraph workflow with in-memory checkpointing and a single approval interrupt.
@@ -137,7 +201,7 @@ Known limitations:
 - Active API runs use in-memory storage and are lost when the server restarts.
 - ERP integration is intentionally mocked.
 - NetSuite readiness is a deterministic sandbox-planning output, not a certified SuiteApp integration.
-- No review UI is included yet.
+- Streamlit review UI for local invoice support upload, graph execution, control inspection, and Markdown report download.
 
 ## Audience
 
@@ -870,6 +934,12 @@ erp_status=not_posted
 audit_log=data/processed/audit.jsonl
 ```
 
+Run the local review UI:
+
+```bash
+uv run streamlit run app/ui/streamlit_app.py
+```
+
 ## Usage
 
 ### Start the API
@@ -1140,7 +1210,7 @@ Near-term:
 - Write audit events from graph nodes, not only helper tests.
 - Maintain the downloaded sample corpus under `samples/` and expand `samples/eval_manifest.jsonl`.
 - Add CI for tests and compile checks.
-- Add a root `LICENSE` file for MIT release hygiene.
+- Polish the Streamlit review UI and add hosted screenshots.
 
 Product track:
 

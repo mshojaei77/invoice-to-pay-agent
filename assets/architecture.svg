@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-label="Invoice-to-Pay Agent architecture">
+  <rect width="1120" height="520" fill="#f8fafc"/>
+  <text x="56" y="56" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700" fill="#111827">Invoice-to-Pay Agent Architecture</text>
+  <text x="56" y="88" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4b5563">Typed LangGraph workflow for AP controls, approval, ERP handoff, and audit evidence.</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 8; }
+      .title { font: 700 16px Segoe UI, Arial, sans-serif; fill: #111827; }
+      .body { font: 13px Segoe UI, Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #475569; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="box" x="56" y="130" width="180" height="96"/>
+  <text class="title" x="76" y="166">Document Intake</text>
+  <text class="body" x="76" y="192">Invoice</text>
+  <text class="body" x="136" y="192">PO</text>
+  <text class="body" x="174" y="192">Delivery note</text>
+
+  <rect class="box" x="290" y="130" width="190" height="96"/>
+  <text class="title" x="310" y="166">Parser Routing</text>
+  <text class="body" x="310" y="192">LiteParse first</text>
+  <text class="body" x="310" y="212">Docling fallback boundary</text>
+
+  <rect class="box" x="534" y="130" width="210" height="96"/>
+  <text class="title" x="554" y="166">AP Controls</text>
+  <text class="body" x="554" y="192">Validate, duplicate check</text>
+  <text class="body" x="554" y="212">2-way / 3-way match</text>
+
+  <rect class="box" x="798" y="130" width="230" height="96"/>
+  <text class="title" x="818" y="166">Exception Routing</text>
+  <text class="body" x="818" y="192">Fraud, GL coding, approvals</text>
+  <text class="body" x="818" y="212">Human interrupt when needed</text>
+
+  <rect class="box" x="180" y="310" width="210" height="104"/>
+  <text class="title" x="200" y="346">Payment Readiness</text>
+  <text class="body" x="200" y="372">Payment hold/release</text>
+  <text class="body" x="200" y="392">Cashflow bucket</text>
+
+  <rect class="box" x="456" y="310" width="210" height="104"/>
+  <text class="title" x="476" y="346">ERP Mock Posting</text>
+  <text class="body" x="476" y="372">Connector-neutral payload</text>
+  <text class="body" x="476" y="392">Posted or not posted</text>
+
+  <rect class="box" x="732" y="310" width="210" height="104"/>
+  <text class="title" x="752" y="346">Audit Evidence</text>
+  <text class="body" x="752" y="372">Run ID, decisions, risks</text>
+  <text class="body" x="752" y="392">Markdown report + JSONL log</text>
+
+  <line class="arrow" x1="236" y1="178" x2="282" y2="178"/>
+  <line class="arrow" x1="480" y1="178" x2="526" y2="178"/>
+  <line class="arrow" x1="744" y1="178" x2="790" y2="178"/>
+  <line class="arrow" x1="913" y1="226" x2="394" y2="326"/>
+  <line class="arrow" x1="390" y1="362" x2="448" y2="362"/>
+  <line class="arrow" x1="666" y1="362" x2="724" y2="362"/>
+</svg>

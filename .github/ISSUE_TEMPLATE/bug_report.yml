@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a reproducible problem in the invoice-to-pay workflow.
+title: "bug: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What failed, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Include the command, sample file names, API route, or test case.
+      placeholder: |
+        uv run python scripts/run_demo.py --invoice ...
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output or logs
+      description: Paste the relevant terminal output, stack trace, or generated report excerpt.
+      render: text
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "OS, Python version, uv version"
