@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Git
+.git/
+.gitignore
+.github/
+
+# IDE
+.vscode/
+.idea/
+
+# Env
+.env
+.env.example
+*.env
+
+# Docs (keep README.md — hatchling needs it for build)
+docs/
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+SECURITY.md
+LICENSE
+
+# Generated data
+data/processed/
+data/raw/
+
+# OS
+Thumbs.db
+.DS_Store
