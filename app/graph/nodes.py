@@ -8,6 +8,9 @@ from langgraph.types import interrupt
 
 from app.graph.state import APGraphState
 from app.services.audit import AUDIT_PATH, write_audit_event
+from app.services.approval_routing import route_approval
+from app.services.exceptions import classify_exceptions
+from app.services.gl_coding import suggest_gl_coding
 from app.services.parser import DoclingAdapter, LiteParseAdapter
 from app.services.risk import calculate_risk
 
@@ -162,6 +165,32 @@ def match_invoice_po_delivery(state: APGraphState) -> dict[str, Any]:
     }
 
 
+def classify_ap_exceptions(state: APGraphState) -> dict[str, Any]:
+    return {
+        "exception_result": classify_exceptions(
+            business_rule_errors=state.get("business_rule_errors", []),
+            duplicate_result=state.get(
+                "duplicate_result",
+                {"duplicate_status": "clear", "duplicate_candidates": []},
+            ),
+            match_result=state.get(
+                "match_result",
+                {"match_status": "matched", "mismatch_reasons": []},
+            ),
+            parser_warnings=state.get("parser_warnings", []),
+        )
+    }
+
+
+def suggest_gl_coding_node(state: APGraphState) -> dict[str, Any]:
+    return {
+        "gl_coding_result": suggest_gl_coding(
+            uploaded_documents=state.get("uploaded_documents", []),
+            parsed_documents=state.get("parsed_documents", []),
+        )
+    }
+
+
 def risk_score(state: APGraphState) -> dict[str, Any]:
     result = calculate_risk(
         validation_errors=state.get("validation_errors", []),
@@ -180,6 +209,20 @@ def risk_score(state: APGraphState) -> dict[str, Any]:
         "risk_score": result.risk_score,
         "risk_reasons": result.risk_reasons,
         "requires_human_approval": result.requires_human_approval,
+    }
+
+
+def approval_routing(state: APGraphState) -> dict[str, Any]:
+    return {
+        "approval_route": route_approval(
+            risk_level=state.get("risk_level", "low"),
+            risk_score=float(state.get("risk_score", 0.0)),
+            exception_result=state.get(
+                "exception_result",
+                {"exception_status": "clear", "exceptions": [], "categories": []},
+            ),
+            gl_coding_result=state.get("gl_coding_result"),
+        )
     }
 
 
@@ -202,6 +245,9 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "risk_reasons": state.get("risk_reasons", []),
             "match_result": state.get("match_result"),
             "duplicate_result": state.get("duplicate_result"),
+            "exception_result": state.get("exception_result"),
+            "approval_route": state.get("approval_route"),
+            "gl_coding_result": state.get("gl_coding_result"),
         },
         output_summary={
             "status": "requires_approval",
@@ -225,6 +271,9 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "risk_reasons": state.get("risk_reasons", []),
             "match_result": state.get("match_result"),
             "duplicate_result": state.get("duplicate_result"),
+            "exception_result": state.get("exception_result"),
+            "approval_route": state.get("approval_route"),
+            "gl_coding_result": state.get("gl_coding_result"),
         }
     )
 
@@ -260,6 +309,9 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "risk_level": state.get("risk_level"),
             "risk_score": state.get("risk_score"),
             "approval": state.get("approval"),
+            "approval_route": state.get("approval_route"),
+            "exception_result": state.get("exception_result"),
+            "gl_coding_result": state.get("gl_coding_result"),
             "erp_result": state.get("erp_result"),
         },
         output_summary={

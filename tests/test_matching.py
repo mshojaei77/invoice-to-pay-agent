@@ -19,6 +19,7 @@ def make_invoice(
     subtotal: Decimal = Decimal("100.00"),
     tax: Decimal = Decimal("21.00"),
     total: Decimal = Decimal("121.00"),
+    quantity: Decimal = Decimal("1"),
 ) -> Invoice:
     return Invoice(
         invoice_number="INV-001",
@@ -29,12 +30,12 @@ def make_invoice(
         line_items=[
             {
                 "description": "Consulting",
-                "quantity": Decimal("1"),
+                "quantity": quantity,
                 "unit_price": Decimal("100.00"),
-                "line_total": Decimal("100.00"),
+                "line_total": quantity * Decimal("100.00"),
             }
         ],
-        subtotal=subtotal,
+        subtotal=quantity * Decimal("100.00") if quantity != Decimal("1") else subtotal,
         tax_amount=tax,
         total_amount=total,
     )
@@ -71,6 +72,7 @@ def make_dn(
     po_number: str = "PO-001",
     vendor_name: str = "Acme BV",
     delivery_status: str = "delivered",
+    quantity: Decimal = Decimal("1"),
 ) -> DeliveryNote:
     return DeliveryNote(
         delivery_note_number="DN-001",
@@ -80,9 +82,9 @@ def make_dn(
         delivered_items=[
             {
                 "description": "Delivered Item",
-                "quantity": Decimal("1"),
+                "quantity": quantity,
                 "unit_price": Decimal("100.00"),
-                "line_total": Decimal("100.00"),
+                "line_total": quantity * Decimal("100.00"),
             }
         ],
         delivery_status=delivery_status,
@@ -180,6 +182,15 @@ def test_delivery_not_complete() -> None:
         make_dn(delivery_status="pending"),
     )
     assert "delivery_not_complete" in result["mismatch_reasons"]
+
+
+def test_delivery_quantity_mismatch() -> None:
+    result = match_invoice_po_delivery(
+        make_invoice(quantity=Decimal("2"), tax=Decimal("0.00"), total=Decimal("200.00")),
+        make_po(subtotal=Decimal("200.00"), tax=Decimal("0.00"), total=Decimal("200.00")),
+        make_dn(quantity=Decimal("1")),
+    )
+    assert "delivery_quantity_mismatch" in result["mismatch_reasons"]
 
 
 def test_delivery_complete_accepts_variants() -> None:

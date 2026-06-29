@@ -22,11 +22,14 @@ class APGraphState(TypedDict):
 
     duplicate_result: NotRequired[dict[str, Any]]
     match_result: NotRequired[dict[str, Any]]
+    exception_result: NotRequired[dict[str, Any]]
+    gl_coding_result: NotRequired[dict[str, Any]]
 
     risk_level: NotRequired[str]
     risk_score: NotRequired[float]
     risk_reasons: NotRequired[list[str]]
     requires_human_approval: NotRequired[bool]
+    approval_route: NotRequired[dict[str, Any]]
 
     approval: NotRequired[dict[str, Any] | None]
 

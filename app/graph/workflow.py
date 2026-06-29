@@ -4,7 +4,9 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
 
 from app.graph.nodes import (
+    approval_routing,
     approval_gate,
+    classify_ap_exceptions,
     duplicate_check,
     match_invoice_po_delivery,
     normalize_ap_documents,
@@ -14,6 +16,7 @@ from app.graph.nodes import (
     risk_score,
     route_to_docling_if_needed,
     save_uploads,
+    suggest_gl_coding_node,
     validate_business_rules,
     validate_schema,
     write_audit_log,
@@ -33,7 +36,10 @@ def build_graph():
     builder.add_node("reconcile_parser_outputs", reconcile_parser_outputs)
     builder.add_node("duplicate_check", duplicate_check)
     builder.add_node("match_invoice_po_delivery", match_invoice_po_delivery)
+    builder.add_node("classify_ap_exceptions", classify_ap_exceptions)
+    builder.add_node("suggest_gl_coding", suggest_gl_coding_node)
     builder.add_node("risk_score", risk_score)
+    builder.add_node("approval_routing", approval_routing)
     builder.add_node("approval_gate", approval_gate)
     builder.add_node("post_to_erp_mock", post_to_erp_mock)
     builder.add_node("write_audit_log", write_audit_log)
@@ -47,8 +53,11 @@ def build_graph():
     builder.add_edge("route_to_docling_if_needed", "reconcile_parser_outputs")
     builder.add_edge("reconcile_parser_outputs", "duplicate_check")
     builder.add_edge("duplicate_check", "match_invoice_po_delivery")
-    builder.add_edge("match_invoice_po_delivery", "risk_score")
-    builder.add_edge("risk_score", "approval_gate")
+    builder.add_edge("match_invoice_po_delivery", "classify_ap_exceptions")
+    builder.add_edge("classify_ap_exceptions", "suggest_gl_coding")
+    builder.add_edge("suggest_gl_coding", "risk_score")
+    builder.add_edge("risk_score", "approval_routing")
+    builder.add_edge("approval_routing", "approval_gate")
     builder.add_edge("approval_gate", "post_to_erp_mock")
     builder.add_edge("post_to_erp_mock", "write_audit_log")
     builder.add_edge("write_audit_log", END)

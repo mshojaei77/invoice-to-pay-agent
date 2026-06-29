@@ -164,6 +164,43 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append("No risk reasons were recorded.")
     lines.append("")
 
+    lines.extend(["## Exception Queue", ""])
+    exception_result = result.get("exception_result") or {}
+    exceptions = exception_result.get("exceptions") or []
+    lines.append(f"- Status: `{exception_result.get('exception_status', 'unknown')}`")
+    lines.append(f"- Highest severity: `{exception_result.get('highest_severity', 'unknown')}`")
+    if exceptions:
+        for item in exceptions:
+            lines.append(
+                f"- `{item.get('code')}` ({item.get('category')}, {item.get('severity')}): {item.get('recommended_action')}"
+            )
+    else:
+        lines.append("- No open exceptions.")
+    lines.append("")
+
+    lines.extend(["## Approval Route", ""])
+    approval_route = result.get("approval_route") or {}
+    if approval_route:
+        lines.append(f"- Route: `{approval_route.get('route')}`")
+        lines.append(f"- Approver role: `{approval_route.get('approver_role')}`")
+        lines.append(f"- SLA hours: `{approval_route.get('sla_hours')}`")
+        lines.append(f"- Reason: `{approval_route.get('reason')}`")
+    else:
+        lines.append("- Approval route was not calculated.")
+    lines.append("")
+
+    lines.extend(["## GL Coding", ""])
+    gl_coding = result.get("gl_coding_result") or {}
+    if gl_coding:
+        lines.append(f"- Status: `{gl_coding.get('coding_status')}`")
+        lines.append(f"- GL account: `{gl_coding.get('gl_account')}`")
+        lines.append(f"- Cost center: `{gl_coding.get('cost_center')}`")
+        lines.append(f"- Confidence: `{gl_coding.get('confidence')}`")
+        lines.append(f"- Reason: `{gl_coding.get('reason')}`")
+    else:
+        lines.append("- GL coding was not calculated.")
+    lines.append("")
+
     return "\n".join(lines)
 
 

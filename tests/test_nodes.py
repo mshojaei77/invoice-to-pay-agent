@@ -1,7 +1,9 @@
 from unittest.mock import patch
 
 from app.graph.nodes import (
+    approval_routing,
     approval_gate,
+    classify_ap_exceptions,
     duplicate_check,
     match_invoice_po_delivery,
     normalize_ap_documents,
@@ -11,6 +13,7 @@ from app.graph.nodes import (
     risk_score,
     route_to_docling_if_needed,
     save_uploads,
+    suggest_gl_coding_node,
     validate_business_rules,
     validate_schema,
     write_audit_log,
@@ -203,6 +206,40 @@ class TestRiskScore:
         )
         assert result["risk_level"] == "medium"
         assert result["requires_human_approval"] is True
+
+
+class TestClassifyApExceptions:
+    def test_returns_exception_result(self) -> None:
+        result = classify_ap_exceptions(
+            make_state(
+                business_rule_errors=[{"code": "missing_po", "severity": "medium"}],
+                duplicate_result={"duplicate_status": "clear"},
+                match_result={"match_status": "mismatch", "mismatch_reasons": ["missing_purchase_order"]},
+            )
+        )
+        assert result["exception_result"]["exception_status"] == "open"
+        assert "matching" in result["exception_result"]["categories"]
+
+
+class TestSuggestGlCoding:
+    def test_returns_coding_result(self) -> None:
+        result = suggest_gl_coding_node(
+            make_state(uploaded_documents=[{"path": "invoice_007_aws_europe_vat.pdf", "document_type": "invoice"}])
+        )
+        assert result["gl_coding_result"]["coding_status"] == "suggested"
+
+
+class TestApprovalRouting:
+    def test_returns_approval_route(self) -> None:
+        result = approval_routing(
+            make_state(
+                risk_level="medium",
+                risk_score=40.0,
+                exception_result={"categories": ["pricing"], "exceptions": [{"code": "match:total_mismatch"}]},
+                gl_coding_result={"coding_status": "suggested"},
+            )
+        )
+        assert result["approval_route"]["route"] == "buyer_receiving_review"
 
 
 class TestApprovalGate:

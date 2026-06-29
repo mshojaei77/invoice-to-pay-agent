@@ -1,6 +1,6 @@
 # Invoice-to-Pay Agent
 
-Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, approval interrupts, ERP mock posting, audit logs, and pytest-backed scenarios.
+Controls-first accounts payable automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, ERP mock posting, audit logs, and pytest-backed scenarios.
 
 This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of invoice operations: validation, duplicate risk, PO and delivery-note matching, approval routing, and auditability before anything gets posted.
 
@@ -47,6 +47,10 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Strict Pydantic v2 schemas for invoices, purchase orders, delivery notes, parsed documents, and audit records.
 - Parser routing service designed for LiteParse-first and Docling fallback decisions.
 - Deterministic business validation, duplicate detection, invoice/PO/delivery matching, and risk scoring.
+- Exception queue classification for missing support, 3-way match failures, duplicate controls, vendor master-data problems, pricing mismatches, receiving issues, and parser warnings.
+- Approval routing that sends clean invoices to auto-post and routes duplicate, vendor-master, pricing, receiving, matching, and GL-coding exceptions to the right reviewer role with an SLA hint.
+- GL coding and allocation suggestions based on vendor history and invoice text/path keywords, with finance-review fallback when coding is uncertain.
+- Delivery quantity and delivery vendor checks as part of richer 3-way matching.
 - ERP mock service for controlled post/reject outcomes.
 - Demo scripts for command-line invoice-to-pay scenarios.
 - Real PDF sample corpus and JSONL eval manifest for smoke-level scenario coverage.
@@ -63,6 +67,7 @@ Implemented:
 - API and CLI demo paths.
 - Approval and rejection resume flow.
 - Audit log helper behavior.
+- Exception queue, approval route, and GL coding outputs in graph/API/demo results.
 - Test coverage across the main service and workflow boundaries.
 
 Known limitations:
@@ -86,7 +91,10 @@ Upload invoice / PO / delivery note
   -> reconcile_parser_outputs
   -> duplicate_check
   -> match_invoice_po_delivery
+  -> classify_ap_exceptions
+  -> suggest_gl_coding
   -> risk_score
+  -> approval_routing
   -> approval_gate
   -> post_to_erp_mock
   -> write_audit_log
@@ -95,6 +103,9 @@ Upload invoice / PO / delivery note
 The graph shape is the product architecture:
 
 - Nodes before `approval_gate` gather evidence and calculate risk.
+- `classify_ap_exceptions` converts raw errors and mismatches into an AP-facing work queue.
+- `suggest_gl_coding` proposes a GL account, cost center, and allocation when deterministic rules match.
+- `approval_routing` decides whether the run can auto-post or should go to AP manager, vendor-master, buyer/receiving, or finance review.
 - `approval_gate` is the single human interrupt for medium/high-risk runs.
 - Nodes after approval perform the controlled post or reject outcome.
 - Every run has a `run_id` so API state, approval, ERP result, and audit records can be correlated.
@@ -122,6 +133,63 @@ Current risk triggers include:
 - PO, vendor, delivery, quantity, subtotal, tax, or total mismatches.
 
 Low-risk runs can auto-approve. Medium/high-risk runs pause at the LangGraph interrupt and must be approved or rejected through the API or a future UI.
+
+### Exception Handling
+
+Extraction quality is treated as an input, not the product. After parsing and validation, the workflow creates a deterministic exception queue:
+
+```text
+exception_status: clear | open
+exception_count: int
+highest_severity: none | low | medium | high | critical
+categories: list[str]
+exceptions: list[code, category, severity, message, recommended_action]
+```
+
+Current exception categories include:
+
+- `matching` for missing PO and PO-number failures.
+- `pricing` for subtotal, tax, or total mismatches.
+- `receiving` for missing delivery evidence, incomplete delivery, or quantity differences.
+- `duplicate_control` for possible or confirmed duplicate invoices.
+- `vendor_master_data` for missing/invalid payment-critical vendor fields or vendor mismatches.
+- `extraction_quality` for parser warnings that deserve review.
+
+This mirrors the practical accounts-payable pattern: auto-process clean work and send only exceptions to humans with a clear reason and next action.
+
+### Approval Routing
+
+Approval routing is rule-based and inspectable:
+
+```text
+route: auto_post | ap_manager_review | vendor_master_review | buyer_receiving_review | finance_coding_review | finance_review
+approver_role: system | ap_manager | vendor_master_data | buyer_or_receiving_owner | finance_controller
+sla_hours: int
+reason: str
+```
+
+Examples:
+
+- Clean low-risk runs route to `auto_post`.
+- Duplicate exceptions route to `ap_manager_review`.
+- Vendor-master-data issues route to `vendor_master_review`.
+- 3-way match exceptions route to `buyer_receiving_review`.
+- Uncertain GL coding routes to `finance_coding_review`.
+
+### GL Coding
+
+The prototype includes deterministic GL coding/allocation suggestions:
+
+```text
+coding_status: suggested | needs_review
+gl_account: str | null
+cost_center: str | null
+allocation: list[{cost_center, percentage}]
+confidence: float
+reason: vendor_history | description_keyword | no_vendor_or_description_rule
+```
+
+Current rules are intentionally simple and transparent. They can be replaced later by vendor history, ERP master data, or account-distribution learning without changing the graph contract.
 
 ## Quick Start
 
@@ -317,6 +385,9 @@ The suite is designed to keep the prototype honest at the contract and workflow 
 - Risk scoring thresholds and reasons.
 - Duplicate outcomes.
 - Invoice, PO, and delivery-note matching.
+- Exception classification.
+- Approval routing.
+- GL coding suggestions and review fallback.
 - Eval manifest smoke checks.
 
 ## Evaluation Data
@@ -341,6 +412,8 @@ Future eval work should measure:
 - Delivery match accuracy.
 - Duplicate precision and recall.
 - Approval routing correctness.
+- Exception classification precision and reviewer routing accuracy.
+- GL coding/account-distribution accuracy.
 - ERP post/reject correctness.
 - Hallucinated-field rate.
 - Parser fallback rate and latency.
@@ -352,7 +425,7 @@ app/
   api/          FastAPI routes and app wiring
   graph/        LangGraph state, nodes, workflow construction
   schemas/      Strict AP contracts for invoices, POs, delivery notes, parser output, audit
-  services/     parser routing, extraction, validation, matching, duplicate checks, risk, ERP mock, audit
+  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, duplicate checks, risk, ERP mock, audit
   storage/      placeholder boundary for durable storage
   evals/        evaluation package boundary
 
@@ -424,6 +497,8 @@ Product track:
 - MinIO or object-storage document archive.
 - Vendor and PO master-data mocks.
 - Exception queue and reviewer assignment.
+- Approval SLA tracking and out-of-office delegation.
+- GL coding history from prior invoices and vendor defaults.
 - Batch analytics for duplicate trends and approval delays.
 
 AI engineering track:
