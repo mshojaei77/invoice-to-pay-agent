@@ -20,11 +20,15 @@ from app.graph.nodes import (
     finance_agent_planning,
     industry_policy_check,
     kpi_snapshot,
+    ledger_visibility_planning,
+    line_approval_planning,
     match_invoice_po_delivery,
     multi_company_controls,
+    netsuite_ap_readiness_check,
     normalize_ap_documents,
     parse_documents_fast_with_liteparse,
     payment_planning,
+    po_lifecycle_planning,
     post_to_erp_mock,
     reconcile_parser_outputs,
     risk_score,
@@ -59,9 +63,13 @@ def build_graph():
     builder.add_node("industry_policy_check", industry_policy_check)
     builder.add_node("risk_score", risk_score)
     builder.add_node("approval_routing", approval_routing)
+    builder.add_node("line_approval_planning", line_approval_planning)
     builder.add_node("compliance_check", compliance_check)
     builder.add_node("payment_planning", payment_planning)
+    builder.add_node("po_lifecycle_planning", po_lifecycle_planning)
     builder.add_node("erp_sync_planning", erp_sync_planning)
+    builder.add_node("ledger_visibility_planning", ledger_visibility_planning)
+    builder.add_node("netsuite_ap_readiness_check", netsuite_ap_readiness_check)
     builder.add_node("finance_agent_planning", finance_agent_planning)
     builder.add_node("order_to_cash_planning", order_to_cash_planning)
     builder.add_node("accrual_close_planning", accrual_close_planning)
@@ -92,10 +100,14 @@ def build_graph():
     builder.add_edge("multi_company_controls", "industry_policy_check")
     builder.add_edge("industry_policy_check", "risk_score")
     builder.add_edge("risk_score", "approval_routing")
-    builder.add_edge("approval_routing", "compliance_check")
+    builder.add_edge("approval_routing", "line_approval_planning")
+    builder.add_edge("line_approval_planning", "compliance_check")
     builder.add_edge("compliance_check", "payment_planning")
-    builder.add_edge("payment_planning", "erp_sync_planning")
-    builder.add_edge("erp_sync_planning", "order_to_cash_planning")
+    builder.add_edge("payment_planning", "po_lifecycle_planning")
+    builder.add_edge("po_lifecycle_planning", "erp_sync_planning")
+    builder.add_edge("erp_sync_planning", "ledger_visibility_planning")
+    builder.add_edge("ledger_visibility_planning", "netsuite_ap_readiness_check")
+    builder.add_edge("netsuite_ap_readiness_check", "order_to_cash_planning")
     builder.add_edge("order_to_cash_planning", "accrual_close_planning")
     builder.add_edge("accrual_close_planning", "spend_intelligence_analysis")
     builder.add_edge("spend_intelligence_analysis", "billing_revenue_planning")

@@ -7,7 +7,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
-Currency = Literal["EUR", "USD", "GBP"]
+Currency = Literal["EUR", "USD", "GBP", "CHF", "CAD", "AUD", "CNY"]
 
 
 class StrictBaseModel(BaseModel):

@@ -246,6 +246,67 @@ def build_markdown_report(result: dict[str, Any], run_id: str) -> str:
         lines.append("- Accounting platform profile was not calculated.")
     lines.append("")
 
+    lines.extend(["## Line-Level Approval Plan", ""])
+    line_approval = result.get("line_approval_plan") or {}
+    if line_approval:
+        lines.append(f"- Status: `{line_approval.get('line_approval_status')}`")
+        lines.append(f"- Routing basis: `{line_approval.get('routing_basis')}`")
+        lines.append(f"- Multiple same-level approvers: `{line_approval.get('supports_multiple_same_level_approvers')}`")
+        lines.append(f"- Manual line split supported: `{line_approval.get('manual_line_split_supported')}`")
+        lines.append(f"- Excel import recommended: `{line_approval.get('excel_import_recommended')}`")
+        dimensions = line_approval.get("dimensions") or {}
+        lines.append(f"- GL account: `{dimensions.get('gl_account')}`")
+        lines.append(f"- Cost center: `{dimensions.get('cost_center')}`")
+        for approver in line_approval.get("approver_chain", []):
+            lines.append(f"- Step `{approver.get('step')}`: `{approver.get('role')}` (`{approver.get('status')}`)")
+    else:
+        lines.append("- Line-level approval planning was not calculated.")
+    lines.append("")
+
+    lines.extend(["## PO Lifecycle", ""])
+    po_lifecycle = result.get("po_lifecycle_plan") or {}
+    if po_lifecycle:
+        lines.append(f"- Status: `{po_lifecycle.get('po_lifecycle_status')}`")
+        lines.append(f"- PO creation supported: `{po_lifecycle.get('supports_po_creation')}`")
+        lines.append(f"- PO approval supported: `{po_lifecycle.get('supports_po_approval')}`")
+        lines.append(f"- Purchase type: `{po_lifecycle.get('purchase_type')}`")
+        lines.append(f"- Matching mode: `{po_lifecycle.get('matching_mode')}`")
+        lines.append(f"- Inbound shipment review: `{po_lifecycle.get('inbound_shipment_review')}`")
+        lines.append(f"- Next action: `{po_lifecycle.get('next_action')}`")
+    else:
+        lines.append("- PO lifecycle planning was not calculated.")
+    lines.append("")
+
+    lines.extend(["## Ledger And Archive Visibility", ""])
+    ledger = result.get("ledger_visibility_plan") or {}
+    if ledger:
+        lines.append(f"- Status: `{ledger.get('ledger_visibility_status')}`")
+        lines.append(f"- Visible before final approval: `{ledger.get('visible_in_ledger_before_final_approval')}`")
+        lines.append(f"- Vendor line blocked for payment: `{ledger.get('vendor_line_blocked_for_payment')}`")
+        lines.append(f"- Payment release condition: `{ledger.get('payment_release_condition')}`")
+        archive = ledger.get("paid_status_archive_sync") or {}
+        lines.append(f"- Paid-status archive sync: `{archive.get('enabled')}` from `{archive.get('source')}`")
+        edit_sync = ledger.get("line_edit_sync") or {}
+        lines.append(f"- Line edit sync target: `{edit_sync.get('sync_target')}`")
+    else:
+        lines.append("- Ledger and archive visibility planning was not calculated.")
+    lines.append("")
+
+    lines.extend(["## NetSuite AP Readiness", ""])
+    netsuite = result.get("netsuite_ap_readiness") or {}
+    if netsuite:
+        lines.append(f"- Status: `{netsuite.get('netsuite_profile_status')}`")
+        lines.append(f"- Selected platform: `{netsuite.get('selected_platform')}`")
+        lines.append(f"- Invoice volume profile: `{netsuite.get('invoice_volume_profile')}`")
+        lines.append(f"- Global vendor profile: `{netsuite.get('global_vendor_profile')}`")
+        lines.append(f"- Non-English invoice signal: `{netsuite.get('non_english_invoice_signal')}`")
+        lines.append(f"- Readiness score: `{netsuite.get('readiness_score')}`")
+        for requirement in netsuite.get("requirements", []):
+            lines.append(f"- `{requirement.get('requirement')}`: `{requirement.get('status')}`")
+    else:
+        lines.append("- NetSuite AP readiness was not calculated.")
+    lines.append("")
+
     lines.extend(["## Multi-Company Controls", ""])
     multi_company = result.get("multi_company_result") or {}
     if multi_company:

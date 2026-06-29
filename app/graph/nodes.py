@@ -23,10 +23,14 @@ from app.services.finance_agents import build_finance_agent_plan
 from app.services.gl_coding import suggest_gl_coding
 from app.services.industry_policy import apply_industry_policy
 from app.services.kpis import build_kpi_snapshot
+from app.services.ledger_visibility import build_ledger_visibility_plan
+from app.services.line_approvals import build_line_approval_plan
 from app.services.multi_company import evaluate_multi_company_controls
+from app.services.netsuite_readiness import build_netsuite_ap_readiness
 from app.services.order_to_cash import build_order_to_cash_plan
 from app.services.parser import DoclingAdapter, LiteParseAdapter
 from app.services.payment_planning import plan_payment
+from app.services.po_lifecycle import build_po_lifecycle_plan
 from app.services.risk import calculate_risk
 from app.services.spend_intelligence import build_spend_intelligence
 
@@ -268,6 +272,16 @@ def approval_routing(state: APGraphState) -> dict[str, Any]:
     }
 
 
+def line_approval_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "line_approval_plan": build_line_approval_plan(
+            uploaded_documents=state.get("uploaded_documents", []),
+            gl_coding_result=state.get("gl_coding_result", {}),
+            approval_route=state.get("approval_route", {}),
+        )
+    }
+
+
 def compliance_check(state: APGraphState) -> dict[str, Any]:
     return {
         "compliance_result": evaluate_compliance(
@@ -306,6 +320,46 @@ def erp_sync_planning(state: APGraphState) -> dict[str, Any]:
             accounting_platform_profile=state.get("accounting_platform_profile", {}),
             multi_company_result=state.get("multi_company_result", {}),
             industry_policy_result=state.get("industry_policy_result", {}),
+            line_approval_plan=state.get("line_approval_plan", {}),
+            po_lifecycle_plan=state.get("po_lifecycle_plan", {}),
+        )
+    }
+
+
+def po_lifecycle_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "po_lifecycle_plan": build_po_lifecycle_plan(
+            uploaded_documents=state.get("uploaded_documents", []),
+            match_result=state.get(
+                "match_result",
+                {"match_status": "matched", "mismatch_reasons": []},
+            ),
+            approval_route=state.get("approval_route", {}),
+        )
+    }
+
+
+def ledger_visibility_planning(state: APGraphState) -> dict[str, Any]:
+    return {
+        "ledger_visibility_plan": build_ledger_visibility_plan(
+            approval_route=state.get("approval_route", {}),
+            payment_plan=state.get("payment_plan", {}),
+            erp_sync_plan=state.get("erp_sync_plan", {}),
+            line_approval_plan=state.get("line_approval_plan", {}),
+        )
+    }
+
+
+def netsuite_ap_readiness_check(state: APGraphState) -> dict[str, Any]:
+    return {
+        "netsuite_ap_readiness": build_netsuite_ap_readiness(
+            uploaded_documents=state.get("uploaded_documents", []),
+            parsed_documents=state.get("parsed_documents", []),
+            accounting_platform_profile=state.get("accounting_platform_profile", {}),
+            multi_company_result=state.get("multi_company_result", {}),
+            line_approval_plan=state.get("line_approval_plan", {}),
+            ledger_visibility_plan=state.get("ledger_visibility_plan", {}),
+            po_lifecycle_plan=state.get("po_lifecycle_plan", {}),
         )
     }
 
@@ -460,6 +514,10 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "multi_company_result": state.get("multi_company_result"),
             "industry_policy_result": state.get("industry_policy_result"),
             "finance_agent_plan": state.get("finance_agent_plan"),
+            "line_approval_plan": state.get("line_approval_plan"),
+            "ledger_visibility_plan": state.get("ledger_visibility_plan"),
+            "po_lifecycle_plan": state.get("po_lifecycle_plan"),
+            "netsuite_ap_readiness": state.get("netsuite_ap_readiness"),
             "order_to_cash_plan": state.get("order_to_cash_plan"),
             "accrual_close_plan": state.get("accrual_close_plan"),
             "spend_intelligence": state.get("spend_intelligence"),
@@ -501,6 +559,10 @@ def approval_gate(state: APGraphState) -> dict[str, Any]:
             "multi_company_result": state.get("multi_company_result"),
             "industry_policy_result": state.get("industry_policy_result"),
             "finance_agent_plan": state.get("finance_agent_plan"),
+            "line_approval_plan": state.get("line_approval_plan"),
+            "ledger_visibility_plan": state.get("ledger_visibility_plan"),
+            "po_lifecycle_plan": state.get("po_lifecycle_plan"),
+            "netsuite_ap_readiness": state.get("netsuite_ap_readiness"),
             "order_to_cash_plan": state.get("order_to_cash_plan"),
             "accrual_close_plan": state.get("accrual_close_plan"),
             "spend_intelligence": state.get("spend_intelligence"),
@@ -571,6 +633,10 @@ def write_audit_log(state: APGraphState) -> dict[str, Any]:
             "multi_company_result": state.get("multi_company_result"),
             "industry_policy_result": state.get("industry_policy_result"),
             "finance_agent_plan": state.get("finance_agent_plan"),
+            "line_approval_plan": state.get("line_approval_plan"),
+            "ledger_visibility_plan": state.get("ledger_visibility_plan"),
+            "po_lifecycle_plan": state.get("po_lifecycle_plan"),
+            "netsuite_ap_readiness": state.get("netsuite_ap_readiness"),
             "order_to_cash_plan": state.get("order_to_cash_plan"),
             "accrual_close_plan": state.get("accrual_close_plan"),
             "spend_intelligence": state.get("spend_intelligence"),

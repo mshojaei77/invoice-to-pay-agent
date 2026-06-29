@@ -1,8 +1,8 @@
 # Invoice-to-Pay Agent
 
-Controls-first finance operations automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, GL coding hints, accounting-platform profiling, multi-company controls, industry policy checks, finance-agent planning, order-to-cash work queues, accrual close planning, spend intelligence, billing/revenue controls, e-invoicing compliance planning, cloud ERP sync planning, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
+Controls-first finance operations automation built with LangGraph, FastAPI, strict Pydantic contracts, parser routing, risk scoring, exception classification, approval routing, line-level approval planning, GL coding hints, NetSuite AP readiness checks, accounting-platform profiling, multi-company controls, industry policy checks, finance-agent planning, order-to-cash work queues, accrual close planning, spend intelligence, billing/revenue controls, e-invoicing compliance planning, cloud ERP sync planning, pre-approval ledger visibility, payment holds, AI governance, automation readiness, token-cost tracking, payment timing, KPI snapshots, compliance controls, ERP mock posting, audit logs, and pytest-backed scenarios.
 
-This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of enterprise finance operations: validation, duplicate risk, PO and delivery-note matching, approval routing, accrual evidence, spend leakage signals, tax reporting readiness, cash-operation follow-up, and auditability before anything gets posted.
+This is not a "send a PDF to an LLM" demo. It is a reproducible prototype for the messy middle of enterprise finance operations: validation, duplicate risk, PO and delivery-note matching, line-level approvals, accrual evidence, spend leakage signals, tax reporting readiness, cash-operation follow-up, NetSuite-style ledger/payment controls, and auditability before anything gets posted.
 
 ## Table of Contents
 
@@ -32,6 +32,9 @@ This project models the decision path finance teams actually care about:
 - Is there a purchase order?
 - Is there proof of delivery?
 - Does the invoice match PO and delivery evidence?
+- Can approval be routed by line-level GL, cost center, location, and department?
+- Can finance see who approved before, who is approving now, and who is next?
+- Can the vendor bill be visible in the ledger before final approval while payment remains blocked?
 - Is this a duplicate or possible duplicate?
 - Are payment-critical fields missing or suspicious?
 - Can low-risk invoices move automatically?
@@ -49,8 +52,11 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Deterministic business validation, duplicate detection, invoice/PO/delivery matching, and risk scoring.
 - Exception queue classification for missing support, 3-way match failures, duplicate controls, vendor master-data problems, pricing mismatches, receiving issues, and parser warnings.
 - Approval routing that sends clean invoices to auto-post and routes duplicate, vendor-master, pricing, receiving, matching, and GL-coding exceptions to the right reviewer role with an SLA hint.
+- Line-level approval planning by GL account, cost center, department, and location, including same-level approver groups, approver-chain visibility, editable dimensions before final approval, and reapproval triggers.
+- Excel/manual line-split readiness for large vendor invoices that cannot arrive as XML.
 - GL coding and allocation suggestions based on vendor history and invoice text/path keywords, with finance-review fallback when coding is uncertain.
 - Accounting-platform profile for connector-neutral Exact, NetSuite, Dynamics, SAP, QuickBooks, and generic cloud ERP posting contracts.
+- NetSuite AP readiness checks for multi-currency, non-English OCR due diligence, multi-subsidiary controls, line approvals, paid-status archive sync, pre-approval ledger visibility, payment holds, and native PO matching expectations.
 - Multi-company and accountant-collaboration controls for group reporting, entity selection, intercompany review, and accountant-facing workflows.
 - Industry policy checks for manufacturing, wholesale, construction, hospitality, professional services, and generic VAT/valuation requirements.
 - Finance-agent plan for purchase, banking, debtor-management boundary, and accountant-collaboration responsibilities.
@@ -60,6 +66,8 @@ The answer is encoded as a graph, not hidden in a prompt.
 - Billing and revenue plan for contract/rate-card signals, invoice-posting readiness, payment analytics, and revenue-control status.
 - E-invoicing compliance plan for structured archive readiness, tax-reporting payload needs, cross-border signals, and connector requirements.
 - Cloud ERP sync plan that builds a posting payload with document references, GL coding, payment recommendation, retention class, and single-source-of-truth metadata.
+- PO lifecycle plan for asset-purchase PO creation, PO approval, receiving evidence, inbound-shipment review, and invoice matching.
+- Ledger/archive visibility plan that keeps draft vendor bills visible before final approval while blocking vendor payment lines until approval and exception resolution.
 - AI governance output with approved tool inventory, shadow-AI policy, adoption stage, guardrails, and low-confidence review signals.
 - Automation readiness assessment that separates safe workflow automation from human-led review and blocks autonomous GL posting when risk is not recoverable.
 - AI cost snapshot that estimates parser text tokens and records AI automation usage as a finance budget line item.
@@ -86,7 +94,7 @@ Implemented:
 - Exception queue, approval route, and GL coding outputs in graph/API/demo results.
 - Cloud ERP sync plan, payment plan, compliance controls, and KPI snapshot outputs in graph/API/demo results.
 - AI governance, automation-readiness, and AI cost outputs in graph/API/demo results.
-- Accounting-platform profile, multi-company controls, industry policy, finance-agent plan, order-to-cash, accrual close, spend intelligence, billing/revenue, and e-invoicing outputs in graph/API/demo results.
+- Accounting-platform profile, NetSuite AP readiness, line-level approvals, PO lifecycle, ledger/archive visibility, multi-company controls, industry policy, finance-agent plan, order-to-cash, accrual close, spend intelligence, billing/revenue, and e-invoicing outputs in graph/API/demo results.
 - Test coverage across the main service and workflow boundaries.
 
 Known limitations:
@@ -94,6 +102,7 @@ Known limitations:
 - Parser graph nodes are still deterministic/stub oriented. Parser adapters and routing services exist, but real LiteParse/Docling extraction is not yet wired end-to-end through graph execution.
 - Active API runs use in-memory storage and are lost when the server restarts.
 - ERP integration is intentionally mocked.
+- NetSuite readiness is a deterministic sandbox-planning output, not a certified SuiteApp integration.
 - No review UI is included yet.
 - The repository currently documents MIT licensing, but a root `LICENSE` file should be added before publishing as a polished open source release.
 
@@ -117,9 +126,13 @@ Upload invoice / PO / delivery note
   -> industry_policy_check
   -> risk_score
   -> approval_routing
+  -> line_approval_planning
   -> compliance_check
   -> payment_planning
+  -> po_lifecycle_planning
   -> erp_sync_planning
+  -> ledger_visibility_planning
+  -> netsuite_ap_readiness_check
   -> order_to_cash_planning
   -> accrual_close_planning
   -> spend_intelligence_analysis
@@ -144,9 +157,13 @@ The graph shape is the product architecture:
 - `multi_company_controls` records entity, intercompany, consolidation, and accountant-collaboration context.
 - `industry_policy_check` applies VAT, valuation, and dimension controls by industry.
 - `approval_routing` decides whether the run can auto-post or should go to AP manager, vendor-master, buyer/receiving, or finance review.
+- `line_approval_planning` prepares line-level routing by GL account, cost center, department, and location, with approver-chain visibility and editable dimension policy.
 - `compliance_check` records audit-readiness and role-based-access requirements before posting.
 - `payment_planning` turns approved/blocked invoice state into a cashflow recommendation.
+- `po_lifecycle_planning` records asset-purchase PO creation, approval, receiving, inbound-shipment review, and invoice matching status.
 - `erp_sync_planning` builds a cloud-ERP posting payload and sync readiness status.
+- `ledger_visibility_planning` records draft-ledger visibility, paid-status archive sync, editable-line sync, and payment holds before final approval.
+- `netsuite_ap_readiness_check` summarizes NetSuite-specific due diligence for multi-currency, non-English OCR, line approvals, PO matching, paid archive status, and sandbox payment controls.
 - `order_to_cash_planning` creates SLA-managed work queues for invoice resolution, follow-up, and cash application.
 - `accrual_close_planning` prepares month-end accrual or reversal recommendations from invoice, receipt, exception, and GL evidence.
 - `spend_intelligence_analysis` surfaces supplier-spend opportunities such as contract leakage, duplicate spend, and software consolidation.
@@ -256,6 +273,102 @@ connector_contract:
 ```
 
 This keeps the project aligned with real implementation work where consultants may see Exact, NetSuite, Microsoft Dynamics, SAP, QuickBooks, or a generic cloud ERP across different clients. The current platform selection is deterministic and evidence-based, but the contract is the important part: upstream AP controls do not need to be rewritten for each accounting system.
+
+### NetSuite AP Readiness
+
+The NetSuite readiness output is shaped around practical AP automation evaluation criteria raised by NetSuite operators:
+
+```text
+netsuite_profile_status: native_or_partner_ready | connector_contract_ready
+invoice_volume_profile: mid_market_300_400_invoices_per_month
+global_vendor_profile: bool
+non_english_invoice_signal: bool
+readiness_score: float
+requirements:
+  non_english_ocr
+  multi_currency_multi_subsidiary
+  line_level_approval_by_gl_cost_center
+  approval_chain_visibility
+  archive_paid_status
+  preapproval_ledger_visibility_payment_hold
+  excel_import_manual_line_split
+  po_creation_approval_matching
+recommended_due_diligence: list[str]
+```
+
+The project does not claim that NetSuite's native OCR is globally sufficient. The readiness plan explicitly flags non-English and global-vendor invoices for real sample testing, and it asks implementers to validate whether the workflow updates native NetSuite POs and draft vendor bills rather than creating isolated AP records.
+
+### Line-Level Approval Planning
+
+Line approval is modeled separately from document-level approval because real AP workflows often route by line dimensions:
+
+```text
+line_approval_status: ready | needs_dimension_review
+routing_basis: gl_account_cost_center_location
+supports_multiple_same_level_approvers: bool
+supports_line_edits_before_final_approval: bool
+manual_line_split_supported: bool
+excel_import_recommended: bool
+dimensions:
+  gl_account
+  cost_center
+  location
+  department
+approver_chain:
+  step
+  role
+  status
+  same_level_group
+visibility:
+  show_previous_approvers
+  show_current_approvers
+  show_next_approvers
+edit_policy:
+  editable_fields
+  sync_edits_to_erp_draft
+  requires_reapproval_on_dimension_change
+```
+
+This covers the common requirement that an invoice can have multiple same-level approvers, approvers can see the approval chain before and after them, and GL/location/cost-center edits made during approval stay synchronized with the draft vendor bill.
+
+### PO Lifecycle And Matching
+
+The PO lifecycle plan keeps asset-purchase PO work visible without assuming stock/inventory complexity:
+
+```text
+po_lifecycle_status: matched | review_required
+supports_po_creation: bool
+supports_po_approval: bool
+purchase_type: asset_purchase
+po_present: bool
+receiving_evidence_present: bool
+inbound_shipment_review: required | not_required_for_fixture
+matching_mode: three_way_match | exception_match
+next_action: release_to_invoice_approval | create_or_attach_po
+```
+
+This makes the gap explicit when an AP tool only creates standalone vendor bills instead of updating the purchase order and matching against receiving evidence.
+
+### Ledger And Archive Visibility
+
+The ledger visibility plan handles the workflow where a vendor bill should appear in the ledger before final approval, while payment remains blocked:
+
+```text
+ledger_visibility_status: posted_visible | draft_visible_payment_blocked
+visible_in_ledger_before_final_approval: bool
+vendor_line_blocked_for_payment: bool
+payment_release_condition: final_approval_and_no_open_exceptions
+paid_status_archive_sync:
+  enabled
+  source
+  archive_fields
+line_edit_sync:
+  enabled
+  sync_target
+  audited_fields
+```
+
+This also supports the invoice archive requirement: users should be able to see whether an invoice has been paid after the ERP payment status sync runs.
 
 ### Multi-Company And Accountant Controls
 
@@ -415,6 +528,10 @@ posting_payload:
   industry
   vat_policy
   valuation_policy
+  line_approval_dimensions
+  line_approval_chain
+  po_lifecycle_status
+  payment_hold_until_final_approval
 ```
 
 This keeps the AP automation layer aligned with the ERP as the financial system of record. The current implementation is a mock payload, but the contract is shaped so a real SAP, NetSuite, Microsoft Dynamics, or other cloud ERP connector can replace it without changing upstream controls.
@@ -743,6 +860,9 @@ Future eval work should measure:
 - Exception classification precision and reviewer routing accuracy.
 - GL coding/account-distribution accuracy.
 - Accounting platform detection and connector contract completeness.
+- NetSuite AP readiness requirements for non-English OCR, multi-currency subsidiaries, line approvals, paid archive status, and native PO matching.
+- Line-level approval routing accuracy for GL account, cost center, location, department, and same-level approver groups.
+- Draft-ledger visibility and payment-hold correctness before final approval.
 - Entity selection, intercompany review, and accountant-collaboration accuracy.
 - Industry VAT, valuation, and dimension policy accuracy.
 - Finance-agent routing and boundary correctness.
@@ -763,7 +883,7 @@ app/
   api/          FastAPI routes and app wiring
   graph/        LangGraph state, nodes, workflow construction
   schemas/      Strict AP contracts for invoices, POs, delivery notes, parser output, audit
-  services/     parser routing, extraction, validation, matching, exceptions, approval routing, GL coding, accounting platforms, multi-company controls, industry policy, finance agents, order-to-cash, accrual close, spend intelligence, billing/revenue, e-invoicing, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
+  services/     parser routing, extraction, validation, matching, exceptions, approval routing, line approvals, ledger visibility, PO lifecycle, NetSuite readiness, GL coding, accounting platforms, multi-company controls, industry policy, finance agents, order-to-cash, accrual close, spend intelligence, billing/revenue, e-invoicing, AI governance, automation readiness, cost tracking, compliance, payment planning, ERP sync, KPIs, duplicate checks, risk, ERP mock, audit
   storage/      placeholder boundary for durable storage
   evals/        evaluation package boundary
 
@@ -777,7 +897,7 @@ samples/
   eval_manifest.jsonl
 
 tests/
-  API, graph, schema, parser, risk, matching, duplicate, audit, enterprise finance-ops, and eval smoke tests
+  API, graph, schema, parser, risk, matching, duplicate, audit, NetSuite AP readiness, enterprise finance-ops, and eval smoke tests
 ```
 
 ## Configuration
@@ -840,6 +960,9 @@ Product track:
 - Cloud ERP connector adapters for SAP, NetSuite, Microsoft Dynamics, and generic REST/CSV posting.
 - Payment run and reconciliation status sync.
 - Batch analytics for duplicate trends and approval delays.
+- Native NetSuite sandbox adapter for vendor bill drafts, PO updates, paid-status sync, and line-level approval history.
+- Excel import parser for large invoice line splits and configurable line-distribution templates.
+- Approval-chain UI showing previous, current, and next approvers per invoice line.
 - Durable order-to-cash queues with customer context, portal/email action history, and SLA reporting.
 - Accrual rollforward reports and month-end close package exports.
 - Contract/rate-card ingestion for spend leakage and billing validation.
