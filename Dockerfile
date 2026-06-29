@@ -5,7 +5,7 @@ FROM python:3.11-slim AS base
 
 # Install system libraries required by docling (OpenCV, GL, etc.)
 RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
@@ -26,8 +26,9 @@ RUN uv sync --frozen --no-dev --no-install-project
 COPY app/ app/
 COPY scripts/ scripts/
 
-# Copy sample documents and ensure the data directory exists
+# Copy sample documents, README (needed by hatchling build), and ensure data dir
 COPY samples/ samples/
+COPY README.md ./
 RUN mkdir -p data/processed data/raw
 
 # Install the project itself (source already in place)

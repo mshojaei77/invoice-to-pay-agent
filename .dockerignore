@@ -18,9 +18,8 @@ __pycache__/
 .env.example
 *.env
 
-# Docs
+# Docs (keep README.md — hatchling needs it for build)
 docs/
-*.md
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 SECURITY.md
